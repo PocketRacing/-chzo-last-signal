@@ -1,1 +1,4233 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>CHZO: Last Signal</title>
 
+<style>
+:root{
+    --bg:#050807;
+    --panel:#0b100e;
+    --panel2:#101713;
+    --line:#26352d;
+    --green:#8fcf91;
+    --green2:#4f9d64;
+    --dim:#607267;
+    --danger:#c75d5d;
+    --yellow:#c5ad63;
+    --white:#d7ded8;
+}
+
+*{
+    box-sizing:border-box;
+    -webkit-tap-highlight-color:transparent;
+}
+
+html,body{
+    margin:0;
+    min-height:100%;
+    background:#020403;
+    color:var(--white);
+    font-family:Arial,Helvetica,sans-serif;
+}
+
+body{
+    overflow-x:hidden;
+}
+
+button{
+    font:inherit;
+}
+
+.hidden{
+    display:none!important;
+}
+
+/* ---------- BOOT ---------- */
+
+#boot{
+    position:fixed;
+    inset:0;
+    z-index:9999;
+    background:#020403;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding:25px;
+}
+
+.boot-box{
+    width:min(700px,100%);
+    color:#8fcf91;
+    font-family:monospace;
+    font-size:13px;
+    line-height:1.7;
+}
+
+.boot-line{
+    opacity:.9;
+}
+
+.boot-progress{
+    height:4px;
+    background:#152019;
+    margin-top:15px;
+    overflow:hidden;
+}
+
+.boot-progress span{
+    display:block;
+    width:0;
+    height:100%;
+    background:#70ad79;
+    animation:boot 3s linear forwards;
+}
+
+@keyframes boot{
+    to{width:100%}
+}
+
+/* ---------- CRT ---------- */
+
+body:after{
+    content:"";
+    position:fixed;
+    inset:0;
+    pointer-events:none;
+    z-index:8000;
+    background:
+        repeating-linear-gradient(
+            to bottom,
+            rgba(255,255,255,.018) 0,
+            rgba(255,255,255,.018) 1px,
+            transparent 1px,
+            transparent 4px
+        );
+    mix-blend-mode:screen;
+    opacity:.35;
+}
+
+body:before{
+    content:"";
+    position:fixed;
+    inset:0;
+    pointer-events:none;
+    z-index:7999;
+    background:radial-gradient(circle at center,transparent 45%,rgba(0,0,0,.65) 100%);
+}
+
+/* ---------- MENU ---------- */
+
+#menu{
+    min-height:100vh;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding:25px;
+    background:
+        radial-gradient(circle at 50% 30%,rgba(59,95,65,.15),transparent 35%),
+        linear-gradient(135deg,#020403,#08100b 50%,#020403);
+}
+
+.menu-card{
+    width:min(700px,100%);
+    text-align:center;
+    border:1px solid #26352d;
+    background:rgba(7,12,9,.92);
+    box-shadow:0 0 70px rgba(74,133,85,.08);
+    padding:35px 22px;
+    position:relative;
+}
+
+.warning{
+    font-family:monospace;
+    color:#607267;
+    font-size:11px;
+    letter-spacing:3px;
+    margin-bottom:25px;
+}
+
+.logo{
+    font-family:monospace;
+    color:#9fd59d;
+    font-size:clamp(35px,9vw,72px);
+    letter-spacing:5px;
+    text-shadow:0 0 18px rgba(117,185,125,.22);
+}
+
+.subtitle{
+    color:#78887d;
+    font-family:monospace;
+    letter-spacing:3px;
+    font-size:12px;
+    margin-top:8px;
+}
+
+.menu-line{
+    height:1px;
+    background:#26352d;
+    margin:28px 0;
+}
+
+.menu-buttons{
+    display:grid;
+    gap:10px;
+}
+
+.menu-btn{
+    border:1px solid #33463a;
+    background:#0b120e;
+    color:#a5b9aa;
+    padding:15px;
+    cursor:pointer;
+    text-align:left;
+    transition:.15s;
+}
+
+.menu-btn:hover,
+.menu-btn:active{
+    background:#132018;
+    border-color:#638c6b;
+    color:#d5e0d5;
+}
+
+.menu-btn span{
+    display:block;
+    font-family:monospace;
+    font-size:10px;
+    color:#526359;
+    margin-top:4px;
+}
+
+.menu-footer{
+    margin-top:30px;
+    color:#39463e;
+    font-size:10px;
+    font-family:monospace;
+}
+
+/* ---------- GAME ---------- */
+
+#game{
+    min-height:100vh;
+    max-width:1250px;
+    margin:auto;
+    padding:10px;
+}
+
+.topbar{
+    border:1px solid var(--line);
+    background:#080d0a;
+    min-height:65px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:10px 13px;
+    gap:10px;
+    position:sticky;
+    top:0;
+    z-index:100;
+}
+
+.player-name{
+    font-family:monospace;
+    color:#a9c5ae;
+    font-size:13px;
+}
+
+.location{
+    color:#718178;
+    font-family:monospace;
+    font-size:10px;
+    margin-top:4px;
+}
+
+.signal{
+    font-family:monospace;
+    font-size:11px;
+    color:#719879;
+    text-align:right;
+}
+
+.layout{
+    display:grid;
+    grid-template-columns:1fr 290px;
+    gap:10px;
+    margin-top:10px;
+}
+
+.main-panel,
+.side-panel{
+    border:1px solid var(--line);
+    background:#070c09;
+}
+
+.story{
+    min-height:650px;
+    padding:18px;
+}
+
+.chapter{
+    font-family:monospace;
+    font-size:10px;
+    letter-spacing:2px;
+    color:#607267;
+    margin-bottom:15px;
+}
+
+.scene-title{
+    font-family:monospace;
+    color:#a7cda9;
+    font-size:22px;
+    margin-bottom:15px;
+}
+
+.story-text{
+    color:#bdc8bf;
+    line-height:1.75;
+    font-size:15px;
+}
+
+.story-text p{
+    margin:0 0 15px;
+}
+
+.story-text .system{
+    color:#72997b;
+    font-family:monospace;
+    font-size:12px;
+}
+
+.story-text .danger{
+    color:#c77676;
+}
+
+.story-text .important{
+    color:#c5ad63;
+}
+
+.choice-title{
+    border-top:1px solid var(--line);
+    margin-top:25px;
+    padding-top:17px;
+    font-family:monospace;
+    font-size:11px;
+    color:#66766d;
+}
+
+.choices{
+    display:grid;
+    gap:8px;
+    margin-top:10px;
+}
+
+.choice{
+    border:1px solid #29392f;
+    background:#0b110d;
+    color:#b4c2b6;
+    padding:13px;
+    cursor:pointer;
+    text-align:left;
+}
+
+.choice:hover,
+.choice:active{
+    background:#111c15;
+    border-color:#608168;
+}
+
+.choice small{
+    display:block;
+    margin-top:5px;
+    color:#536159;
+    font-family:monospace;
+    font-size:9px;
+}
+
+/* ---------- SIDE ---------- */
+
+.side-panel{
+    padding:12px;
+}
+
+.panel-title{
+    font-family:monospace;
+    color:#77927e;
+    font-size:10px;
+    letter-spacing:2px;
+    padding-bottom:10px;
+    border-bottom:1px solid var(--line);
+    margin-bottom:12px;
+}
+
+.stat{
+    margin-bottom:13px;
+}
+
+.stat-head{
+    display:flex;
+    justify-content:space-between;
+    font-family:monospace;
+    font-size:10px;
+    color:#78867d;
+    margin-bottom:5px;
+}
+
+.bar{
+    height:7px;
+    background:#131b16;
+    border:1px solid #253229;
+}
+
+.bar i{
+    display:block;
+    height:100%;
+    width:50%;
+    background:#648c6b;
+    transition:.3s;
+}
+
+#healthBar{background:#6e9b72}
+#radiationBar{background:#a99356}
+#staminaBar{background:#607f91}
+#batteryBar{background:#777e57}
+
+.info-box{
+    border:1px solid #202d26;
+    background:#080e0b;
+    padding:10px;
+    margin-bottom:10px;
+}
+
+.info-label{
+    color:#4d5b53;
+    font-family:monospace;
+    font-size:9px;
+    margin-bottom:5px;
+}
+
+.info-value{
+    color:#a2b3a5;
+    font-size:12px;
+}
+
+.inventory{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:5px;
+}
+
+.item{
+    border:1px solid #202d26;
+    background:#0a100d;
+    padding:8px;
+    font-size:10px;
+    color:#8fa193;
+    min-height:45px;
+}
+
+.item.empty{
+    opacity:.25;
+}
+
+.action-buttons{
+    display:grid;
+    gap:6px;
+    margin-top:12px;
+}
+
+.action-btn{
+    background:#0b110e;
+    border:1px solid #29392f;
+    color:#819487;
+    padding:10px;
+    cursor:pointer;
+    font-family:monospace;
+    font-size:10px;
+}
+
+.action-btn:hover{
+    border-color:#5d8064;
+    color:#afc2b2;
+}
+
+/* ---------- PDA ---------- */
+
+#pdaModal,
+#mapModal,
+#inventoryModal,
+#saveModal,
+#settingsModal{
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,.8);
+    z-index:7000;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding:15px;
+}
+
+.modal{
+    width:min(850px,100%);
+    max-height:90vh;
+    overflow:auto;
+    border:1px solid #405346;
+    background:#070c09;
+    box-shadow:0 0 50px rgba(0,0,0,.8);
+}
+
+.modal-head{
+    padding:14px;
+    border-bottom:1px solid var(--line);
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+}
+
+.modal-title{
+    color:#9ebda3;
+    font-family:monospace;
+    letter-spacing:2px;
+    font-size:12px;
+}
+
+.close{
+    background:none;
+    border:0;
+    color:#69766e;
+    font-size:20px;
+    cursor:pointer;
+}
+
+.modal-body{
+    padding:15px;
+}
+
+/* ---------- MAP ---------- */
+
+.map{
+    height:450px;
+    position:relative;
+    overflow:hidden;
+    border:1px solid #27372e;
+    background:
+        linear-gradient(90deg,rgba(100,130,105,.05) 1px,transparent 1px),
+        linear-gradient(rgba(100,130,105,.05) 1px,transparent 1px),
+        #07100b;
+    background-size:35px 35px;
+}
+
+.road{
+    position:absolute;
+    height:2px;
+    background:#273b2d;
+    transform-origin:left;
+}
+
+.zone{
+    position:absolute;
+    width:100px;
+    height:65px;
+    border:1px solid #415c47;
+    background:rgba(23,42,27,.6);
+    color:#839a88;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    text-align:center;
+    font:10px monospace;
+    cursor:pointer;
+}
+
+.zone:hover{
+    background:#19301f;
+    color:#b0cbb4;
+}
+
+.marker{
+    position:absolute;
+    width:9px;
+    height:9px;
+    background:#9dcf9d;
+    border-radius:50%;
+    box-shadow:0 0 12px #83bb88;
+}
+
+.map-note{
+    color:#5c6d62;
+    font:10px monospace;
+    margin-top:10px;
+}
+
+/* ---------- NOTIFICATION ---------- */
+
+#notification{
+    position:fixed;
+    left:50%;
+    bottom:25px;
+    transform:translateX(-50%) translateY(100px);
+    background:#0a120d;
+    border:1px solid #4b684f;
+    color:#a8bea9;
+    padding:12px 16px;
+    font:11px monospace;
+    z-index:9000;
+    opacity:0;
+    transition:.3s;
+    width:min(450px,90%);
+    text-align:center;
+}
+
+#notification.show{
+    opacity:1;
+    transform:translateX(-50%) translateY(0);
+}
+
+/* ---------- MOBILE ---------- */
+
+@media(max-width:800px){
+    #game{
+        padding:6px;
+    }
+
+    .layout{
+        grid-template-columns:1fr;
+    }
+
+    .side-panel{
+        order:-1;
+    }
+
+    .story{
+        min-height:520px;
+        padding:15px;
+    }
+
+    .scene-title{
+        font-size:19px;
+    }
+
+    .story-text{
+        font-size:14px;
+    }
+
+    .side-panel{
+        display:grid;
+        grid-template-columns:1fr 1fr;
+        gap:8px;
+    }
+
+    .side-panel>.panel-title{
+        grid-column:1/-1;
+    }
+
+    .side-panel>.info-box{
+        margin:0;
+    }
+
+    .stats-wrap{
+        grid-column:1/-1;
+    }
+
+    .inventory-wrap{
+        grid-column:1/-1;
+    }
+
+    .action-buttons{
+        grid-column:1/-1;
+        grid-template-columns:1fr 1fr;
+    }
+
+    .map{
+        height:400px;
+    }
+}
+
+@media(max-width:450px){
+    .topbar{
+        align-items:flex-start;
+    }
+
+    .signal{
+        font-size:9px;
+    }
+
+    .side-panel{
+        display:block;
+    }
+
+    .side-panel>*{
+        margin-bottom:8px!important;
+    }
+
+    .inventory{
+        grid-template-columns:1fr 1fr 1fr;
+    }
+
+    .map{
+        height:350px;
+    }
+
+    .menu-card{
+        padding:28px 16px;
+    }
+}
+
+/* ---------- ENDINGS ---------- */
+
+.ending{
+    border:1px solid #4c5e50;
+    padding:18px;
+    background:#0b120d;
+    margin-top:20px;
+}
+
+.ending h2{
+    font-family:monospace;
+    color:#b1cbb4;
+}
+
+.ending p{
+    color:#9caaa0;
+    line-height:1.7;
+}
+
+</style>
+</head>
+
+<body>
+
+<!-- ================= BOOT ================= -->
+
+<div id="boot">
+    <div class="boot-box">
+        <div class="boot-line">CHERNOBYL ZONE MONITORING SYSTEM</div>
+        <div class="boot-line">--------------------------------</div>
+        <div class="boot-line">INITIALIZING PDA...</div>
+        <div class="boot-line">RADIO MODULE ............ OK</div>
+        <div class="boot-line">GPS ..................... ERROR</div>
+        <div class="boot-line">ZONE DATABASE ........... OFFLINE</div>
+        <div class="boot-line">UNKNOWN SIGNAL .......... DETECTED</div>
+        <div class="boot-line">--------------------------------</div>
+        <div class="boot-line">WARNING: UNAUTHORIZED SIGNAL</div>
+        <div class="boot-progress"><span></span></div>
+    </div>
+</div>
+
+<!-- ================= MENU ================= -->
+
+<section id="menu">
+
+    <div class="menu-card">
+
+        <div class="warning">
+            RESTRICTED AREA // PRIVATE ARCHIVE // 2014
+        </div>
+
+        <div class="logo">CHZO</div>
+
+        <div class="subtitle">
+            LAST SIGNAL
+        </div>
+
+        <div class="menu-line"></div>
+
+        <div class="menu-buttons">
+
+            <button class="menu-btn" onclick="startGame()">
+                ▶ NEW GAME
+                <span>BEGIN A NEW JOURNEY</span>
+            </button>
+
+            <button class="menu-btn" onclick="continueGame()">
+                ↳ CONTINUE
+                <span>LOAD LOCAL PROGRESS</span>
+            </button>
+
+            <button class="menu-btn" onclick="openInfo()">
+                ? ARCHIVE
+                <span>ABOUT THE PROJECT</span>
+            </button>
+
+        </div>
+
+        <div class="menu-footer">
+            CHZO: LAST SIGNAL // FAN-MADE STORY PROJECT<br>
+            NO NETWORK ACCOUNT REQUIRED
+        </div>
+
+    </div>
+
+</section>
+
+<!-- ================= GAME ================= -->
+
+<section id="game" class="hidden">
+
+    <div class="topbar">
+
+        <div>
+            <div class="player-name">
+                SUBJECT 07
+            </div>
+            <div class="location" id="locationText">
+                UNKNOWN LOCATION
+            </div>
+        </div>
+
+        <div class="signal">
+            SIGNAL<br>
+            <span id="signalText">---</span>
+        </div>
+
+    </div>
+
+    <div class="layout">
+
+        <main class="main-panel">
+
+            <div class="story">
+
+                <div class="chapter" id="chapterText">
+                    CHAPTER 01 // ARRIVAL
+                </div>
+
+                <div class="scene-title" id="sceneTitle">
+                    Последний сигнал
+                </div>
+
+                <div class="story-text" id="storyText">
+                </div>
+
+                <div class="choice-title" id="choiceTitle">
+                    ВЫБЕРИТЕ ДЕЙСТВИЕ
+                </div>
+
+                <div class="choices" id="choices">
+                </div>
+
+            </div>
+
+        </main>
+
+        <aside class="side-panel">
+
+            <div class="panel-title">
+                STATUS // SUBJECT 07
+            </div>
+
+            <div class="stats-wrap">
+
+                <div class="stat">
+                    <div class="stat-head">
+                        <span>HEALTH</span>
+                        <span id="healthValue">100%</span>
+                    </div>
+                    <div class="bar">
+                        <i id="healthBar"></i>
+                    </div>
+                </div>
+
+                <div class="stat">
+                    <div class="stat-head">
+                        <span>RADIATION</span>
+                        <span id="radiationValue">0%</span>
+                    </div>
+                    <div class="bar">
+                        <i id="radiationBar"></i>
+                    </div>
+                </div>
+
+                <div class="stat">
+                    <div class="stat-head">
+                        <span>STAMINA</span>
+                        <span id="staminaValue">100%</span>
+                    </div>
+                    <div class="bar">
+                        <i id="staminaBar"></i>
+                    </div>
+                </div>
+
+                <div class="stat">
+                    <div class="stat-head">
+                        <span>FLASHLIGHT</span>
+                        <span id="batteryValue">100%</span>
+                    </div>
+                    <div class="bar">
+                        <i id="batteryBar"></i>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="info-box">
+                <div class="info-label">TIME</div>
+                <div class="info-value" id="timeValue">21:42</div>
+            </div>
+
+            <div class="info-box">
+                <div class="info-label">WEATHER</div>
+                <div class="info-value" id="weatherValue">
+                    холодный дождь
+                </div>
+            </div>
+
+            <div class="inventory-wrap">
+
+                <div class="panel-title">
+                    INVENTORY
+                </div>
+
+                <div class="inventory" id="inventory">
+                </div>
+
+            </div>
+
+            <div class="action-buttons">
+
+                <button class="action-btn" onclick="openMap()">
+                    MAP
+                </button>
+
+                <button class="action-btn" onclick="openInventory()">
+                    INVENTORY
+                </button>
+
+                <button class="action-btn" onclick="saveGame()">
+                    SAVE
+                </button>
+
+                <button class="action-btn" onclick="openSettings()">
+                    SYSTEM
+                </button>
+
+            </div>
+
+        </aside>
+
+    </div>
+
+</section>
+
+<!-- ================= MAP ================= -->
+
+<div id="mapModal" class="hidden">
+
+    <div class="modal">
+
+        <div class="modal-head">
+            <div class="modal-title">ZONE MAP // 1986-2014</div>
+            <button class="close" onclick="closeModal('mapModal')">×</button>
+        </div>
+
+        <div class="modal-body">
+
+            <div class="map">
+
+                <div class="road" style="width:390px;left:90px;top:100px;transform:rotate(17deg)"></div>
+                <div class="road" style="width:300px;left:280px;top:310px;transform:rotate(-18deg)"></div>
+                <div class="road" style="width:250px;left:160px;top:200px;transform:rotate(75deg)"></div>
+
+                <div class="zone" style="left:5%;top:8%" onclick="travelTo('checkpoint')">
+                    КОНТРОЛЬНЫЙ<br>ПУНКТ
+                </div>
+
+                <div class="zone" style="left:38%;top:15%" onclick="travelTo('village')">
+                    СТАРАЯ<br>ДЕРЕВНЯ
+                </div>
+
+                <div class="zone" style="left:68%;top:28%" onclick="travelTo('forest')">
+                    ЧЁРНЫЙ<br>ЛЕС
+                </div>
+
+                <div class="zone" style="left:23%;top:55%" onclick="travelTo('station')">
+                    СТАРАЯ<br>СТАНЦИЯ
+                </div>
+
+                <div class="zone" style="left:67%;top:67%" onclick="travelTo('pripyat')">
+                    ПРИПЯТЬ
+                </div>
+
+                <div class="zone" style="left:38%;top:78%" onclick="travelTo('bunker')">
+                    ПОДЗЕМНЫЙ<br>ОБЪЕКТ
+                </div>
+
+                <div class="marker" style="left:49%;top:46%"></div>
+
+            </div>
+
+            <div class="map-note">
+                Некоторые территории недоступны. Для их открытия необходимо продвигаться по сюжету.
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<!-- ================= INVENTORY MODAL ================= -->
+
+<div id="inventoryModal" class="hidden">
+
+    <div class="modal">
+
+        <div class="modal-head">
+            <div class="modal-title">PERSONAL INVENTORY</div>
+            <button class="close" onclick="closeModal('inventoryModal')">×</button>
+        </div>
+
+        <div class="modal-body">
+
+            <div id="bigInventory"></div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<!-- ================= SAVE MODAL ================= -->
+
+<div id="saveModal" class="hidden">
+
+    <div class="modal">
+
+        <div class="modal-head">
+            <div class="modal-title">LOCAL STORAGE</div>
+            <button class="close" onclick="closeModal('saveModal')">×</button>
+        </div>
+
+        <div class="modal-body">
+
+            <p style="color:#84948a;font:12px monospace;line-height:1.6">
+                Прогресс хранится только на этом устройстве в браузере.
+                Никаких аккаунтов или серверов не требуется.
+            </p>
+
+            <button class="action-btn" onclick="performSave()">
+                SAVE CURRENT PROGRESS
+            </button>
+
+            <button class="action-btn" onclick="deleteSave()">
+                DELETE LOCAL SAVE
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+<!-- ================= SETTINGS ================= -->
+
+<div id="settingsModal" class="hidden">
+
+    <div class="modal">
+
+        <div class="modal-head">
+            <div class="modal-title">SYSTEM</div>
+            <button class="close" onclick="closeModal('settingsModal')">×</button>
+        </div>
+
+        <div class="modal-body">
+
+            <div class="info-box">
+                <div class="info-label">PROJECT</div>
+                <div class="info-value">CHZO: Last Signal</div>
+            </div>
+
+            <div class="info-box">
+                <div class="info-label">ENGINE</div>
+                <div class="info-value">HTML / CSS / JavaScript</div>
+            </div>
+
+            <div class="info-box">
+                <div class="info-label">SAVE SYSTEM</div>
+                <div class="info-value">LocalStorage</div>
+            </div>
+
+            <button class="action-btn" onclick="returnToMenu()">
+                RETURN TO MAIN MENU
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+<!-- ================= PDA ================= -->
+
+<div id="pdaModal" class="hidden">
+
+    <div class="modal">
+
+        <div class="modal-head">
+            <div class="modal-title">PDA // SIGNAL ANALYZER</div>
+            <button class="close" onclick="closeModal('pdaModal')">×</button>
+        </div>
+
+        <div class="modal-body">
+
+            <div class="info-box">
+                <div class="info-label">CURRENT FREQUENCY</div>
+                <div class="info-value">
+                    103.7 MHz
+                </div>
+            </div>
+
+            <div class="info-box">
+                <div class="info-label">SIGNAL</div>
+                <div class="info-value" id="pdaSignal">
+                    UNKNOWN
+                </div>
+            </div>
+
+            <div class="info-box">
+                <div class="info-label">LAST TRANSMISSION</div>
+                <div class="info-value">
+                    «...если ты это слышишь... не верь человеку в противогазе...»
+                </div>
+            </div>
+
+            <button class="action-btn" onclick="scanSignal()">
+                SCAN FREQUENCY
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+<!-- ================= NOTIFICATION ================= -->
+
+<div id="notification"></div>
+
+<script>
+
+/* =========================================================
+   CHZO: LAST SIGNAL
+   GAME ENGINE
+========================================================= */
+
+const SAVE_KEY = "chzo_last_signal_save_v1";
+
+let game = {
+    started:false,
+
+    chapter:1,
+    scene:"arrival",
+
+    health:100,
+    radiation:0,
+    stamina:100,
+    battery:100,
+
+    time:21*60+42,
+
+    location:"checkpoint",
+
+    signal:37,
+
+    inventory:[
+        "Старый телефон",
+        "Фонарик",
+        "Пачка бинтов"
+    ],
+
+    flags:{
+        foundNote:false,
+        metStranger:false,
+        trustedStranger:false,
+        stationOpened:false,
+        heardSignal:false,
+        foundKey:false,
+        enteredForest:false,
+        knowsAboutBunker:false,
+        helpedGirl:false,
+        tookArtifact:false,
+        sawShadow:false,
+        discoveredTruth:false
+    },
+
+    endings:[],
+    choices:0
+};
+
+
+/* =========================================================
+   BOOT
+========================================================= */
+
+setTimeout(()=>{
+    document.getElementById("boot").style.display="none";
+},3300);
+
+
+/* =========================================================
+   UTILITIES
+========================================================= */
+
+function clamp(value,min,max){
+    return Math.max(min,Math.min(max,value));
+}
+
+function notify(text){
+
+    const n=document.getElementById("notification");
+
+    n.textContent=text;
+    n.classList.add("show");
+
+    setTimeout(()=>{
+        n.classList.remove("show");
+    },2500);
+}
+
+function addItem(item){
+
+    if(!game.inventory.includes(item)){
+        game.inventory.push(item);
+        notify("ПОЛУЧЕН ПРЕДМЕТ: "+item);
+        updateUI();
+    }
+
+}
+
+function removeItem(item){
+
+    const i=game.inventory.indexOf(item);
+
+    if(i!==-1){
+        game.inventory.splice(i,1);
+    }
+
+}
+
+function hasItem(item){
+    return game.inventory.includes(item);
+}
+
+function changeStat(stat,value){
+
+    game[stat]=clamp(game[stat]+value,0,100);
+
+    if(stat==="radiation" && value>0){
+        notify("РАДИАЦИЯ +"+value+"%");
+    }
+
+    if(stat==="health" && value<0){
+        notify("ЗДОРОВЬЕ "+value+"%");
+    }
+
+    updateUI();
+}
+
+function advanceTime(minutes){
+
+    game.time+=minutes;
+
+    while(game.time>=1440){
+        game.time-=1440;
+    }
+
+    updateUI();
+}
+
+function currentTime(){
+
+    let h=Math.floor(game.time/60);
+    let m=game.time%60;
+
+    return String(h).padStart(2,"0")+":"+String(m).padStart(2,"0");
+}
+
+
+/* =========================================================
+   UI
+========================================================= */
+
+function updateUI(){
+
+    document.getElementById("healthValue").textContent=game.health+"%";
+    document.getElementById("radiationValue").textContent=game.radiation+"%";
+    document.getElementById("staminaValue").textContent=game.stamina+"%";
+    document.getElementById("batteryValue").textContent=game.battery+"%";
+
+    document.getElementById("healthBar").style.width=game.health+"%";
+    document.getElementById("radiationBar").style.width=game.radiation+"%";
+    document.getElementById("staminaBar").style.width=game.stamina+"%";
+    document.getElementById("batteryBar").style.width=game.battery+"%";
+
+    document.getElementById("timeValue").textContent=currentTime();
+
+    document.getElementById("locationText").textContent=
+        locationName(game.location);
+
+    document.getElementById("signalText").textContent=
+        game.signal+"%";
+
+    renderInventory();
+
+    if(game.health<=0){
+        ending("death");
+    }
+
+    if(game.radiation>=100){
+        ending("radiation");
+    }
+}
+
+function locationName(id){
+
+    const names={
+        checkpoint:"КОНТРОЛЬНЫЙ ПУНКТ",
+        village:"СТАРАЯ ДЕРЕВНЯ",
+        forest:"ЧЁРНЫЙ ЛЕС",
+        station:"СТАРАЯ СТАНЦИЯ",
+        pripyat:"ПРИПЯТЬ",
+        bunker:"ПОДЗЕМНЫЙ ОБЪЕКТ"
+    };
+
+    return names[id]||"НЕИЗВЕСТНО";
+}
+
+function renderInventory(){
+
+    const box=document.getElementById("inventory");
+
+    box.innerHTML="";
+
+    for(let i=0;i<8;i++){
+
+        const item=document.createElement("div");
+
+        item.className="item";
+
+        if(game.inventory[i]){
+            item.textContent=game.inventory[i];
+        }else{
+            item.classList.add("empty");
+            item.textContent="EMPTY";
+        }
+
+        box.appendChild(item);
+    }
+
+    const big=document.getElementById("bigInventory");
+
+    if(big){
+
+        big.innerHTML="";
+
+        game.inventory.forEach((item,index)=>{
+
+            const el=document.createElement("div");
+
+            el.className="info-box";
+
+            el.innerHTML=`
+                <div class="info-label">SLOT ${index+1}</div>
+                <div class="info-value">${item}</div>
+            `;
+
+            big.appendChild(el);
+        });
+    }
+}
+
+
+/* =========================================================
+   MENU
+========================================================= */
+
+function startGame(){
+
+    const saved=localStorage.getItem(SAVE_KEY);
+
+    if(saved){
+        if(confirm("У тебя уже есть сохранение. Начать новую игру?")){
+            localStorage.removeItem(SAVE_KEY);
+        }else{
+            continueGame();
+            return;
+        }
+    }
+
+    game={
+        started:true,
+        chapter:1,
+        scene:"arrival",
+        health:100,
+        radiation:0,
+        stamina:100,
+        battery:100,
+        time:21*60+42,
+        location:"checkpoint",
+        signal:37,
+        inventory:[
+            "Старый телефон",
+            "Фонарик",
+            "Пачка бинтов"
+        ],
+        flags:{
+            foundNote:false,
+            metStranger:false,
+            trustedStranger:false,
+            stationOpened:false,
+            heardSignal:false,
+            foundKey:false,
+            enteredForest:false,
+            knowsAboutBunker:false,
+            helpedGirl:false,
+            tookArtifact:false,
+            sawShadow:false,
+            discoveredTruth:false
+        },
+        endings:[],
+        choices:0
+    };
+
+    document.getElementById("menu").classList.add("hidden");
+    document.getElementById("game").classList.remove("hidden");
+
+    renderScene("arrival");
+}
+
+function continueGame(){
+
+    const data=localStorage.getItem(SAVE_KEY);
+
+    if(!data){
+        notify("СОХРАНЕНИЕ НЕ НАЙДЕНО");
+        return;
+    }
+
+    try{
+        game=JSON.parse(data);
+
+        document.getElementById("menu").classList.add("hidden");
+        document.getElementById("game").classList.remove("hidden");
+
+        renderScene(game.scene);
+
+        notify("ПРОГРЕСС ЗАГРУЖЕН");
+
+    }catch(e){
+        notify("ОШИБКА СОХРАНЕНИЯ");
+    }
+}
+
+function returnToMenu(){
+
+    closeModal("settingsModal");
+
+    document.getElementById("game").classList.add("hidden");
+    document.getElementById("menu").classList.remove("hidden");
+}
+
+
+/* =========================================================
+   STORY ENGINE
+========================================================= */
+
+function renderScene(scene){
+
+    game.scene=scene;
+
+    const scenes={
+
+        arrival:{
+            chapter:"CHAPTER 01 // ARRIVAL",
+            title:"Последний сигнал",
+            location:"checkpoint",
+            text:`
+                <p class="system">21:42 // КОНТРОЛЬНЫЙ ПУНКТ «ДИТЯТКИ»</p>
+
+                <p>
+                Дождь идёт уже несколько часов.
+                Дорога впереди почти полностью скрыта туманом.
+                За бетонным блоком начинается территория,
+                куда обычным людям входить запрещено.
+                </p>
+
+                <p>
+                Ты стоишь у старого КПП и проверяешь телефон.
+                Сети нет. GPS молчит.
+                </p>
+
+                <p class="important">
+                Но внезапно телефон вибрирует.
+                </p>
+
+                <p>
+                На экране появляется неизвестное сообщение:
+                </p>
+
+                <p class="system">
+                «ЕСЛИ ТЫ УЖЕ В ЗОНЕ — НЕ ВОЗВРАЩАЙСЯ.»
+                </p>
+
+                <p>
+                Через несколько секунд приходит второе:
+                </p>
+
+                <p class="danger">
+                «ОН УЖЕ ЗНАЕТ, ЧТО ТЫ ПРИШЁЛ.»
+                </p>
+            `,
+            choices:[
+                {
+                    text:"Осмотреть телефон внимательнее",
+                    hint:"Попробовать определить источник сообщения.",
+                    action:()=>{
+                        game.flags.heardSignal=true;
+                        game.signal+=10;
+                        advanceTime(4);
+                        renderScene("phone");
+                    }
+                },
+                {
+                    text:"Осмотреть КПП",
+                    hint:"Проверить, есть ли здесь кто-нибудь.",
+                    action:()=>{
+                        advanceTime(6);
+                        renderScene("checkpoint");
+                    }
+                },
+                {
+                    text:"Сразу войти в Зону",
+                    hint:"Не тратить время.",
+                    action:()=>{
+                        game.choices++;
+                        advanceTime(12);
+                        renderScene("road");
+                    }
+                }
+            ]
+        },
+
+        phone:{
+            chapter:"CHAPTER 01 // UNKNOWN SIGNAL",
+            title:"103.7 MHz",
+            location:"checkpoint",
+            text:`
+                <p>
+                Ты открываешь журнал телефона.
+                Никаких входящих сообщений нет.
+                Только одно неизвестное уведомление.
+                </p>
+
+                <p class="system">
+                SOURCE: UNKNOWN<br>
+                FREQUENCY: 103.7 MHz
+                </p>
+
+                <p>
+                Ты запускаешь старое приложение радиосканера.
+                Полоса частот почти полностью пуста.
+                </p>
+
+                <p>
+                Затем из динамика раздаётся голос.
+                Очень тихий.
+                Мужской.
+                </p>
+
+                <p class="danger">
+                «...если ты слышишь меня — выключи свет...»
+                </p>
+
+                <p>
+                Голос обрывается.
+                Вдалеке на дороге появляется слабое движение.
+                Кто-то идёт к КПП.
+                </p>
+            `,
+            choices:[
+                {
+                    text:"Включить фонарик",
+                    hint:"Попробовать рассмотреть человека.",
+                    action:()=>{
+                        game.battery-=8;
+                        game.flags.sawShadow=true;
+                        advanceTime(5);
+                        renderScene("stranger");
+                    }
+                },
+                {
+                    text:"Выключить фонарик и спрятаться",
+                    hint:"Не привлекать внимание.",
+                    action:()=>{
+                        game.flags.sawShadow=true;
+                        advanceTime(7);
+                        renderScene("hidden");
+                    }
+                },
+                {
+                    text:"Ответить в радио",
+                    hint:"Попытаться связаться с неизвестным.",
+                    action:()=>{
+                        game.signal+=15;
+                        game.flags.heardSignal=true;
+                        advanceTime(3);
+                        renderScene("radio");
+                    }
+                }
+            ]
+        },
+
+        checkpoint:{
+            chapter:"CHAPTER 01 // CHECKPOINT",
+            title:"Пустой пост",
+            location:"checkpoint",
+            text:`
+                <p>
+                КПП выглядит так, будто его бросили несколько лет назад.
+                В будке разбитое окно.
+                На столе лежит толстый слой пыли.
+                </p>
+
+                <p>
+                Ты заходишь внутрь.
+                На стене висит старый календарь.
+                Последняя отмеченная дата — <span class="important">26 апреля 1986 года</span>.
+                </p>
+
+                <p>
+                Под столом ты замечаешь металлический ящик.
+                Он не заперт.
+                </p>
+            `,
+            choices:[
+                {
+                    text:"Открыть ящик",
+                    action:()=>{
+                        addItem("Ржавая карта Зоны");
+                        game.flags.foundNote=true;
+                        advanceTime(5);
+                        renderScene("box");
+                    }
+                },
+                {
+                    text:"Оставить ящик и идти дальше",
+                    action:()=>{
+                        advanceTime(4);
+                        renderScene("road");
+                    }
+                }
+            ]
+        },
+
+        box:{
+            chapter:"CHAPTER 01 // OLD DOCUMENTS",
+            title:"Карта",
+            location:"checkpoint",
+            text:`
+                <p>
+                В ящике лежит старая карта.
+                На ней карандашом отмечены несколько объектов,
+                которых нет ни на одной современной схеме.
+                </p>
+
+                <p class="important">
+                Один объект отмечен буквами: «ОБЪЕКТ 17».
+                </p>
+
+                <p>
+                Рядом написано:
+                </p>
+
+                <p class="system">
+                «НЕ ИСКАТЬ ВХОД. ОН САМ НАЙДЁТ ТЕБЯ.»
+                </p>
+            `,
+            choices:[
+                {
+                    text:"Изучить карту",
+                    action:()=>{
+                        game.flags.knowsAboutBunker=true;
+                        renderScene("road");
+                    }
+                },
+                {
+                    text:"Сжечь карту",
+                    action:()=>{
+                        removeItem("Ржавая карта Зоны");
+                        renderScene("road");
+                    }
+                }
+            ]
+        },
+
+        stranger:{
+            chapter:"CHAPTER 02 // THE MAN",
+            title:"Человек в противогазе",
+            location:"checkpoint",
+            text:`
+                <p>
+                Луч фонаря выхватывает фигуру из тумана.
+                </p>
+
+                <p>
+                На человеке старый противогаз.
+                Военная куртка.
+                В руках — ржавая винтовка.
+                </p>
+
+                <p>
+                Он останавливается.
+                </p>
+
+                <p class="danger">
+                «Убери свет.»
+                </p>
+
+                <p>
+                Голос тот же самый, который ты слышал по радио.
+                </p>
+
+                <p>
+                «Если хочешь выйти отсюда живым — тебе нельзя идти в Припять.»
+                </p>
+            `,
+            choices:[
+                {
+                    text:"Довериться ему",
+                    action:()=>{
+                        game.flags.metStranger=true;
+                        game.flags.trustedStranger=true;
+                        advanceTime(10);
+                        renderScene("strangerTrusted");
+                    }
+                },
+                {
+                    text:"Спросить, кто он",
+                    action:()=>{
+                        game.flags.metStranger=true;
+                        advanceTime(4);
+                        renderScene("strangerQuestion");
+                    }
+                },
+                {
+                    text:"Направить на него фонарь и отойти",
+                    action:()=>{
+                        game.health-=10;
+                        advanceTime(5);
+                        renderScene("strangerFight");
+                    }
+                }
+            ]
+        },
+
+        hidden:{
+            chapter:"CHAPTER 02 // SILENCE",
+            title:"Тишина",
+            location:"checkpoint",
+            text:`
+                <p>
+                Ты выключаешь фонарь.
+                </p>
+
+                <p>
+                Шаги становятся ближе.
+                Потом останавливаются прямо у будки.
+                </p>
+
+                <p>
+                Несколько секунд ничего не происходит.
+                </p>
+
+                <p class="danger">
+                Затем кто-то произносит твоё имя.
+                </p>
+
+                <p>
+                Ты никому здесь его не говорил.
+                </p>
+            `,
+            choices:[
+                {
+                    text:"Выйти",
+                    action:()=>{
+                        game.flags.metStranger=true;
+                        renderScene("stranger");
+                    }
+                },
+                {
+                    text:"Остаться внутри",
+                    action:()=>{
+                        game.battery-=10;
+                        game.signal+=20;
+                        renderScene("shadow");
+                    }
+                }
+            ]
+        },
+
+        radio:{
+            chapter:"CHAPTER 02 // CONTACT",
+            title:"Ответ",
+            location:"checkpoint",
+            text:`
+                <p>
+                Ты нажимаешь кнопку передачи.
+                </p>
+
+                <p class="system">
+                TRANSMITTING...
+                </p>
+
+                <p>
+                Несколько секунд — только шум.
+                </p>
+
+                <p>
+                Затем голос отвечает:
+                </p>
+
+                <p class="danger">
+                «Ты сделал ошибку.»
+                </p>
+
+                <p>
+                На экране появляется координата.
+                Она ведёт в сторону старой станции.
+                </p>
+            `,
+            choices:[
+                {
+                    text:"Принять координаты",
+                    action:()=>{
+                        game.flags.stationOpened=true;
+                        addItem("Координаты станции");
+                        renderScene("road");
+                    }
+                },
+                {
+                    text:"Отклонить сообщение",
+                    action:()=>{
+                        game.signal-=15;
+                        renderScene("road");
+                    }
+                }
+            ]
+        },
+
+        strangerTrusted:{
+            chapter:"CHAPTER 02 // THE GUIDE",
+            title:"Проводник",
+            location:"checkpoint",
+            text:`
+                <p>
+                Человек снимает противогаз.
+                Его лицо выглядит измученным.
+                </p>
+
+                <p>
+                «Меня зовут Сергей. Но имя здесь ничего не значит.»
+                </p>
+
+                <p>
+                Он показывает на дорогу.
+                </p>
+
+                <p>
+                «Есть старая станция. Там можно переждать ночь.
+                Только не заходи в лес.»
+                </p>
+
+                <p class="important">
+                Перед уходом он добавляет:
+                «И если увидишь девочку в красной куртке — не разговаривай с ней.»
+                </p>
+            `,
+            choices:[
+                {
+                    text:"Пойти к станции",
+                    action:()=>{
+                        game.location="station";
+                        advanceTime(25);
+                        renderScene("station");
+                    }
+                },
+                {
+                    text:"Спросить про девочку",
+                    action:()=>{
+                        renderScene("girlQuestion");
+                    }
+                },
+                {
+                    text:"Пойти в лес вопреки предупреждению",
+                    action:()=>{
+                        game.location="forest";
+                        game.flags.enteredForest=true;
+                        advanceTime(30);
+                        renderScene("forest");
+                    }
+                }
+            ]
+        },
+
+        strangerQuestion:{
+            chapter:"CHAPTER 02 // QUESTIONS",
+            title:"Кто ты?",
+            location:"checkpoint",
+            text:`
+                <p>
+                Человек долго молчит.
+                </p>
+
+                <p>
+                «Я был здесь до того, как появилась Зона такой,
+                какой ты её знаешь.»
+                </p>
+
+                <p>
+                Он смотрит на твой телефон.
+                </p>
+
+                <p class="danger">
+                «Ты пришёл из-за сигнала. Все приходят из-за сигнала.»
+                </p>
+            `,
+            choices:[
+                {
+                    text:"Попросить его объяснить сигнал",
+                    action:()=>{
+                        game.signal+=10;
+                        renderScene("signalTruth");
+                    }
+                },
+                {
+                    text:"Потребовать назвать имя",
+                    action:()=>{
+                        game.health-=5;
+                        renderScene("strangerFight");
+                    }
+                }
+            ]
+        },
+
+        strangerFight:{
+            chapter:"CHAPTER 02 // CONFRONTATION",
+            title:"Выстрел",
+            location:"checkpoint",
+            text:`
+                <p>
+                Человек резко поднимает оружие.
+                Раздаётся выстрел.
+                Пуля проходит рядом с плечом.
+                </p>
+
+                <p class="danger">
+                «Уходи!»
+                </p>
+
+                <p>
+                Он исчезает в тумане.
+                На земле остаётся небольшой металлический предмет.
+                </p>
+            `,
+            choices:[
+                {
+                    text:"Поднять предмет",
+                    action:()=>{
+                        addItem("Неизвестный жетон");
+                        renderScene("road");
+                    }
+                },
+                {
+                    text:"Не трогать его",
+                    action:()=>{
+                        renderScene("road");
+                    }
+                }
+            ]
+        },
+
+        signalTruth:{
+            chapter:"CHAPTER 03 // THE SIGNAL",
+            title:"Почему ты слышишь его?",
+            location:"checkpoint",
+            text:`
+                <p>
+                «Потому что сигнал не передаёт звук», — говорит Сергей.
+                </p>
+
+                <p>
+                «Он передаёт память.»
+                </p>
+
+                <p>
+                Ты сначала думаешь, что он шутит.
+                </p>
+
+                <p class="danger">
+                Но телефон начинает показывать фотографии,
+                которых ты никогда не делал.
+                </p>
+
+                <p>
+                На последней фотографии — ты сам.
+                Стоишь перед разрушенным зданием.
+                </p>
+
+                <p class="important">
+                Дата фотографии: 26.04.1986.
+                </p>
+            `,
+            choices:[
+                {
+                    text:"Показать ему фотографию",
+                    action:()=>{
+                        game.flags.discoveredTruth=true;
+                        renderScene("photo");
+                    }
+                },
+                {
+                    text:"Спрятать телефон",
+                    action:()=>{
+                        renderScene("road");
+                    }
+                }
+            ]
+        },
+
+        photo:{
+            chapter:"CHAPTER 03 // IMPOSSIBLE",
+            title:"Фотография",
+            location:"checkpoint",
+            text:`
+                <p>
+                Сергей смотрит на экран.
+                Его лицо меняется.
+                </p>
+
+                <p>
+                «Этого не может быть.»
+                </p>
+
+                <p>
+                Он впервые выглядит испуганным.
+                </p>
+
+                <p class="danger">
+                «Ты должен попасть в подземный объект раньше полуночи.»
+                </p>
+
+                <p>
+                «Иначе сигнал начнёт повторять события.»
+                </p>
+            `,
+            choices:[
+                {
+                    text:"Идти к подземному объекту",
+                    action:()=>{
+                        game.flags.knowsAboutBunker=true;
+                        game.location="bunker";
+                        advanceTime(40);
+                        renderScene("bunkerEntrance");
+                    }
+                },
+                {
+                    text:"Идти в Припять",
+                    action:()=>{
+                        game.location="pripyat";
+                        advanceTime(45);
+                        renderScene("pripyatEntrance");
+                    }
+                }
+            ]
+        },
+
+        road:{
+            chapter:"CHAPTER 02 // ROAD",
+            title:"Дорога в Зону",
+            location:"checkpoint",
+            text:`
+                <p>
+                Ты оставляешь КПП позади.
+                Дорога уходит в туман.
+                </p>
+
+                <p>
+                На обочине стоят старые указатели.
+                Некоторые перевёрнуты.
+                </p>
+
+                <p class="system">
+                SIGNAL: ${game.signal}%
+                </p>
+
+                <p>
+                Где-то далеко работает генератор.
+                Время — ${currentTime()}.
+                </p>
+            `,
+            choices:[
+                {
+                    text:"Пойти к старой станции",
+                    action:()=>{
+                        game.location="station";
+                        advanceTime(30);
+                        renderScene("station");
+                    }
+                },
+                {
+                    text:"Пойти в деревню",
+                    action:()=>{
+                        game.location="village";
+                        advanceTime(20);
+                        renderScene("village");
+                    }
+                },
+                {
+                    text:"Пойти в Чёрный лес",
+                    action:()=>{
+                        game.location="forest";
+                        game.flags.enteredForest=true;
+                        advanceTime(25);
+                        renderScene("forest");
+                    }
+                },
+                {
+                    text:"Открыть карту",
+                    action:()=>{
+                        openMap();
+                    }
+                }
+            ]
+        },
+
+        village:{
+            chapter:"CHAPTER 03 // OLD VILLAGE",
+            title:"Старая деревня",
+            location:"village",
+            text:`
+                <p>
+                Дома стоят пустыми.
+                Некоторые окна заколочены изнутри.
+                </p>
+
+                <p>
+                В одном доме горит свет.
+                </p>
+
+                <p class="important">
+                Это невозможно — электричество в деревне отключили много лет назад.
+                </p>
+
+                <p>
+                Из дома доносится детский голос:
+                </p>
+
+                <p class="system">
+                «Ты опять опоздал.»
+                </p>
+            `,
+            choices:[
+                {
+                    text:"Войти в дом",
+                    action:()=>{
+                        advanceTime(12);
+                        renderScene("house");
+                    }
+                },
+                {
+                    text:"Обойти дом",
+                    action:()=>{
+                        renderScene("villageBack");
+                    }
+                },
+                {
+                    text:"Проверить уровень радиации",
+                    action:()=>{
+                        game.radiation+=7;
+                        renderScene("radiationCheck");
+                    }
+                }
+            ]
+        },
+
+        house:{
+            chapter:"CHAPTER 03 // THE HOUSE",
+            title:"Дом",
+            location:"village",
+            text:`
+                <p>
+                Внутри тепло.
+                На столе стоят две чашки чая.
+                Одна ещё горячая.
+                </p>
+
+                <p>
+                На стене висит фотография семьи.
+                </p>
+
+                <p class="danger">
+                На фотографии ты тоже есть.
+                </p>
+
+                <p>
+                Сверху раздаётся скрип пола.
+                </p>
+            `,
+            choices:[
+                {
+                    text:"Подняться наверх",
+                    action:()=>{
+                        renderScene("upstairs");
+                    }
+                },
+                {
+                    text:"Взять фотографию",
+                    action:()=>{
+                        addItem("Старая фотография");
+                        renderScene("houseMirror");
+                    }
+                },
+                {
+                    text:"Уйти",
+                    action:()=>{
+                        renderScene("villageBack");
+                    }
+                }
+            ]
+        },
+
+        upstairs:{
+            chapter:"CHAPTER 03 // SECOND FLOOR",
+            title:"Комната",
+            location:"village",
+            text:`
+                <p>
+                Комната пуста.
+                Только старое зеркало стоит у окна.
+                </p>
+
+                <p>
+                Ты смотришь в него.
+                </p>
+
+                <p>
+                Отражение улыбается.
+                </p>
+
+                <p class="danger">
+                Ты — нет.
+                </p>
+            `,
+            choices:[
+                {
+                    text:"Разбить зеркало",
+                    action:()=>{
+                        game.health-=8;
+                        game.flags.sawShadow=true;
+                        renderScene("mirrorBroken");
+                    }
+                },
+                {
+                    text:"Отойти",
+                    action:()=>{
+                        renderScene("villageBack");
+                    }
+                }
+            ]
+        },
+
+        mirrorBroken:{
+            chapter:"CHAPTER 03 // REFLECTION",
+            title:"Осколок",
+            location:"village",
+            text:`
+                <p>
+                Зеркало разбивается.
+                За ним оказывается пустота в стене.
+                </p>
+
+                <p>
+                Внутри лежит маленький ключ.
+                На нём выгравировано:
+                </p>
+
+                <p class="important">
+                «ОБЪЕКТ 17»
+                </p>
+            `,
+            choices:[
+                {
+                    text:"Взять ключ",
+                    action:()=>{
+                        addItem("Ключ объекта 17");
+                        game.flags.foundKey=true;
+                        renderScene("villageBack");
+                    }
+                }
+            ]
+        },
+
+        villageBack:{
+            chapter:"CHAPTER 03 // VILLAGE EXIT",
+            title:"За деревней",
+            location:"village",
+            text:`
+                <p>
+                За последним домом начинается поле.
+                Вдалеке видна старая вышка.
+                </p>
+
+                <p>
+                На вышке мигает зелёный огонь.
+                </p>
+
+                <p>
+                Твой телефон снова принимает сигнал.
+                </p>
+            `,
+            choices:[
+                {
+                    text:"Следовать к станции",
+                    action:()=>{
+                        game.location="station";
+                        advanceTime(25);
+                        renderScene("station");
+                    }
+                },
+                {
+                    text:"Идти к вышке",
+                    action:()=>{
+                        advanceTime(18);
+                        renderScene("tower");
+                    }
+                }
+            ]
+        },
+
+        tower:{
+            chapter:"CHAPTER 03 // RADIO TOWER",
+            title:"Вышка",
+            location:"village",
+            text:`
+                <p>
+                Лестница скрипит под ногами.
+                Наверху установлен старый передатчик.
+                </p>
+
+                <p class="system">
+                FREQUENCY LOCKED: 103.7 MHz
+                </p>
+
+                <p>
+                Ты понимаешь:
+                именно отсюда идёт сигнал.
+                </p>
+
+                <p class="danger">
+                Но передатчик подключён к чему-то,
+                чего нет ни на одной схеме.
+                </p>
+            `,
+            choices:[
+                {
+                    text:"Отключить передатчик",
+                    action:()=>{
+                        game.signal=0;
+                        renderScene("towerOff");
+                    }
+                },
+                {
+                    text:"Усилить сигнал",
+                    action:()=>{
+                        game.signal=100;
+                        game.flags.heardSignal=true;
+                        renderScene("towerBoost");
+                    }
+                }
+            ]
+        },
+
+        towerOff:{
+            chapter:"CHAPTER 03 // SILENCE",
+            title:"Тишина",
+            location:"village",
+            text:`
+                <p>
+                Передатчик выключается.
+                </p>
+
+                <p>
+                Впервые за несколько часов вокруг становится абсолютно тихо.
+                </p>
+
+                <p class="important">
+                Затем вся Зона одновременно включает свет.
+                </p>
+            `,
+            choices:[
+                {
+                    text:"Бежать к станции",
+                    action:()=>{
+                        game.location="station";
+                        advanceTime(20);
+                        renderScene("station");
+                    }
+                },
+                {
+                    text:"Остаться и наблюдать",
+                    action:()=>{
+                        renderScene("lights");
+                    }
+                }
+            ]
+        },
+
+        towerBoost:{
+            chapter:"CHAPTER 03 // TRANSMISSION",
+            title:"Ответ из прошлого",
+            location:"village",
+            text:`
+                <p>
+                Ты увеличиваешь мощность передатчика.
+                </p>
+
+                <p>
+                Шум превращается в голоса.
+                Их десятки.
+                </p>
+
+                <p class="danger">
+                Все говорят одновременно.
+                Но один голос звучит совершенно ясно:
+                </p>
+
+                <p class="system">
+                «ТЫ НЕ ДОЛЖЕН БЫЛ НАЙТИ ЭТО МЕСТО.»
+                </p>
+
+                <p>
+                Вдалеке что-то взрывается.
+                </p>
+            `,
+            choices:[
+                {
+                    text:"Спуститься и бежать",
+                    action:()=>{
+                        game.health-=12;
+                        renderScene("road");
+                    }
+                }
+            ]
+        },
+
+        station:{
+            chapter:"CHAPTER 04 // OLD STATION",
+            title:"Станция",
+            location:"station",
+            text:`
+                <p>
+                Старая станция выглядит заброшенной.
+                Внутри всё покрыто пылью.
+                </p>
+
+                <p>
+                Но один компьютер работает.
+                </p>
+
+                <p class="system">
+                USER: UNKNOWN<br>
+                PASSWORD: REQUIRED
+                </p>
+
+                <p>
+                Рядом лежит записка:
+                </p>
+
+                <p class="important">
+                «Пароль — дата, которую ты никогда не забудешь.»
+                </p>
+            `,
+            choices:[
+                {
+                    text:"Попробовать 26.04.1986",
+                    action:()=>{
+                        game.flags.stationOpened=true;
+                        renderScene("computer");
+                    }
+                },
+                {
+                    text:"Искать пароль",
+                    action:()=>{
+                        addItem("Записка с кодом");
+                        renderScene("stationSearch");
+                    }
+                },
+                {
+                    text:"Уйти",
+                    action:()=>{
+                        renderScene("road");
+                    }
+                }
+            ]
+        },
+
+        stationSearch:{
+            chapter:"CHAPTER 04 // ARCHIVE",
+            title:"Архив",
+            location:"station",
+            text:`
+                <p>
+                В шкафу ты находишь старый архив.
+                Большинство документов уничтожено.
+                </p>
+
+                <p>
+                Один файл сохранился.
+                </p>
+
+                <p class="system">
+                PROJECT: ECHO
+                </p>
+
+                <p>
+                Цель проекта — передача человеческой памяти
+                через электромагнитный сигнал.
+                </p>
+            `,
+            choices:[
+                {
+                    text:"Взять документы",
+                    action:()=>{
+                        addItem("Документы ECHO");
+                        game.flags.discoveredTruth=true;
+                        renderScene("computer");
+                    }
+                },
+                {
+                    text:"Оставить документы",
+                    action:()=>{
+                        renderScene("computer");
+                    }
+                }
+            ]
+        },
+
+        computer:{
+            chapter:"CHAPTER 04 // PROJECT ECHO",
+            title:"ECHO",
+            location:"station",
+            text:`
+                <p class="system">
+                ACCESS GRANTED
+                </p>
+
+                <p>
+                На экране появляется архив проекта.
+                </p>
+
+                <p>
+                «После аварии эксперимент не прекратился.
+                Зона стала усилителем.
+                </p>
+
+                <p class="danger">
+                Сигнал способен передавать воспоминания
+                из одной временной точки в другую.»
+                </p>
+
+                <p>
+                Последняя запись датирована сегодняшним числом.
+                </p>
+            `,
+            choices:[
+                {
+                    text:"Открыть последнюю запись",
+                    action:()=>{
+                        renderScene("lastRecord");
+                    }
+                },
+                {
+                    text:"Удалить архив",
+                    action:()=>{
+                        renderScene("deleteArchive");
+                    }
+                }
+            ]
+        },
+
+        lastRecord:{
+            chapter:"CHAPTER 04 // LAST RECORD",
+            title:"Ты",
+            location:"station",
+            text:`
+                <p>
+                На видео человек сидит перед камерой.
+                </p>
+
+                <p>
+                Ты узнаёшь себя.
+                </p>
+
+                <p class="danger">
+                «Если ты смотришь это видео,
+                значит предыдущая попытка провалилась.»
+                </p>
+
+                <p>
+                «Не доверяй Сергею.»
+                </p>
+
+                <p>
+                Видео заканчивается.
+                </p>
+            `,
+            choices:[
+                {
+                    text:"Вернуться к Сергею",
+                    action:()=>{
+                        renderScene("returnSergey");
+                    }
+                },
+                {
+                    text:"Идти к объекту 17",
+                    action:()=>{
+                        game.flags.knowsAboutBunker=true;
+                        game.location="bunker";
+                        renderScene("bunkerEntrance");
+                    }
+                }
+            ]
+        },
+
+        returnSergey:{
+            chapter:"CHAPTER 05 // BETRAYAL",
+            title:"Кому верить?",
+            location:"station",
+            text:`
+                <p>
+                Ты выходишь со станции.
+                Сергей уже ждёт тебя.
+                </p>
+
+                <p>
+                «Ты нашёл архив.»
+                </p>
+
+                <p>
+                Это не вопрос.
+                </p>
+
+                <p class="danger">
+                Он знает всё, что ты делал.
+                </p>
+            `,
+            choices:[
+                {
+                    text:"Потребовать объяснений",
+                    action:()=>{
+                        renderScene("sergeyTruth");
+                    }
+                },
+                {
+                    text:"Атаковать первым",
+                    action:()=>{
+                        game.health-=20;
+                        renderScene("sergeyFight");
+                    }
+                },
+                {
+                    text:"Уйти молча",
+                    action:()=>{
+                        game.location="bunker";
+                        renderScene("bunkerEntrance");
+                    }
+                }
+            ]
+        },
+
+        sergeyTruth:{
+            chapter:"CHAPTER 05 // SERGEY",
+            title:"Проводник",
+            location:"station",
+            text:`
+                <p>
+                Сергей снимает перчатку.
+                На его руке видны следы ожогов.
+                </p>
+
+                <p>
+                «Я уже проходил это.»
+                </p>
+
+                <p>
+                «Каждый раз ты приходишь сюда.
+                Каждый раз находишь сигнал.
+                Каждый раз пытаешься изменить прошлое.»
+                </p>
+
+                <p class="important">
+                «И каждый раз Зона возвращает тебя обратно.»
+                </p>
+            `,
+            choices:[
+                {
+                    text:"Спросить, сколько раз это было",
+                    action:()=>{
+                        renderScene("loops");
+                    }
+                },
+                {
+                    text:"Не верить ему",
+                    action:()=>{
+                        renderScene("bunkerEntrance");
+                    }
+                }
+            ]
+        },
+
+        loops:{
+            chapter:"CHAPTER 05 // LOOP",
+            title:"Сколько раз?",
+            location:"station",
+            text:`
+                <p>
+                «Двадцать семь», — отвечает Сергей.
+                </p>
+
+                <p>
+                «И это число будет расти,
+                пока ты не сделаешь правильный выбор.»
+                </p>
+
+                <p class="danger">
+                «Но правильного выбора нет.»
+                </p>
+            `,
+            choices:[
+                {
+                    text:"Спросить про объект 17",
+                    action:()=>{
+                        game.flags.knowsAboutBunker=true;
+                        renderScene("object17");
+                    }
+                }
+            ]
+        },
+
+        object17:{
+            chapter:"CHAPTER 05 // OBJECT 17",
+            title:"Под землёй",
+            location:"station",
+            text:`
+                <p>
+                Сергей показывает на старую карту.
+                </p>
+
+                <p>
+                Под станцией действительно есть подземный комплекс.
+                </p>
+
+                <p>
+                «Там находится источник сигнала.»
+                </p>
+
+                <p class="danger">
+                «Но если ты войдёшь туда,
+                обратно выйдешь уже не тем человеком.»
+                </p>
+            `,
+            choices:[
+                {
+                    text:"Спуститься в объект 17",
+                    action:()=>{
+                        game.location="bunker";
+                        advanceTime(20);
+                        renderScene("bunkerEntrance");
+                    }
+                },
+                {
+                    text:"Отправиться в Припять",
+                    action:()=>{
+                        game.location="pripyat";
+                        advanceTime(35);
+                        renderScene("pripyatEntrance");
+                    }
+                }
+            ]
+        },
+
+        forest:{
+            chapter:"CHAPTER 03 // BLACK FOREST",
+            title:"Чёрный лес",
+            location:"forest",
+            text:`
+                <p>
+                Деревья здесь растут слишком близко друг к другу.
+                </p>
+
+                <p>
+                Фонарик начинает мигать.
+                </p>
+
+                <p class="danger">
+                Между деревьями кто-то идёт параллельно тебе.
+                </p>
+
+                <p>
+                Каждый раз, когда ты останавливаешься,
+                он тоже останавливается.
+                </p>
+            `,
+            choices:[
+                {
+                    text:"Продолжить идти",
+                    action:()=>{
+                        game.battery-=15;
+                        game.radiation+=8;
+                        renderScene("forestDeep");
+                    }
+                },
+                {
+                    text:"Крикнуть ему",
+                    action:()=>{
+                        game.health-=15;
+                        renderScene("forestVoice");
+                    }
+                },
+                {
+                    text:"Вернуться",
+                    action:()=>{
+                        game.location="village";
+                        renderScene("village");
+                    }
+                }
+            ]
+        },
+
+        forestDeep:{
+            chapter:"CHAPTER 03 // BLACK FOREST",
+            title:"Голоса",
+            location:"forest",
+            text:`
+                <p>
+                Ты выходишь на небольшую поляну.
+                В центре лежит металлический контейнер.
+                </p>
+
+                <p>
+                Рядом стоит человек в противогазе.
+                </p>
+
+                <p class="danger">
+                Но это не Сергей.
+                </p>
+
+                <p>
+                Человек говорит:
+                «Ты уже был здесь.»
+                </p>
+            `,
+            choices:[
+                {
+                    text:"Открыть контейнер",
+                    action:()=>{
+                        addItem("Странный артефакт");
+                        game.flags.tookArtifact=true;
+                        game.radiation+=20;
+                        renderScene("artifact");
+                    }
+                },
+                {
+                    text:"Уйти",
+                    action:()=>{
+                        game.location="station";
+                        renderScene("station");
+                    }
+                }
+            ]
+        },
+
+        artifact:{
+            chapter:"CHAPTER 03 // ARTIFACT",
+            title:"Эхо",
+            location:"forest",
+            text:`
+                <p>
+                Артефакт выглядит как кусок чёрного стекла.
+                Внутри него движется свет.
+                </p>
+
+                <p>
+                Когда ты касаешься его,
+                в голове появляется чужое воспоминание.
+                </p>
+
+                <p class="important">
+                Ты видишь лабораторию.
+                Камера.
+                Люди в белых халатах.
+                И себя.
+                </p>
+            `,
+            choices:[
+                {
+                    text:"Отбросить артефакт",
+                    action:()=>{
+                        removeItem("Странный артефакт");
+                        game.radiation-=15;
+                        renderScene("forestExit");
+                    }
+                },
+                {
+                    text:"Оставить его",
+                    action:()=>{
+                        renderScene("artifactVision");
+                    }
+                }
+            ]
+        },
+
+        artifactVision:{
+            chapter:"CHAPTER 03 // MEMORY",
+            title:"Чужая память",
+            location:"forest",
+            text:`
+                <p>
+                Ты видишь дверь с надписью:
+                </p>
+
+                <p class="system">
+                OBJECT 17
+                </p>
+
+                <p>
+                За дверью стоит человек.
+                Он похож на тебя.
+                </p>
+
+                <p class="danger">
+                Он говорит:
+                «Не открывай дверь.»
+                </p>
+            `,
+            choices:[
+                {
+                    text:"Пойти к объекту 17",
+                    action:()=>{
+                        game.location="bunker";
+                        renderScene("bunkerEntrance");
+                    }
+                },
+                {
+                    text:"Вернуться к станции",
+                    action:()=>{
+                        game.location="station";
+                        renderScene("station");
+                    }
+                }
+            ]
+        },
+
+        forestVoice:{
+            chapter:"CHAPTER 03 // BLACK FOREST",
+            title:"Ответ",
+            location:"forest",
+            text:`
+                <p>
+                Ты кричишь:
+                «Кто ты?»
+                </p>
+
+                <p>
+                Лес отвечает твоим же голосом.
+                </p>
+
+                <p class="danger">
+                «Кто ты?»
+                </p>
+
+                <p>
+                Фонарик гаснет.
+                </p>
+            `,
+            choices:[
+                {
+                    text:"Бежать",
+                    action:()=>{
+                        game.stamina-=35;
+                        game.health-=10;
+                        renderScene("forestExit");
+                    }
+                }
+            ]
+        },
+
+        forestExit:{
+            chapter:"CHAPTER 03 // ESCAPE",
+            title:"Выход из леса",
+            location:"forest",
+            text:`
+                <p>
+                Ты выбираешься на дорогу.
+                </p>
+
+                <p>
+                Впереди видна старая станция.
+                </p>
+
+                <p>
+                Телефон снова показывает сигнал:
+                <span class="important">${game.signal}%</span>
+                </p>
+            `,
+            choices:[
+                {
+                    text:"Идти к станции",
+                    action:()=>{
+                        game.location="station";
+                        renderScene("station");
+                    }
+                },
+                {
+                    text:"Идти в Припять",
+                    action:()=>{
+                        game.location="pripyat";
+                        renderScene("pripyatEntrance");
+                    }
+                }
+            ]
+        },
+
+        bunkerEntrance:{
+            chapter:"CHAPTER 06 // OBJECT 17",
+            title:"Дверь",
+            location:"bunker",
+            text:`
+                <p>
+                Вход находится под землёй.
+                </p>
+
+                <p>
+                Перед массивной дверью установлен старый терминал.
+                </p>
+
+                <p class="system">
+                OBJECT 17<br>
+                STATUS: ACTIVE
+                </p>
+
+                <p>
+                На двери три слова:
+                </p>
+
+                <p class="important">
+                ПАМЯТЬ. ВРЕМЯ. ВЫБОР.
+                </p>
+            `,
+            choices:[
+                {
+                    text:"Использовать ключ",
+                    condition:()=>hasItem("Ключ объекта 17"),
+                    action:()=>{
+                        renderScene("bunkerOpen");
+                    }
+                },
+                {
+                    text:"Попробовать открыть без ключа",
+                    action:()=>{
+                        game.health-=10;
+                        game.radiation+=10;
+                        renderScene("bunkerLocked");
+                    }
+                },
+                {
+                    text:"Уйти",
+                    action:()=>{
+                        game.location="station";
+                        renderScene("station");
+                    }
+                }
+            ]
+        },
+
+        bunkerLocked:{
+            chapter:"CHAPTER 06 // LOCKED",
+            title:"Не открывается",
+            location:"bunker",
+            text:`
+                <p>
+                Терминал не реагирует.
+                </p>
+
+                <p>
+                Затем на экране появляется:
+                </p>
+
+                <p class="danger">
+                «ТЫ ЕЩЁ НЕ ГОТОВ.»
+                </p>
+
+                <p>
+                Где-то внутри комплекса слышится стук.
+                </p>
+            `,
+            choices:[
+                {
+                    text:"Идти обратно",
+                    action:()=>{
+                        game.location="station";
+                        renderScene("station");
+                    }
+                },
+                {
+                    text:"Ждать",
+                    action:()=>{
+                        advanceTime(15);
+                        renderScene("bunkerWait");
+                    }
+                }
+            ]
+        },
+
+        bunkerWait:{
+            chapter:"CHAPTER 06 // WAITING",
+            title:"Стук",
+            location:"bunker",
+            text:`
+                <p>
+                Стук повторяется.
+                Три раза.
+                Пауза.
+                Ещё три раза.
+                </p>
+
+                <p>
+                Ты понимаешь, что это код.
+                </p>
+
+                <p class="system">
+                3 - 3 - 3
+                </p>
+            `,
+            choices:[
+                {
+                    text:"Ответить тремя ударами",
+                    action:()=>{
+                        renderScene("bunkerOpen");
+                    }
+                },
+                {
+                    text:"Не отвечать",
+                    action:()=>{
+                        renderScene("bunkerDark");
+                    }
+                }
+            ]
+        },
+
+        bunkerOpen:{
+            chapter:"CHAPTER 06 // BELOW",
+            title:"Подземный объект",
+            location:"bunker",
+            text:`
+                <p>
+                Дверь открывается.
+                </p>
+
+                <p>
+                Внутри работают аварийные лампы.
+                Коридор уходит далеко под землю.
+                </p>
+
+                <p>
+                На стенах висят фотографии.
+                </p>
+
+                <p class="danger">
+                На всех фотографиях изображён один и тот же человек.
+                Ты.
+                </p>
+            `,
+            choices:[
+                {
+                    text:"Идти по коридору",
+                    action:()=>{
+                        game.radiation+=12;
+                        renderScene("lab");
+                    }
+                },
+                {
+                    text:"Исследовать фотографии",
+                    action:()=>{
+                        addItem("Фотоархив");
+                        renderScene("photos");
+                    }
+                }
+            ]
+        },
+
+        photos:{
+            chapter:"CHAPTER 06 // ARCHIVE",
+            title:"Фотографии",
+            location:"bunker",
+            text:`
+                <p>
+                На обороте фотографий стоят даты.
+                </p>
+
+                <p class="system">
+                1986<br>
+                1994<br>
+                2003<br>
+                2014<br>
+                2014<br>
+                2014
+                </p>
+
+                <p>
+                Последние фотографии сделаны в один и тот же день.
+                </p>
+
+                <p class="danger">
+                На каждой из них ты принимаешь другое решение.
+                </p>
+            `,
+            choices:[
+                {
+                    text:"Идти дальше",
+                    action:()=>{
+                        renderScene("lab");
+                    }
+                }
+            ]
+        },
+
+        lab:{
+            chapter:"CHAPTER 07 // LABORATORY",
+            title:"Лаборатория",
+            location:"bunker",
+            text:`
+                <p>
+                Ты входишь в лабораторию.
+                </p>
+
+                <p>
+                В центре помещения находится огромный генератор.
+                Вокруг него стоят мониторы.
+                </p>
+
+                <p class="system">
+                ECHO SYSTEM<br>
+                CYCLE: 27
+                </p>
+
+                <p>
+                На главном экране появляется вопрос:
+                </p>
+
+                <p class="important">
+                «ХОЧЕШЬ УЗНАТЬ, ПОЧЕМУ ТЫ ВЕРНУЛСЯ?»
+                </p>
+            `,
+            choices:[
+                {
+                    text:"ДА",
+                    action:()=>{
+                        renderScene("truth");
+                    }
+                },
+                {
+                    text:"НЕТ",
+                    action:()=>{
+                        renderScene("escape");
+                    }
+                }
+            ]
+        },
+
+        truth:{
+            chapter:"FINAL CHAPTER // TRUTH",
+            title:"Последняя запись",
+            location:"bunker",
+            text:`
+                <p>
+                Экран показывает твою комнату.
+                </p>
+
+                <p>
+                Ты видишь себя до поездки в Зону.
+                </p>
+
+                <p>
+                На столе лежит письмо.
+                </p>
+
+                <p class="danger">
+                Ты сам написал его.
+                </p>
+
+                <p>
+                В нём всего одна фраза:
+                </p>
+
+                <p class="important">
+                «Если ты читаешь это — значит, я не смог остановить себя.»
+                </p>
+
+                <p>
+                Теперь ты понимаешь:
+                сигнал не заманивал тебя в Зону.
+                </p>
+
+                <p class="danger">
+                Ты сам отправил его в прошлое.
+                </p>
+            `,
+            choices:[
+                {
+                    text:"Изменить сигнал",
+                    action:()=>{
+                        game.flags.discoveredTruth=true;
+                        renderScene("finalChoice");
+                    }
+                },
+                {
+                    text:"Остановить систему",
+                    action:()=>{
+                        renderScene("finalChoice");
+                    }
+                }
+            ]
+        },
+
+        finalChoice:{
+            chapter:"FINAL CHAPTER // LAST CHOICE",
+            title:"Последний выбор",
+            location:"bunker",
+            text:`
+                <p>
+                Перед тобой два переключателя.
+                </p>
+
+                <p>
+                <span class="important">ПЕРВЫЙ</span> —
+                отправить сигнал обратно в 1986 год.
+                </p>
+
+                <p>
+                <span class="important">ВТОРОЙ</span> —
+                уничтожить источник.
+                </p>
+
+                <p class="danger">
+                Система предупреждает:
+                после выбора возврата не будет.
+                </p>
+            `,
+            choices:[
+                {
+                    text:"ОТПРАВИТЬ СИГНАЛ В ПРОШЛОЕ",
+                    action:()=>{
+                        ending("loop");
+                    }
+                },
+                {
+                    text:"УНИЧТОЖИТЬ ИСТОЧНИК",
+                    action:()=>{
+                        ending("escape");
+                    }
+                },
+                {
+                    text:"ОСТАВИТЬ ВСЁ КАК ЕСТЬ",
+                    action:()=>{
+                        ending("truth");
+                    }
+                }
+            ]
+        },
+
+        escape:{
+            chapter:"FINAL CHAPTER // ESCAPE",
+            title:"Бежать",
+            location:"bunker",
+            text:`
+                <p>
+                Ты выключаешь систему.
+                </p>
+
+                <p>
+                Лаборатория начинает разрушаться.
+                </p>
+
+                <p>
+                Красные лампы мигают.
+                Сигнал исчезает.
+                </p>
+            `,
+            choices:[
+                {
+                    text:"Бежать наружу",
+                    action:()=>{
+                        ending("escape");
+                    }
+                }
+            ]
+        },
+
+        lights:{
+            chapter:"CHAPTER 04 // LIGHTS",
+            title:"Город проснулся",
+            location:"village",
+            text:`
+                <p>
+                На горизонте загораются тысячи окон.
+                </p>
+
+                <p>
+                Деревня, которая должна быть мёртвой,
+                снова становится живой.
+                </p>
+
+                <p class="danger">
+                Но люди внутри домов не двигаются.
+                Они просто смотрят на тебя.
+                </p>
+            `,
+            choices:[
+                {
+                    text:"Уйти",
+                    action:()=>{
+                        game.location="station";
+                        renderScene("station");
+                    }
+                }
+            ]
+        },
+
+        houseMirror:{
+            chapter:"CHAPTER 03 // PHOTO",
+            title:"Снимок",
+            location:"village",
+            text:`
+                <p>
+                На фотографии семья улыбается.
+                </p>
+
+                <p>
+                Ты замечаешь одну деталь.
+                </p>
+
+                <p class="danger">
+                Человек рядом с тобой — Сергей.
+                </p>
+            `,
+            choices:[
+                {
+                    text:"Вернуться к станции",
+                    action:()=>{
+                        game.location="station";
+                        renderScene("station");
+                    }
+                }
+            ]
+        },
+
+        radiationCheck:{
+            chapter:"CHAPTER 03 // RADIATION",
+            title:"Слишком много",
+            location:"village",
+            text:`
+                <p>
+                Дозиметр начинает пищать.
+                </p>
+
+                <p class="danger">
+                Уровень радиации быстро растёт.
+                </p>
+
+                <p>
+                Здесь нельзя оставаться.
+                </p>
+            `,
+            choices:[
+                {
+                    text:"Уйти к станции",
+                    action:()=>{
+                        game.location="station";
+                        renderScene("station");
+                    }
+                }
+            ]
+        },
+
+        bunkerDark:{
+            chapter:"CHAPTER 06 // DARK",
+            title:"Темнота",
+            location:"bunker",
+            text:`
+                <p>
+                Свет внутри объекта гаснет.
+                </p>
+
+                <p>
+                В темноте кто-то произносит:
+                </p>
+
+                <p class="danger">
+                «Наконец-то.»
+                </p>
+            `,
+            choices:[
+                {
+                    text:"Включить фонарик",
+                    action:()=>{
+                        game.battery-=20;
+                        renderScene("lab");
+                    }
+                }
+            ]
+        },
+
+        pripyatEntrance:{
+            chapter:"CHAPTER 05 // PRIPYAT",
+            title:"Припять",
+            location:"pripyat",
+            text:`
+                <p>
+                Ты входишь в город.
+                </p>
+
+                <p>
+                Дома стоят чёрными силуэтами.
+                Ветер гонит по улице мусор.
+                </p>
+
+                <p>
+                Где-то играет детская музыка.
+                </p>
+
+                <p class="danger">
+                Музыка доносится из здания,
+                которое было заброшено много лет назад.
+                </p>
+            `,
+            choices:[
+                {
+                    text:"Идти к зданию",
+                    action:()=>{
+                        advanceTime(15);
+                        renderScene("pripyatBuilding");
+                    }
+                },
+                {
+                    text:"Искать дорогу к объекту 17",
+                    action:()=>{
+                        game.location="bunker";
+                        renderScene("bunkerEntrance");
+                    }
+                }
+            ]
+        },
+
+        pripyatBuilding:{
+            chapter:"CHAPTER 05 // PRIPYAT",
+            title:"Музыка",
+            location:"pripyat",
+            text:`
+                <p>
+                Внутри старого здания стоит магнитофон.
+                </p>
+
+                <p>
+                Он продолжает работать.
+                </p>
+
+                <p class="system">
+                TRACK: UNKNOWN
+                </p>
+
+                <p>
+                В колонках звучит запись твоего голоса.
+                </p>
+
+                <p class="danger">
+                «Не заходи дальше.»
+                </p>
+            `,
+            choices:[
+                {
+                    text:"Остановить магнитофон",
+                    action:()=>{
+                        game.signal-=20;
+                        renderScene("pripyatSilence");
+                    }
+                },
+                {
+                    text:"Продолжить слушать",
+                    action:()=>{
+                        game.signal+=20;
+                        renderScene("pripyatVoice");
+                    }
+                }
+            ]
+        },
+
+        pripyatSilence:{
+            chapter:"CHAPTER 05 // SILENCE",
+            title:"Тишина",
+            location:"pripyat",
+            text:`
+                <p>
+                Музыка прекращается.
+                </p>
+
+                <p>
+                В тишине слышны шаги на лестнице.
+                </p>
+
+                <p>
+                Они идут сверху вниз.
+                </p>
+            `,
+            choices:[
+                {
+                    text:"Спрятаться",
+                    action:()=>{
+                        renderScene("pripyatShadow");
+                    }
+                },
+                {
+                    text:"Выйти наружу",
+                    action:()=>{
+                        game.location="bunker";
+                        renderScene("bunkerEntrance");
+                    }
+                }
+            ]
+        },
+
+        pripyatVoice:{
+            chapter:"CHAPTER 05 // VOICE",
+            title:"Твой голос",
+            location:"pripyat",
+            text:`
+                <p>
+                Запись продолжается.
+                </p>
+
+                <p>
+                «Ты думаешь, что можешь изменить прошлое.»
+                </p>
+
+                <p>
+                «Но прошлое уже изменило тебя.»
+                </p>
+
+                <p class="danger">
+                «Объект 17 ждёт.»
+                </p>
+            `,
+            choices:[
+                {
+                    text:"Идти к объекту 17",
+                    action:()=>{
+                        game.location="bunker";
+                        renderScene("bunkerEntrance");
+                    }
+                }
+            ]
+        },
+
+        pripyatShadow:{
+            chapter:"CHAPTER 05 // SHADOW",
+            title:"Кто-то рядом",
+            location:"pripyat",
+            text:`
+                <p>
+                Шаги останавливаются.
+                </p>
+
+                <p>
+                Тень появляется на стене.
+                </p>
+
+                <p class="danger">
+                У неё нет человека.
+                </p>
+            `,
+            choices:[
+                {
+                    text:"Бежать",
+                    action:()=>{
+                        game.health-=15;
+                        game.location="bunker";
+                        renderScene("bunkerEntrance");
+                    }
+                }
+            ]
+        }
+
+    };
+
+    const data=scenes[scene];
+
+    if(!data){
+        renderScene("arrival");
+        return;
+    }
+
+    document.getElementById("chapterText").textContent=data.chapter;
+    document.getElementById("sceneTitle").textContent=data.title;
+
+    document.getElementById("storyText").innerHTML=data.text;
+
+    if(data.location){
+        game.location=data.location;
+    }
+
+    const choicesBox=document.getElementById("choices");
+
+    choicesBox.innerHTML="";
+
+    data.choices.forEach((choice)=>{
+
+        if(choice.condition && !choice.condition()){
+            return;
+        }
+
+        const button=document.createElement("button");
+
+        button.className="choice";
+
+        button.innerHTML=choice.text+
+            (choice.hint?`<small>${choice.hint}</small>`:"");
+
+        button.onclick=()=>{
+
+            game.choices++;
+
+            if(Math.random()<.12){
+                randomEvent();
+            }
+
+            if(choice.action){
+                choice.action();
+            }
+
+            updateUI();
+        };
+
+        choicesBox.appendChild(button);
+
+    });
+
+    advanceTime(1);
+
+    updateUI();
+
+}
+
+
+/* =========================================================
+   RANDOM EVENTS
+========================================================= */
+
+function randomEvent(){
+
+    const events=[
+
+        ()=>{
+            game.battery-=4;
+            notify("ФОНАРИК МИГНУЛ");
+        },
+
+        ()=>{
+            game.signal+=4;
+            notify("НЕИЗВЕСТНЫЙ СИГНАЛ +4%");
+        },
+
+        ()=>{
+            game.radiation+=3;
+            notify("ДОЗИМЕТР: ФОНОВЫЙ ВСПЛЕСК");
+        },
+
+        ()=>{
+            notify("ГДЕ-ТО ВДАЛЕКЕ ХЛОПНУЛА ДВЕРЬ");
+        },
+
+        ()=>{
+            game.stamina-=5;
+            notify("ТЫ УСТАЛ");
+        }
+
+    ];
+
+    events[Math.floor(Math.random()*events.length)]();
+}
+
+
+/* =========================================================
+   ENDINGS
+========================================================= */
+
+function ending(type){
+
+    if(game.endings.includes(type)){
+        return;
+    }
+
+    game.endings.push(type);
+
+    let title="";
+    let text="";
+
+    if(type==="loop"){
+
+        title="КОНЦОВКА: ЦИКЛ";
+
+        text=`
+        <p>
+        Ты активируешь передачу.
+        </p>
+
+        <p>
+        Экран заполняется шумом.
+        Затем появляется дата:
+        <strong>26.04.1986</strong>.
+        </p>
+
+        <p>
+        Последнее, что ты слышишь:
+        «Если ты это слышишь — не возвращайся.»
+        </p>
+
+        <p class="danger">
+        Ты понимаешь, что именно ты только что отправил
+        сообщение самому себе.
+        </p>
+
+        <p>
+        Цикл замыкается.
+        </p>
+        `;
+
+    }
+
+    if(type==="escape"){
+
+        title="КОНЦОВКА: ВЫХОД";
+
+        text=`
+        <p>
+        Система отключается.
+        </p>
+
+        <p>
+        Ты выбираешься наружу незадолго до рассвета.
+        </p>
+
+        <p>
+        На границе Зоны телефон снова получает сеть.
+        </p>
+
+        <p class="important">
+        Но последнее сообщение всё ещё находится на экране:
+        </p>
+
+        <p>
+        «НЕ ДУМАЙ, ЧТО ТЫ ВЫШЕЛ ОДИН.»
+        </p>
+
+        <p>
+        Ты удаляешь его.
+        </p>
+
+        <p class="danger">
+        Через секунду сообщение появляется снова.
+        </p>
+        `;
+
+    }
+
+    if(type==="truth"){
+
+        title="КОНЦОВКА: ПРАВДА";
+
+        text=`
+        <p>
+        Ты оставляешь систему работать.
+        </p>
+
+        <p>
+        Никаких взрывов.
+        Никакого света.
+        Просто тишина.
+        </p>
+
+        <p>
+        На экране появляется последняя строка:
+        </p>
+
+        <p class="important">
+        «ЦИКЛ ОСТАНОВЛЕН.»
+        </p>
+
+        <p>
+        Ты выходишь из лаборатории.
+        </p>
+
+        <p class="danger">
+        На поверхности уже рассвет.
+        Но Зона выглядит совсем иначе.
+        </p>
+
+        <p>
+        Возможно, ты впервые действительно изменил историю.
+        </p>
+        `;
+
+    }
+
+    if(type==="death"){
+
+        title="КОНЦОВКА: ПОСЛЕДНИЙ ШАГ";
+
+        text=`
+        <p>
+        Сил больше нет.
+        </p>
+
+        <p>
+        Ты падаешь в темноте.
+        </p>
+
+        <p class="danger">
+        Телефон продолжает работать.
+        </p>
+
+        <p>
+        Последнее сообщение:
+        </p>
+
+        <p class="important">
+        «Сигнал принят.»
+        </p>
+        `;
+
+    }
+
+    if(type==="radiation"){
+
+        title="КОНЦОВКА: ДОЗА";
+
+        text=`
+        <p>
+        Дозиметр перестаёт пищать.
+        </p>
+
+        <p>
+        Вокруг становится тихо.
+        </p>
+
+        <p>
+        Где-то далеко продолжает работать передатчик.
+        </p>
+
+        <p class="danger">
+        Сигнал снова начинает искать нового человека.
+        </p>
+        `;
+
+    }
+
+    document.getElementById("chapterText").textContent="FINAL // END OF TRANSMISSION";
+
+    document.getElementById("sceneTitle").textContent=title;
+
+    document.getElementById("storyText").innerHTML=
+        `<div class="ending">
+            <h2>${title}</h2>
+            ${text}
+            <p class="system">
+            CHOICES MADE: ${game.choices}<br>
+            SIGNAL: ${game.signal}%<br>
+            RADIATION: ${game.radiation}%
+            </p>
+        </div>`;
+
+    document.getElementById("choiceTitle").textContent="TRANSMISSION ENDED";
+
+    document.getElementById("choices").innerHTML=`
+
+        <button class="choice" onclick="startGame()">
+            ↻ НОВАЯ ИГРА
+            <small>Начать историю заново.</small>
+        </button>
+
+        <button class="choice" onclick="returnToMenu()">
+            ← ГЛАВНОЕ МЕНЮ
+            <small>Вернуться на стартовый экран.</small>
+        </button>
+
+    `;
+
+    localStorage.setItem(SAVE_KEY,JSON.stringify(game));
+
+}
+
+
+/* =========================================================
+   MAP
+========================================================= */
+
+function openMap(){
+
+    document.getElementById("mapModal").classList.remove("hidden");
+
+}
+
+function travelTo(location){
+
+    const allowed={
+
+        checkpoint:true,
+
+        village:true,
+
+        station:true,
+
+        forest:true,
+
+        pripyat:game.chapter>=3,
+
+        bunker:game.flags.knowsAboutBunker || game.flags.foundKey
+
+    };
+
+    if(!allowed[location]){
+
+        notify("ЭТА ЛОКАЦИЯ ПОКА НЕДОСТУПНА");
+
+        return;
+    }
+
+    game.location=location;
+
+    closeModal("mapModal");
+
+    switch(location){
+
+        case"checkpoint":
+            renderScene("arrival");
+            break;
+
+        case"village":
+            renderScene("village");
+            break;
+
+        case"station":
+            renderScene("station");
+            break;
+
+        case"forest":
+            renderScene("forest");
+            break;
+
+        case"pripyat":
+            renderScene("pripyatEntrance");
+            break;
+
+        case"bunker":
+            renderScene("bunkerEntrance");
+            break;
+
+    }
+
+}
+
+
+/* =========================================================
+   INVENTORY
+========================================================= */
+
+function openInventory(){
+
+    renderInventory();
+
+    document
+        .getElementById("inventoryModal")
+        .classList.remove("hidden");
+
+}
+
+
+/* =========================================================
+   SAVE SYSTEM
+========================================================= */
+
+function saveGame(){
+
+    document
+        .getElementById("saveModal")
+        .classList.remove("hidden");
+
+}
+
+function performSave(){
+
+    localStorage.setItem(
+        SAVE_KEY,
+        JSON.stringify(game)
+    );
+
+    closeModal("saveModal");
+
+    notify("ПРОГРЕСС СОХРАНЁН");
+
+}
+
+function deleteSave(){
+
+    if(confirm("Удалить локальное сохранение?")){
+
+        localStorage.removeItem(SAVE_KEY);
+
+        closeModal("saveModal");
+
+        notify("СОХРАНЕНИЕ УДАЛЕНО");
+
+    }
+
+}
+
+
+/* =========================================================
+   SYSTEM
+========================================================= */
+
+function openSettings(){
+
+    document
+        .getElementById("settingsModal")
+        .classList.remove("hidden");
+
+}
+
+function openInfo(){
+
+    alert(
+`CHZO: LAST SIGNAL
+
+Фанатский браузерный сюжетный проект.
+
+Игра работает полностью в браузере.
+Аккаунт не требуется.
+Прогресс хранится локально.
+
+Версия: 0.1.0`
+    );
+
+}
+
+function scanSignal(){
+
+    const signals=[
+
+        "103.7 MHz — UNKNOWN SOURCE",
+
+        "87.4 MHz — HUMAN VOICE DETECTED",
+
+        "114.2 MHz — DATA CORRUPTED",
+
+        "103.7 MHz — SIGNAL FROM 1986"
+
+    ];
+
+    const value=
+        signals[Math.floor(Math.random()*signals.length)];
+
+    document.getElementById("pdaSignal").textContent=value;
+
+    game.signal=clamp(game.signal+5,0,100);
+
+    notify("СКАНИРОВАНИЕ ЗАВЕРШЕНО");
+
+    updateUI();
+
+}
+
+
+/* =========================================================
+   MODALS
+========================================================= */
+
+function closeModal(id){
+
+    document
+        .getElementById(id)
+        .classList.add("hidden");
+
+}
+
+function openPDA(){
+
+    document
+        .getElementById("pdaModal")
+        .classList.remove("hidden");
+
+}
+
+
+/* =========================================================
+   KEYBOARD
+========================================================= */
+
+document.addEventListener("keydown",(e)=>{
+
+    if(e.key==="Escape"){
+
+        [
+            "mapModal",
+            "inventoryModal",
+            "saveModal",
+            "settingsModal",
+            "pdaModal"
+        ].forEach(closeModal);
+
+    }
+
+});
+
+
+/* =========================================================
+   AUTO SAVE
+========================================================= */
+
+setInterval(()=>{
+
+    if(game.started){
+
+        localStorage.setItem(
+            SAVE_KEY,
+            JSON.stringify(game)
+        );
+
+    }
+
+},30000);
+
+
+/* =========================================================
+   INITIALIZATION
+========================================================= */
+
+updateUI();
+
+</script>
+
+</body>
+</html>
