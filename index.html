@@ -2,37 +2,27 @@
 <html lang="ru">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>CHZO: Last Signal</title>
+<meta name="viewport"
+      content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
+
+<title>ЧЕРНОБЫЛЬ — ЗОНА ОТЧУЖДЕНИЯ</title>
 
 <style>
-:root{
-    --bg:#050807;
-    --panel:#0b100e;
-    --panel2:#101713;
-    --line:#26352d;
-    --green:#8fcf91;
-    --green2:#4f9d64;
-    --dim:#607267;
-    --danger:#c75d5d;
-    --yellow:#c5ad63;
-    --white:#d7ded8;
-}
-
 *{
     box-sizing:border-box;
+    margin:0;
+    padding:0;
     -webkit-tap-highlight-color:transparent;
 }
 
-html,body{
-    margin:0;
-    min-height:100%;
-    background:#020403;
-    color:var(--white);
-    font-family:Arial,Helvetica,sans-serif;
+html{
+    scroll-behavior:smooth;
 }
 
 body{
+    font-family:Arial,Helvetica,sans-serif;
+    background:#050605;
+    color:#eee;
     overflow-x:hidden;
 }
 
@@ -40,4192 +30,2172 @@ button{
     font:inherit;
 }
 
-.hidden{
-    display:none!important;
+:root{
+    --green:#8cae68;
+    --green2:#607d46;
+    --dark:#050605;
+    --panel:#0c100c;
+    --panel2:#111711;
+    --line:#263026;
+    --red:#8b211b;
+    --yellow:#c3a84a;
 }
 
-/* ---------- BOOT ---------- */
-
-#boot{
-    position:fixed;
-    inset:0;
-    z-index:9999;
-    background:#020403;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    padding:25px;
-}
-
-.boot-box{
-    width:min(700px,100%);
-    color:#8fcf91;
-    font-family:monospace;
-    font-size:13px;
-    line-height:1.7;
-}
-
-.boot-line{
-    opacity:.9;
-}
-
-.boot-progress{
-    height:4px;
-    background:#152019;
-    margin-top:15px;
-    overflow:hidden;
-}
-
-.boot-progress span{
-    display:block;
-    width:0;
-    height:100%;
-    background:#70ad79;
-    animation:boot 3s linear forwards;
-}
-
-@keyframes boot{
-    to{width:100%}
-}
-
-/* ---------- CRT ---------- */
-
-body:after{
-    content:"";
-    position:fixed;
-    inset:0;
-    pointer-events:none;
-    z-index:8000;
-    background:
-        repeating-linear-gradient(
-            to bottom,
-            rgba(255,255,255,.018) 0,
-            rgba(255,255,255,.018) 1px,
-            transparent 1px,
-            transparent 4px
-        );
-    mix-blend-mode:screen;
-    opacity:.35;
-}
+/* ================= BACKGROUND ================= */
 
 body:before{
     content:"";
     position:fixed;
     inset:0;
-    pointer-events:none;
-    z-index:7999;
-    background:radial-gradient(circle at center,transparent 45%,rgba(0,0,0,.65) 100%);
+    z-index:-3;
+
+    background:
+        radial-gradient(
+            circle at 50% 20%,
+            rgba(104,135,73,.16),
+            transparent 38%
+        ),
+        radial-gradient(
+            circle at 10% 80%,
+            rgba(119,90,45,.08),
+            transparent 30%
+        ),
+        #050605;
 }
 
-/* ---------- MENU ---------- */
+body:after{
+    content:"";
+    position:fixed;
+    inset:0;
+    z-index:20;
+    pointer-events:none;
 
-#menu{
-    min-height:100vh;
+    background:
+        repeating-linear-gradient(
+            0deg,
+            rgba(255,255,255,.018) 0px,
+            rgba(255,255,255,.018) 1px,
+            transparent 1px,
+            transparent 4px
+        );
+
+    opacity:.28;
+}
+
+/* ================= HEADER ================= */
+
+.header{
+    position:fixed;
+    top:0;
+    left:0;
+    right:0;
+    z-index:50;
+
+    height:68px;
+
     display:flex;
     align-items:center;
-    justify-content:center;
-    padding:25px;
-    background:
-        radial-gradient(circle at 50% 30%,rgba(59,95,65,.15),transparent 35%),
-        linear-gradient(135deg,#020403,#08100b 50%,#020403);
-}
+    justify-content:space-between;
 
-.menu-card{
-    width:min(700px,100%);
-    text-align:center;
-    border:1px solid #26352d;
-    background:rgba(7,12,9,.92);
-    box-shadow:0 0 70px rgba(74,133,85,.08);
-    padding:35px 22px;
-    position:relative;
-}
+    padding:0 28px;
 
-.warning{
-    font-family:monospace;
-    color:#607267;
-    font-size:11px;
-    letter-spacing:3px;
-    margin-bottom:25px;
+    background:rgba(4,6,4,.88);
+    backdrop-filter:blur(12px);
+
+    border-bottom:1px solid rgba(140,174,104,.16);
 }
 
 .logo{
-    font-family:monospace;
-    color:#9fd59d;
-    font-size:clamp(35px,9vw,72px);
-    letter-spacing:5px;
-    text-shadow:0 0 18px rgba(117,185,125,.22);
-}
-
-.subtitle{
-    color:#78887d;
-    font-family:monospace;
-    letter-spacing:3px;
-    font-size:12px;
-    margin-top:8px;
-}
-
-.menu-line{
-    height:1px;
-    background:#26352d;
-    margin:28px 0;
-}
-
-.menu-buttons{
-    display:grid;
-    gap:10px;
-}
-
-.menu-btn{
-    border:1px solid #33463a;
-    background:#0b120e;
-    color:#a5b9aa;
-    padding:15px;
-    cursor:pointer;
-    text-align:left;
-    transition:.15s;
-}
-
-.menu-btn:hover,
-.menu-btn:active{
-    background:#132018;
-    border-color:#638c6b;
-    color:#d5e0d5;
-}
-
-.menu-btn span{
-    display:block;
-    font-family:monospace;
-    font-size:10px;
-    color:#526359;
-    margin-top:4px;
-}
-
-.menu-footer{
-    margin-top:30px;
-    color:#39463e;
-    font-size:10px;
-    font-family:monospace;
-}
-
-/* ---------- GAME ---------- */
-
-#game{
-    min-height:100vh;
-    max-width:1250px;
-    margin:auto;
-    padding:10px;
-}
-
-.topbar{
-    border:1px solid var(--line);
-    background:#080d0a;
-    min-height:65px;
     display:flex;
     align-items:center;
-    justify-content:space-between;
-    padding:10px 13px;
-    gap:10px;
-    position:sticky;
-    top:0;
-    z-index:100;
-}
+    gap:12px;
 
-.player-name{
-    font-family:monospace;
-    color:#a9c5ae;
-    font-size:13px;
-}
-
-.location{
-    color:#718178;
-    font-family:monospace;
-    font-size:10px;
-    margin-top:4px;
-}
-
-.signal{
-    font-family:monospace;
-    font-size:11px;
-    color:#719879;
-    text-align:right;
-}
-
-.layout{
-    display:grid;
-    grid-template-columns:1fr 290px;
-    gap:10px;
-    margin-top:10px;
-}
-
-.main-panel,
-.side-panel{
-    border:1px solid var(--line);
-    background:#070c09;
-}
-
-.story{
-    min-height:650px;
-    padding:18px;
-}
-
-.chapter{
-    font-family:monospace;
-    font-size:10px;
-    letter-spacing:2px;
-    color:#607267;
-    margin-bottom:15px;
-}
-
-.scene-title{
-    font-family:monospace;
-    color:#a7cda9;
-    font-size:22px;
-    margin-bottom:15px;
-}
-
-.story-text{
-    color:#bdc8bf;
-    line-height:1.75;
     font-size:15px;
+    font-weight:900;
+    letter-spacing:2px;
 }
 
-.story-text p{
-    margin:0 0 15px;
+.logo-icon{
+    width:36px;
+    height:36px;
+
+    border:2px solid var(--green);
+    border-radius:50%;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    color:var(--green);
+    font-size:18px;
+
+    box-shadow:
+        0 0 18px rgba(140,174,104,.12);
 }
 
-.story-text .system{
-    color:#72997b;
-    font-family:monospace;
+.logo span{
+    color:#fff;
+}
+
+.nav{
+    display:flex;
+    gap:22px;
+}
+
+.nav a{
+    color:#a9b0a5;
+    text-decoration:none;
+    font-size:12px;
+    font-weight:bold;
+    text-transform:uppercase;
+    letter-spacing:1px;
+}
+
+.nav a:hover{
+    color:var(--green);
+}
+
+.music-button{
+    border:1px solid var(--line);
+    background:#0b0f0b;
+    color:#b8c2b1;
+
+    padding:9px 13px;
+    border-radius:7px;
+
+    cursor:pointer;
     font-size:12px;
 }
 
-.story-text .danger{
-    color:#c77676;
+.music-button.active{
+    color:var(--green);
+    border-color:var(--green2);
 }
 
-.story-text .important{
-    color:#c5ad63;
-}
+/* ================= HERO ================= */
 
-.choice-title{
-    border-top:1px solid var(--line);
-    margin-top:25px;
-    padding-top:17px;
-    font-family:monospace;
-    font-size:11px;
-    color:#66766d;
-}
+.hero{
+    min-height:100vh;
 
-.choices{
-    display:grid;
-    gap:8px;
-    margin-top:10px;
-}
-
-.choice{
-    border:1px solid #29392f;
-    background:#0b110d;
-    color:#b4c2b6;
-    padding:13px;
-    cursor:pointer;
-    text-align:left;
-}
-
-.choice:hover,
-.choice:active{
-    background:#111c15;
-    border-color:#608168;
-}
-
-.choice small{
-    display:block;
-    margin-top:5px;
-    color:#536159;
-    font-family:monospace;
-    font-size:9px;
-}
-
-/* ---------- SIDE ---------- */
-
-.side-panel{
-    padding:12px;
-}
-
-.panel-title{
-    font-family:monospace;
-    color:#77927e;
-    font-size:10px;
-    letter-spacing:2px;
-    padding-bottom:10px;
-    border-bottom:1px solid var(--line);
-    margin-bottom:12px;
-}
-
-.stat{
-    margin-bottom:13px;
-}
-
-.stat-head{
     display:flex;
-    justify-content:space-between;
-    font-family:monospace;
-    font-size:10px;
-    color:#78867d;
-    margin-bottom:5px;
+    align-items:center;
+
+    position:relative;
+    overflow:hidden;
+
+    padding:120px 7% 80px;
 }
 
-.bar{
-    height:7px;
-    background:#131b16;
-    border:1px solid #253229;
+.hero-bg{
+    position:absolute;
+    inset:0;
+    z-index:-2;
+
+    background:
+        linear-gradient(
+            90deg,
+            rgba(3,5,3,.98) 0%,
+            rgba(3,5,3,.83) 42%,
+            rgba(3,5,3,.28) 75%,
+            rgba(3,5,3,.75) 100%
+        ),
+        radial-gradient(
+            ellipse at 72% 48%,
+            rgba(103,128,70,.28),
+            transparent 38%
+        ),
+        linear-gradient(
+            180deg,
+            #0c120c,
+            #030403
+        );
 }
 
-.bar i{
+.hero-grid{
+    position:absolute;
+    inset:0;
+    z-index:-1;
+
+    opacity:.12;
+
+    background-image:
+        linear-gradient(rgba(140,174,104,.25) 1px,transparent 1px),
+        linear-gradient(90deg,rgba(140,174,104,.25) 1px,transparent 1px);
+
+    background-size:55px 55px;
+
+    transform:perspective(500px) rotateX(55deg) scale(1.7);
+    transform-origin:center bottom;
+}
+
+.hero-content{
+    max-width:720px;
+}
+
+.warning{
+    display:inline-flex;
+    align-items:center;
+    gap:9px;
+
+    color:var(--yellow);
+
+    font-size:11px;
+    font-weight:bold;
+    letter-spacing:2px;
+    text-transform:uppercase;
+
+    margin-bottom:18px;
+}
+
+.warning-icon{
+    font-size:20px;
+}
+
+.hero h1{
+    font-size:clamp(42px,7vw,88px);
+    line-height:.9;
+    text-transform:uppercase;
+    letter-spacing:-3px;
+
+    text-shadow:
+        0 0 35px rgba(0,0,0,.8);
+
+    margin-bottom:22px;
+}
+
+.hero h1 span{
     display:block;
-    height:100%;
-    width:50%;
-    background:#648c6b;
-    transition:.3s;
+    color:var(--green);
+
+    font-size:.45em;
+    letter-spacing:5px;
+    margin-top:14px;
 }
 
-#healthBar{background:#6e9b72}
-#radiationBar{background:#a99356}
-#staminaBar{background:#607f91}
-#batteryBar{background:#777e57}
+.hero-text{
+    max-width:650px;
 
-.info-box{
-    border:1px solid #202d26;
-    background:#080e0b;
-    padding:10px;
+    color:#aab0a7;
+    line-height:1.7;
+    font-size:15px;
+
+    margin-bottom:28px;
+}
+
+.hero-buttons{
+    display:flex;
+    flex-wrap:wrap;
+    gap:12px;
+}
+
+.btn{
+    border:1px solid var(--green2);
+    background:rgba(96,125,70,.16);
+
+    color:#dce4d8;
+
+    padding:13px 20px;
+    border-radius:6px;
+
+    text-decoration:none;
+
+    font-size:12px;
+    font-weight:bold;
+    letter-spacing:1px;
+    text-transform:uppercase;
+
+    cursor:pointer;
+}
+
+.btn:hover{
+    background:rgba(140,174,104,.25);
+}
+
+.btn.dark{
+    background:#0b0e0b;
+    border-color:#292f29;
+}
+
+.hero-info{
+    display:flex;
+    flex-wrap:wrap;
+    gap:24px;
+
+    margin-top:38px;
+
+    color:#687067;
+    font-size:10px;
+    text-transform:uppercase;
+    letter-spacing:1.5px;
+}
+
+/* ================= SECTION ================= */
+
+section{
+    padding:90px 7%;
+}
+
+.section-title{
+    margin-bottom:35px;
+}
+
+.section-label{
+    color:var(--green);
+
+    font-size:10px;
+    font-weight:bold;
+    letter-spacing:3px;
+    text-transform:uppercase;
+
     margin-bottom:10px;
 }
 
-.info-label{
-    color:#4d5b53;
-    font-family:monospace;
-    font-size:9px;
-    margin-bottom:5px;
+.section-title h2{
+    font-size:36px;
+    text-transform:uppercase;
+    letter-spacing:-1px;
 }
 
-.info-value{
-    color:#a2b3a5;
-    font-size:12px;
+.section-title p{
+    color:#747d73;
+    margin-top:10px;
+    max-width:650px;
+    line-height:1.6;
 }
 
-.inventory{
+/* ================= STORY ================= */
+
+.story{
+    background:
+        linear-gradient(
+            180deg,
+            #070a07,
+            #090d09
+        );
+
+    border-top:1px solid #151b15;
+    border-bottom:1px solid #151b15;
+}
+
+.story-grid{
     display:grid;
     grid-template-columns:1fr 1fr;
-    gap:5px;
+    gap:20px;
 }
 
-.item{
-    border:1px solid #202d26;
-    background:#0a100d;
-    padding:8px;
-    font-size:10px;
-    color:#8fa193;
-    min-height:45px;
-}
+.story-card{
+    background:#0c110c;
+    border:1px solid var(--line);
 
-.item.empty{
-    opacity:.25;
-}
+    border-radius:10px;
+    padding:25px;
 
-.action-buttons{
-    display:grid;
-    gap:6px;
-    margin-top:12px;
-}
-
-.action-btn{
-    background:#0b110e;
-    border:1px solid #29392f;
-    color:#819487;
-    padding:10px;
-    cursor:pointer;
-    font-family:monospace;
-    font-size:10px;
-}
-
-.action-btn:hover{
-    border-color:#5d8064;
-    color:#afc2b2;
-}
-
-/* ---------- PDA ---------- */
-
-#pdaModal,
-#mapModal,
-#inventoryModal,
-#saveModal,
-#settingsModal{
-    position:fixed;
-    inset:0;
-    background:rgba(0,0,0,.8);
-    z-index:7000;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    padding:15px;
-}
-
-.modal{
-    width:min(850px,100%);
-    max-height:90vh;
-    overflow:auto;
-    border:1px solid #405346;
-    background:#070c09;
-    box-shadow:0 0 50px rgba(0,0,0,.8);
-}
-
-.modal-head{
-    padding:14px;
-    border-bottom:1px solid var(--line);
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-}
-
-.modal-title{
-    color:#9ebda3;
-    font-family:monospace;
-    letter-spacing:2px;
-    font-size:12px;
-}
-
-.close{
-    background:none;
-    border:0;
-    color:#69766e;
-    font-size:20px;
-    cursor:pointer;
-}
-
-.modal-body{
-    padding:15px;
-}
-
-/* ---------- MAP ---------- */
-
-.map{
-    height:450px;
     position:relative;
     overflow:hidden;
-    border:1px solid #27372e;
-    background:
-        linear-gradient(90deg,rgba(100,130,105,.05) 1px,transparent 1px),
-        linear-gradient(rgba(100,130,105,.05) 1px,transparent 1px),
-        #07100b;
-    background-size:35px 35px;
 }
 
-.road{
+.story-card:before{
+    content:"";
+
     position:absolute;
-    height:2px;
-    background:#273b2d;
-    transform-origin:left;
+    left:0;
+    top:0;
+    bottom:0;
+
+    width:3px;
+
+    background:var(--green);
 }
 
-.zone{
-    position:absolute;
-    width:100px;
-    height:65px;
-    border:1px solid #415c47;
-    background:rgba(23,42,27,.6);
-    color:#839a88;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    text-align:center;
-    font:10px monospace;
-    cursor:pointer;
+.story-card h3{
+    margin-bottom:13px;
+
+    font-size:18px;
+    text-transform:uppercase;
 }
 
-.zone:hover{
-    background:#19301f;
-    color:#b0cbb4;
-}
-
-.marker{
-    position:absolute;
-    width:9px;
-    height:9px;
-    background:#9dcf9d;
-    border-radius:50%;
-    box-shadow:0 0 12px #83bb88;
-}
-
-.map-note{
-    color:#5c6d62;
-    font:10px monospace;
-    margin-top:10px;
-}
-
-/* ---------- NOTIFICATION ---------- */
-
-#notification{
-    position:fixed;
-    left:50%;
-    bottom:25px;
-    transform:translateX(-50%) translateY(100px);
-    background:#0a120d;
-    border:1px solid #4b684f;
-    color:#a8bea9;
-    padding:12px 16px;
-    font:11px monospace;
-    z-index:9000;
-    opacity:0;
-    transition:.3s;
-    width:min(450px,90%);
-    text-align:center;
-}
-
-#notification.show{
-    opacity:1;
-    transform:translateX(-50%) translateY(0);
-}
-
-/* ---------- MOBILE ---------- */
-
-@media(max-width:800px){
-    #game{
-        padding:6px;
-    }
-
-    .layout{
-        grid-template-columns:1fr;
-    }
-
-    .side-panel{
-        order:-1;
-    }
-
-    .story{
-        min-height:520px;
-        padding:15px;
-    }
-
-    .scene-title{
-        font-size:19px;
-    }
-
-    .story-text{
-        font-size:14px;
-    }
-
-    .side-panel{
-        display:grid;
-        grid-template-columns:1fr 1fr;
-        gap:8px;
-    }
-
-    .side-panel>.panel-title{
-        grid-column:1/-1;
-    }
-
-    .side-panel>.info-box{
-        margin:0;
-    }
-
-    .stats-wrap{
-        grid-column:1/-1;
-    }
-
-    .inventory-wrap{
-        grid-column:1/-1;
-    }
-
-    .action-buttons{
-        grid-column:1/-1;
-        grid-template-columns:1fr 1fr;
-    }
-
-    .map{
-        height:400px;
-    }
-}
-
-@media(max-width:450px){
-    .topbar{
-        align-items:flex-start;
-    }
-
-    .signal{
-        font-size:9px;
-    }
-
-    .side-panel{
-        display:block;
-    }
-
-    .side-panel>*{
-        margin-bottom:8px!important;
-    }
-
-    .inventory{
-        grid-template-columns:1fr 1fr 1fr;
-    }
-
-    .map{
-        height:350px;
-    }
-
-    .menu-card{
-        padding:28px 16px;
-    }
-}
-
-/* ---------- ENDINGS ---------- */
-
-.ending{
-    border:1px solid #4c5e50;
-    padding:18px;
-    background:#0b120d;
-    margin-top:20px;
-}
-
-.ending h2{
-    font-family:monospace;
-    color:#b1cbb4;
-}
-
-.ending p{
-    color:#9caaa0;
+.story-card p{
+    color:#899187;
+    font-size:14px;
     line-height:1.7;
 }
 
+/* ================= SEASONS ================= */
+
+.seasons{
+    background:#050705;
+}
+
+.season-tabs{
+    display:flex;
+    gap:8px;
+
+    overflow-x:auto;
+    padding-bottom:12px;
+
+    margin-bottom:28px;
+}
+
+.season-tabs::-webkit-scrollbar{
+    display:none;
+}
+
+.season-tab{
+    flex:0 0 auto;
+
+    padding:11px 17px;
+
+    border:1px solid #222a22;
+    background:#0a0e0a;
+
+    color:#727b71;
+
+    border-radius:6px;
+
+    cursor:pointer;
+
+    font-size:11px;
+    font-weight:bold;
+    text-transform:uppercase;
+    letter-spacing:1px;
+}
+
+.season-tab.active{
+    color:#dce8d5;
+    border-color:var(--green2);
+    background:#131a12;
+}
+
+.season{
+    display:none;
+}
+
+.season.active{
+    display:block;
+}
+
+.season-head{
+    display:flex;
+    align-items:end;
+    justify-content:space-between;
+    gap:20px;
+
+    margin-bottom:22px;
+}
+
+.season-head h3{
+    font-size:27px;
+    text-transform:uppercase;
+}
+
+.season-head span{
+    color:#5f685d;
+    font-size:11px;
+}
+
+.episodes{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:12px;
+}
+
+.episode{
+    background:#0b100b;
+    border:1px solid #1d261d;
+
+    border-radius:9px;
+    padding:20px;
+
+    cursor:pointer;
+
+    transition:.2s;
+}
+
+.episode:hover{
+    transform:translateY(-2px);
+    border-color:#3d4d3a;
+    background:#0f150f;
+}
+
+.episode-number{
+    color:var(--green);
+
+    font-size:10px;
+    font-weight:bold;
+    letter-spacing:2px;
+
+    margin-bottom:9px;
+}
+
+.episode h4{
+    font-size:16px;
+    margin-bottom:9px;
+}
+
+.episode p{
+    color:#777f76;
+    font-size:13px;
+    line-height:1.6;
+}
+
+.episode-more{
+    margin-top:13px;
+
+    color:#9aaa91;
+    font-size:10px;
+    font-weight:bold;
+    text-transform:uppercase;
+    letter-spacing:1px;
+}
+
+/* ================= KOSTENKO ================= */
+
+.kostenko{
+    position:relative;
+    overflow:hidden;
+
+    background:
+        radial-gradient(
+            circle at 80% 40%,
+            rgba(126,45,33,.17),
+            transparent 34%
+        ),
+        #070807;
+
+    border-top:1px solid #241916;
+    border-bottom:1px solid #241916;
+}
+
+.kostenko-grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+
+    gap:35px;
+    align-items:center;
+}
+
+.kostenko-image{
+    min-height:480px;
+
+    border:1px solid #332321;
+    border-radius:12px;
+
+    display:flex;
+    align-items:end;
+
+    padding:30px;
+
+    background:
+        linear-gradient(
+            180deg,
+            transparent 25%,
+            rgba(0,0,0,.95)
+        ),
+        radial-gradient(
+            ellipse at 50% 28%,
+            rgba(155,118,84,.2),
+            transparent 28%
+        ),
+        linear-gradient(
+            140deg,
+            #1b1714,
+            #080908 60%
+        );
+
+    position:relative;
+}
+
+.kostenko-image:after{
+    content:"КГБ / 1986";
+
+    position:absolute;
+    top:22px;
+    right:22px;
+
+    color:#a35b4e;
+
+    font-size:10px;
+    letter-spacing:2px;
+}
+
+.kostenko-name{
+    font-size:45px;
+    text-transform:uppercase;
+    font-weight:900;
+    letter-spacing:-2px;
+}
+
+.kostenko-name span{
+    display:block;
+
+    color:#8f332b;
+
+    font-size:12px;
+    letter-spacing:3px;
+
+    margin-top:8px;
+}
+
+.kostenko-info .section-label{
+    color:#a74b41;
+}
+
+.kostenko-info h2{
+    font-size:42px;
+    text-transform:uppercase;
+
+    margin-bottom:18px;
+}
+
+.kostenko-info p{
+    color:#858b84;
+    font-size:14px;
+    line-height:1.8;
+
+    margin-bottom:18px;
+}
+
+.kostenko-facts{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+
+    gap:9px;
+
+    margin-top:25px;
+}
+
+.fact{
+    background:#0e100e;
+    border:1px solid #272322;
+
+    border-radius:7px;
+    padding:14px;
+}
+
+.fact small{
+    display:block;
+
+    color:#626861;
+
+    font-size:9px;
+    text-transform:uppercase;
+    letter-spacing:1px;
+
+    margin-bottom:5px;
+}
+
+.fact strong{
+    color:#c6cbc3;
+    font-size:12px;
+}
+
+/* ================= CHARACTERS ================= */
+
+.characters{
+    background:#080b08;
+}
+
+.characters-grid{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:13px;
+}
+
+.character{
+    min-height:190px;
+
+    background:#0c110c;
+    border:1px solid #202820;
+
+    border-radius:10px;
+    padding:22px;
+
+    position:relative;
+    overflow:hidden;
+}
+
+.character:after{
+    content:"";
+
+    position:absolute;
+    right:-35px;
+    bottom:-50px;
+
+    width:120px;
+    height:120px;
+
+    border-radius:50%;
+
+    background:rgba(140,174,104,.06);
+}
+
+.character-role{
+    color:#65725f;
+
+    font-size:9px;
+    font-weight:bold;
+    letter-spacing:2px;
+    text-transform:uppercase;
+
+    margin-bottom:9px;
+}
+
+.character h3{
+    font-size:20px;
+    margin-bottom:8px;
+}
+
+.character p{
+    color:#7c8579;
+
+    font-size:12px;
+    line-height:1.6;
+}
+
+/* ================= TIMELINE ================= */
+
+.timeline{
+    background:#050605;
+}
+
+.timeline-list{
+    max-width:900px;
+    margin:auto;
+
+    position:relative;
+}
+
+.timeline-list:before{
+    content:"";
+
+    position:absolute;
+    left:13px;
+    top:0;
+    bottom:0;
+
+    width:1px;
+
+    background:#293329;
+}
+
+.time-item{
+    position:relative;
+
+    padding-left:50px;
+    padding-bottom:30px;
+}
+
+.time-dot{
+    position:absolute;
+    left:7px;
+    top:3px;
+
+    width:13px;
+    height:13px;
+
+    border-radius:50%;
+
+    background:#101610;
+    border:2px solid var(--green);
+}
+
+.time-item h3{
+    font-size:15px;
+    margin-bottom:7px;
+}
+
+.time-item p{
+    color:#777f75;
+    font-size:13px;
+    line-height:1.7;
+}
+
+/* ================= ZONE ================= */
+
+.zone{
+    min-height:440px;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    text-align:center;
+
+    background:
+        radial-gradient(
+            circle,
+            rgba(118,150,75,.16),
+            transparent 40%
+        ),
+        #060806;
+
+    border-top:1px solid #172017;
+}
+
+.zone-content{
+    max-width:700px;
+}
+
+.zone-symbol{
+    font-size:70px;
+    margin-bottom:18px;
+
+    filter:
+        grayscale(1)
+        brightness(.8);
+}
+
+.zone h2{
+    font-size:48px;
+    text-transform:uppercase;
+    letter-spacing:-2px;
+
+    margin-bottom:15px;
+}
+
+.zone p{
+    color:#7d857b;
+    line-height:1.8;
+}
+
+/* ================= FOOTER ================= */
+
+footer{
+    padding:35px 7%;
+
+    background:#030403;
+
+    border-top:1px solid #171d17;
+
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+
+    gap:20px;
+}
+
+footer strong{
+    font-size:12px;
+    letter-spacing:2px;
+}
+
+footer span{
+    color:#555d54;
+    font-size:10px;
+}
+
+/* ================= MODAL ================= */
+
+.modal{
+    position:fixed;
+    inset:0;
+
+    z-index:100;
+
+    display:none;
+    align-items:center;
+    justify-content:center;
+
+    padding:20px;
+
+    background:rgba(0,0,0,.82);
+    backdrop-filter:blur(7px);
+}
+
+.modal.open{
+    display:flex;
+}
+
+.modal-box{
+    width:100%;
+    max-width:700px;
+
+    max-height:85vh;
+    overflow:auto;
+
+    background:#0c100c;
+    border:1px solid #303b2e;
+
+    border-radius:12px;
+
+    padding:27px;
+
+    box-shadow:
+        0 20px 80px rgba(0,0,0,.7);
+}
+
+.modal-top{
+    display:flex;
+    align-items:start;
+    justify-content:space-between;
+
+    gap:15px;
+
+    margin-bottom:20px;
+}
+
+.modal-number{
+    color:var(--green);
+
+    font-size:10px;
+    letter-spacing:2px;
+    font-weight:bold;
+    text-transform:uppercase;
+
+    margin-bottom:8px;
+}
+
+.modal-box h2{
+    font-size:25px;
+    text-transform:uppercase;
+}
+
+.close{
+    width:34px;
+    height:34px;
+
+    border:1px solid #2c342c;
+    background:#101510;
+
+    color:#aaa;
+
+    border-radius:6px;
+
+    cursor:pointer;
+}
+
+.modal-box p{
+    color:#858d82;
+    font-size:14px;
+    line-height:1.8;
+}
+
+/* ================= RESPONSIVE ================= */
+
+@media(max-width:850px){
+
+    .header{
+        padding:0 15px;
+    }
+
+    .nav{
+        display:none;
+    }
+
+    .hero{
+        padding:110px 20px 60px;
+    }
+
+    .hero h1{
+        font-size:50px;
+    }
+
+    section{
+        padding:65px 20px;
+    }
+
+    .story-grid,
+    .kostenko-grid{
+        grid-template-columns:1fr;
+    }
+
+    .episodes{
+        grid-template-columns:1fr;
+    }
+
+    .characters-grid{
+        grid-template-columns:1fr 1fr;
+    }
+
+    .kostenko-image{
+        min-height:330px;
+    }
+
+    .kostenko-info h2{
+        font-size:34px;
+    }
+
+    .zone h2{
+        font-size:36px;
+    }
+
+    footer{
+        flex-direction:column;
+        align-items:flex-start;
+    }
+}
+
+@media(max-width:520px){
+
+    .logo{
+        font-size:11px;
+    }
+
+    .logo-icon{
+        width:32px;
+        height:32px;
+    }
+
+    .music-button{
+        padding:8px 10px;
+    }
+
+    .hero h1{
+        font-size:42px;
+    }
+
+    .hero h1 span{
+        font-size:10px;
+        letter-spacing:3px;
+    }
+
+    .hero-text{
+        font-size:13px;
+    }
+
+    .section-title h2{
+        font-size:28px;
+    }
+
+    .characters-grid{
+        grid-template-columns:1fr;
+    }
+
+    .kostenko-facts{
+        grid-template-columns:1fr;
+    }
+}
 </style>
 </head>
 
 <body>
 
-<!-- ================= BOOT ================= -->
+<!-- ================= MUSIC ================= -->
 
-<div id="boot">
-    <div class="boot-box">
-        <div class="boot-line">CHERNOBYL ZONE MONITORING SYSTEM</div>
-        <div class="boot-line">--------------------------------</div>
-        <div class="boot-line">INITIALIZING PDA...</div>
-        <div class="boot-line">RADIO MODULE ............ OK</div>
-        <div class="boot-line">GPS ..................... ERROR</div>
-        <div class="boot-line">ZONE DATABASE ........... OFFLINE</div>
-        <div class="boot-line">UNKNOWN SIGNAL .......... DETECTED</div>
-        <div class="boot-line">--------------------------------</div>
-        <div class="boot-line">WARNING: UNAUTHORIZED SIGNAL</div>
-        <div class="boot-progress"><span></span></div>
+<audio id="music" loop preload="auto">
+    <source src="music.mp3" type="audio/mpeg">
+</audio>
+
+<!-- ================= HEADER ================= -->
+
+<header class="header">
+
+    <div class="logo">
+        <div class="logo-icon">☢</div>
+        <div>
+            ЧЕРНОБЫЛЬ
+            <span>ЗОНА ОТЧУЖДЕНИЯ</span>
+        </div>
     </div>
-</div>
 
-<!-- ================= MENU ================= -->
+    <nav class="nav">
+        <a href="#story">История</a>
+        <a href="#seasons">Сезоны</a>
+        <a href="#characters">Персонажи</a>
+        <a href="#kostenko">Костенко</a>
+    </nav>
 
-<section id="menu">
+    <button class="music-button" id="musicButton">
+        ♪ Музыка
+    </button>
 
-    <div class="menu-card">
+</header>
+
+
+<!-- ================= HERO ================= -->
+
+<section class="hero">
+
+    <div class="hero-bg"></div>
+    <div class="hero-grid"></div>
+
+    <div class="hero-content">
 
         <div class="warning">
-            RESTRICTED AREA // PRIVATE ARCHIVE // 2014
+            <span class="warning-icon">☢</span>
+            Зона отчуждения
         </div>
 
-        <div class="logo">CHZO</div>
+        <h1>
+            ЧЕРНОБЫЛЬ
+            <span>ЗОНА ОТЧУЖДЕНИЯ</span>
+        </h1>
 
-        <div class="subtitle">
-            LAST SIGNAL
-        </div>
+        <p class="hero-text">
+            История Паши Вершинина и его друзей.
+            Погоня за украденными деньгами приводит их
+            в Припять, где обычное путешествие превращается
+            в борьбу со временем, прошлым и самой Зоной.
+        </p>
 
-        <div class="menu-line"></div>
+        <div class="hero-buttons">
 
-        <div class="menu-buttons">
+            <a href="#seasons" class="btn">
+                Смотреть сезоны
+            </a>
 
-            <button class="menu-btn" onclick="startGame()">
-                ▶ NEW GAME
-                <span>BEGIN A NEW JOURNEY</span>
-            </button>
-
-            <button class="menu-btn" onclick="continueGame()">
-                ↳ CONTINUE
-                <span>LOAD LOCAL PROGRESS</span>
-            </button>
-
-            <button class="menu-btn" onclick="openInfo()">
-                ? ARCHIVE
-                <span>ABOUT THE PROJECT</span>
-            </button>
+            <a href="#kostenko" class="btn dark">
+                История Костенко
+            </a>
 
         </div>
 
-        <div class="menu-footer">
-            CHZO: LAST SIGNAL // FAN-MADE STORY PROJECT<br>
-            NO NETWORK ACCOUNT REQUIRED
+        <div class="hero-info">
+            <span>2014 — 2019</span>
+            <span>2 сезона + финал</span>
+            <span>Припять</span>
+            <span>26.04.1986</span>
         </div>
 
     </div>
 
 </section>
 
-<!-- ================= GAME ================= -->
 
-<section id="game" class="hidden">
+<!-- ================= STORY ================= -->
 
-    <div class="topbar">
+<section class="story" id="story">
 
-        <div>
-            <div class="player-name">
-                SUBJECT 07
-            </div>
-            <div class="location" id="locationText">
-                UNKNOWN LOCATION
-            </div>
+    <div class="section-title">
+
+        <div class="section-label">
+            Начало истории
         </div>
 
-        <div class="signal">
-            SIGNAL<br>
-            <span id="signalText">---</span>
-        </div>
+        <h2>Как всё началось</h2>
+
+        <p>
+            Пять друзей оказываются втянуты в события,
+            которые выходят далеко за пределы обычной
+            погони за преступником.
+        </p>
 
     </div>
 
-    <div class="layout">
+    <div class="story-grid">
 
-        <main class="main-panel">
+        <div class="story-card">
 
-            <div class="story">
+            <h3>Восемь миллионов</h3>
 
-                <div class="chapter" id="chapterText">
-                    CHAPTER 01 // ARRIVAL
-                </div>
-
-                <div class="scene-title" id="sceneTitle">
-                    Последний сигнал
-                </div>
-
-                <div class="story-text" id="storyText">
-                </div>
-
-                <div class="choice-title" id="choiceTitle">
-                    ВЫБЕРИТЕ ДЕЙСТВИЕ
-                </div>
-
-                <div class="choices" id="choices">
-                </div>
-
-            </div>
-
-        </main>
-
-        <aside class="side-panel">
-
-            <div class="panel-title">
-                STATUS // SUBJECT 07
-            </div>
-
-            <div class="stats-wrap">
-
-                <div class="stat">
-                    <div class="stat-head">
-                        <span>HEALTH</span>
-                        <span id="healthValue">100%</span>
-                    </div>
-                    <div class="bar">
-                        <i id="healthBar"></i>
-                    </div>
-                </div>
-
-                <div class="stat">
-                    <div class="stat-head">
-                        <span>RADIATION</span>
-                        <span id="radiationValue">0%</span>
-                    </div>
-                    <div class="bar">
-                        <i id="radiationBar"></i>
-                    </div>
-                </div>
-
-                <div class="stat">
-                    <div class="stat-head">
-                        <span>STAMINA</span>
-                        <span id="staminaValue">100%</span>
-                    </div>
-                    <div class="bar">
-                        <i id="staminaBar"></i>
-                    </div>
-                </div>
-
-                <div class="stat">
-                    <div class="stat-head">
-                        <span>FLASHLIGHT</span>
-                        <span id="batteryValue">100%</span>
-                    </div>
-                    <div class="bar">
-                        <i id="batteryBar"></i>
-                    </div>
-                </div>
-
-            </div>
-
-            <div class="info-box">
-                <div class="info-label">TIME</div>
-                <div class="info-value" id="timeValue">21:42</div>
-            </div>
-
-            <div class="info-box">
-                <div class="info-label">WEATHER</div>
-                <div class="info-value" id="weatherValue">
-                    холодный дождь
-                </div>
-            </div>
-
-            <div class="inventory-wrap">
-
-                <div class="panel-title">
-                    INVENTORY
-                </div>
-
-                <div class="inventory" id="inventory">
-                </div>
-
-            </div>
-
-            <div class="action-buttons">
-
-                <button class="action-btn" onclick="openMap()">
-                    MAP
-                </button>
-
-                <button class="action-btn" onclick="openInventory()">
-                    INVENTORY
-                </button>
-
-                <button class="action-btn" onclick="saveGame()">
-                    SAVE
-                </button>
-
-                <button class="action-btn" onclick="openSettings()">
-                    SYSTEM
-                </button>
-
-            </div>
-
-        </aside>
-
-    </div>
-
-</section>
-
-<!-- ================= MAP ================= -->
-
-<div id="mapModal" class="hidden">
-
-    <div class="modal">
-
-        <div class="modal-head">
-            <div class="modal-title">ZONE MAP // 1986-2014</div>
-            <button class="close" onclick="closeModal('mapModal')">×</button>
-        </div>
-
-        <div class="modal-body">
-
-            <div class="map">
-
-                <div class="road" style="width:390px;left:90px;top:100px;transform:rotate(17deg)"></div>
-                <div class="road" style="width:300px;left:280px;top:310px;transform:rotate(-18deg)"></div>
-                <div class="road" style="width:250px;left:160px;top:200px;transform:rotate(75deg)"></div>
-
-                <div class="zone" style="left:5%;top:8%" onclick="travelTo('checkpoint')">
-                    КОНТРОЛЬНЫЙ<br>ПУНКТ
-                </div>
-
-                <div class="zone" style="left:38%;top:15%" onclick="travelTo('village')">
-                    СТАРАЯ<br>ДЕРЕВНЯ
-                </div>
-
-                <div class="zone" style="left:68%;top:28%" onclick="travelTo('forest')">
-                    ЧЁРНЫЙ<br>ЛЕС
-                </div>
-
-                <div class="zone" style="left:23%;top:55%" onclick="travelTo('station')">
-                    СТАРАЯ<br>СТАНЦИЯ
-                </div>
-
-                <div class="zone" style="left:67%;top:67%" onclick="travelTo('pripyat')">
-                    ПРИПЯТЬ
-                </div>
-
-                <div class="zone" style="left:38%;top:78%" onclick="travelTo('bunker')">
-                    ПОДЗЕМНЫЙ<br>ОБЪЕКТ
-                </div>
-
-                <div class="marker" style="left:49%;top:46%"></div>
-
-            </div>
-
-            <div class="map-note">
-                Некоторые территории недоступны. Для их открытия необходимо продвигаться по сюжету.
-            </div>
-
-        </div>
-
-    </div>
-
-</div>
-
-<!-- ================= INVENTORY MODAL ================= -->
-
-<div id="inventoryModal" class="hidden">
-
-    <div class="modal">
-
-        <div class="modal-head">
-            <div class="modal-title">PERSONAL INVENTORY</div>
-            <button class="close" onclick="closeModal('inventoryModal')">×</button>
-        </div>
-
-        <div class="modal-body">
-
-            <div id="bigInventory"></div>
-
-        </div>
-
-    </div>
-
-</div>
-
-<!-- ================= SAVE MODAL ================= -->
-
-<div id="saveModal" class="hidden">
-
-    <div class="modal">
-
-        <div class="modal-head">
-            <div class="modal-title">LOCAL STORAGE</div>
-            <button class="close" onclick="closeModal('saveModal')">×</button>
-        </div>
-
-        <div class="modal-body">
-
-            <p style="color:#84948a;font:12px monospace;line-height:1.6">
-                Прогресс хранится только на этом устройстве в браузере.
-                Никаких аккаунтов или серверов не требуется.
+            <p>
+                Пока родители Паши находятся в отпуске,
+                в его квартире проходит вечеринка.
+                Утром выясняется, что из сейфа исчезли
+                большие деньги. Вор оказывается связан
+                с загадочной поездкой в сторону Чернобыля.
             </p>
 
-            <button class="action-btn" onclick="performSave()">
-                SAVE CURRENT PROGRESS
-            </button>
+        </div>
 
-            <button class="action-btn" onclick="deleteSave()">
-                DELETE LOCAL SAVE
-            </button>
+        <div class="story-card">
+
+            <h3>Погоня за Зоной</h3>
+
+            <p>
+                Паша, Лёша, Настя, Аня и Гоша отправляются
+                вслед за преступником. Дорога приводит
+                их в Припять, где герои сталкиваются
+                с событиями, которые невозможно объяснить
+                обычной логикой.
+            </p>
+
+        </div>
+
+        <div class="story-card">
+
+            <h3>Машина времени</h3>
+
+            <p>
+                Постепенно становится понятно, что
+                история связана не только с Чернобылем,
+                но и с возможностью перемещаться во времени.
+                Прошлое оказывается гораздо ближе, чем
+                кажется.
+            </p>
+
+        </div>
+
+        <div class="story-card">
+
+            <h3>Костенко</h3>
+
+            <p>
+                Сергей Костенко оказывается человеком,
+                который долгие годы пытался изменить
+                события 1986 года. Его собственная история
+                становится одной из главных загадок Зоны.
+            </p>
 
         </div>
 
     </div>
 
-</div>
+</section>
 
-<!-- ================= SETTINGS ================= -->
 
-<div id="settingsModal" class="hidden">
+<!-- ================= SEASONS ================= -->
 
-    <div class="modal">
+<section class="seasons" id="seasons">
 
-        <div class="modal-head">
-            <div class="modal-title">SYSTEM</div>
-            <button class="close" onclick="closeModal('settingsModal')">×</button>
+    <div class="section-title">
+
+        <div class="section-label">
+            Хронология
         </div>
 
-        <div class="modal-body">
+        <h2>Все сезоны</h2>
 
-            <div class="info-box">
-                <div class="info-label">PROJECT</div>
-                <div class="info-value">CHZO: Last Signal</div>
+        <p>
+            Выбери сезон и открой описание каждой серии.
+        </p>
+
+    </div>
+
+
+    <div class="season-tabs">
+
+        <button class="season-tab active" data-season="season1">
+            Сезон 1
+        </button>
+
+        <button class="season-tab" data-season="season2">
+            Сезон 2
+        </button>
+
+        <button class="season-tab" data-season="final">
+            Финал
+        </button>
+
+    </div>
+
+
+    <!-- ================= SEASON 1 ================= -->
+
+    <div class="season active" id="season1">
+
+        <div class="season-head">
+            <div>
+                <div class="section-label">2014</div>
+                <h3>Первый сезон</h3>
             </div>
 
-            <div class="info-box">
-                <div class="info-label">ENGINE</div>
-                <div class="info-value">HTML / CSS / JavaScript</div>
+            <span>8 серий</span>
+        </div>
+
+        <div class="episodes">
+
+            <div class="episode"
+                 data-title="Сон, деньги и Чернобыль"
+                 data-text="После вечеринки в квартире Паши исчезают деньги из сейфа. Друзья начинают поиски неизвестного вора и узнают, что он направляется в сторону Чернобыля. Паша, Лёша, Настя, Аня и Гоша решают отправиться за ним.">
+                <div class="episode-number">СЕРИЯ 01</div>
+                <h4>Сон, деньги и Чернобыль</h4>
+                <p>
+                    Исчезновение денег становится началом
+                    путешествия в сторону Зоны.
+                </p>
+                <div class="episode-more">Подробнее →</div>
             </div>
 
-            <div class="info-box">
-                <div class="info-label">SAVE SYSTEM</div>
-                <div class="info-value">LocalStorage</div>
+            <div class="episode"
+                 data-title="Беглец"
+                 data-text="Погоня продолжается. Герои всё глубже втягиваются в странную историю и постепенно понимают, что беглец оставляет за собой не случайные следы. Дорога к Припяти становится всё опаснее.">
+                <div class="episode-number">СЕРИЯ 02</div>
+                <h4>Беглец</h4>
+                <p>
+                    Погоня продолжается, а Зона начинает
+                    показывать свои правила.
+                </p>
+                <div class="episode-more">Подробнее →</div>
             </div>
 
-            <button class="action-btn" onclick="returnToMenu()">
-                RETURN TO MAIN MENU
-            </button>
+            <div class="episode"
+                 data-title="Граница"
+                 data-text="Герои приближаются к территории Зоны. Обычная поездка окончательно превращается в борьбу за выживание. Появляются новые тайны и люди, которые явно знают о происходящем больше, чем говорят.">
+                <div class="episode-number">СЕРИЯ 03</div>
+                <h4>Граница</h4>
+                <p>
+                    За границей привычного мира начинается
+                    настоящая история Зоны.
+                </p>
+                <div class="episode-more">Подробнее →</div>
+            </div>
+
+            <div class="episode"
+                 data-title="Охота"
+                 data-text="На героев начинают охотиться. Паша и друзья понимают, что их путешествие кому-то необходимо, а события вокруг них связаны с гораздо более крупным планом.">
+                <div class="episode-number">СЕРИЯ 04</div>
+                <h4>Охота</h4>
+                <p>
+                    Теперь уже не только они преследуют —
+                    преследуют и их.
+                </p>
+                <div class="episode-more">Подробнее →</div>
+            </div>
+
+            <div class="episode"
+                 data-title="Бункер"
+                 data-text="Герои сталкиваются с тайнами прошлого и получают новые сведения о событиях, происходящих в Зоне. Бункер становится местом, где скрывается важная часть разгадки.">
+                <div class="episode-number">СЕРИЯ 05</div>
+                <h4>Бункер</h4>
+                <p>
+                    Под землёй скрывается информация,
+                    способная изменить всё.
+                </p>
+                <div class="episode-more">Подробнее →</div>
+            </div>
+
+            <div class="episode"
+                 data-title="Там"
+                 data-text="Путешествие приводит героев ещё глубже в тайну. Появляются признаки того, что время и пространство в этой истории работают совсем не так, как должны.">
+                <div class="episode-number">СЕРИЯ 06</div>
+                <h4>Там</h4>
+                <p>
+                    Граница между настоящим и прошлым
+                    начинает исчезать.
+                </p>
+                <div class="episode-more">Подробнее →</div>
+            </div>
+
+            <div class="episode"
+                 data-title="КГБ СССР"
+                 data-text="История Сергея Костенко выходит на первый план. Становится понятнее, почему события 1986 года так важны для него и почему он готов идти до конца ради возможности изменить прошлое.">
+                <div class="episode-number">СЕРИЯ 07</div>
+                <h4>КГБ СССР</h4>
+                <p>
+                    Костенко выходит из тени.
+                    Тайна прошлого становится явной.
+                </p>
+                <div class="episode-more">Подробнее →</div>
+            </div>
+
+            <div class="episode"
+                 data-title="ЧП в четвёртом блоке"
+                 data-text="Финал первого сезона переносит героев в 1986 год, к событиям вокруг четвёртого энергоблока Чернобыльской АЭС. Паша получает шанс вмешаться в историю и изменить будущее.">
+                <div class="episode-number">СЕРИЯ 08</div>
+                <h4>ЧП в четвёртом блоке</h4>
+                <p>
+                    Паша оказывается у четвёртого блока
+                    в ночь, которая должна изменить историю.
+                </p>
+                <div class="episode-more">Подробнее →</div>
+            </div>
 
         </div>
 
     </div>
 
-</div>
 
-<!-- ================= PDA ================= -->
+    <!-- ================= SEASON 2 ================= -->
 
-<div id="pdaModal" class="hidden">
+    <div class="season" id="season2">
 
-    <div class="modal">
+        <div class="season-head">
+            <div>
+                <div class="section-label">2017</div>
+                <h3>Второй сезон</h3>
+            </div>
 
-        <div class="modal-head">
-            <div class="modal-title">PDA // SIGNAL ANALYZER</div>
-            <button class="close" onclick="closeModal('pdaModal')">×</button>
+            <span>8 серий</span>
         </div>
 
-        <div class="modal-body">
+        <div class="episodes">
 
-            <div class="info-box">
-                <div class="info-label">CURRENT FREQUENCY</div>
-                <div class="info-value">
-                    103.7 MHz
-                </div>
+            <div class="episode"
+                 data-title="Прекрасное далёко"
+                 data-text="После попытки изменить прошлое Паша возвращается в изменённую реальность. Чернобыльская катастрофа произошла уже не там, где он её помнил. Мир изменился, а вместе с ним изменились судьбы героев.">
+                <div class="episode-number">СЕРИЯ 01</div>
+                <h4>Прекрасное далёко</h4>
+                <p>
+                    Изменённое будущее оказывается
+                    совершенно другим миром.
+                </p>
+                <div class="episode-more">Подробнее →</div>
             </div>
 
-            <div class="info-box">
-                <div class="info-label">SIGNAL</div>
-                <div class="info-value" id="pdaSignal">
-                    UNKNOWN
-                </div>
+            <div class="episode"
+                 data-title="7505:800"
+                 data-text="Герои отправляются в США. Перелёт превращается в очередную загадку, а новая версия катастрофы начинает становиться всё более реальной.">
+                <div class="episode-number">СЕРИЯ 02</div>
+                <h4>7505:800</h4>
+                <p>
+                    Следующая точка истории находится
+                    уже по другую сторону океана.
+                </p>
+                <div class="episode-more">Подробнее →</div>
             </div>
 
-            <div class="info-box">
-                <div class="info-label">LAST TRANSMISSION</div>
-                <div class="info-value">
-                    «...если ты это слышишь... не верь человеку в противогазе...»
-                </div>
+            <div class="episode"
+                 data-title="Welcome to USA"
+                 data-text="Герои оказываются в альтернативных Соединённых Штатах. Теперь им необходимо понять, как устроена новая реальность и где именно должна произойти катастрофа.">
+                <div class="episode-number">СЕРИЯ 03</div>
+                <h4>Welcome to USA</h4>
+                <p>
+                    Новая страна. Новая реальность.
+                    Та же угроза.
+                </p>
+                <div class="episode-more">Подробнее →</div>
             </div>
 
-            <button class="action-btn" onclick="scanSignal()">
-                SCAN FREQUENCY
-            </button>
+            <div class="episode"
+                 data-title="Веришь в Бога, верь и в дьявола"
+                 data-text="История становится ещё более мистической. Герои сталкиваются с явлениями, которые невозможно объяснить только путешествиями во времени.">
+                <div class="episode-number">СЕРИЯ 04</div>
+                <h4>Веришь в Бога, верь и в дьявола</h4>
+                <p>
+                    Грань между научным объяснением
+                    и необъяснимым стирается.
+                </p>
+                <div class="episode-more">Подробнее →</div>
+            </div>
+
+            <div class="episode"
+                 data-title="1956"
+                 data-text="История переносится ещё дальше в прошлое. События 1956 года оказываются важным звеном в происхождении некоторых загадок и будущих событий.">
+                <div class="episode-number">СЕРИЯ 05</div>
+                <h4>1956</h4>
+                <p>
+                    Чтобы понять настоящее,
+                    героям приходится заглянуть намного дальше.
+                </p>
+                <div class="episode-more">Подробнее →</div>
+            </div>
+
+            <div class="episode"
+                 data-title="Дело о пропавших детях"
+                 data-text="Расследование приводит героев к новой тайне. Исчезновение детей связано с событиями, которые происходят вокруг Зоны и экспериментов с временем.">
+                <div class="episode-number">СЕРИЯ 06</div>
+                <h4>Дело о пропавших детях</h4>
+                <p>
+                    Новая загадка оказывается связана
+                    с гораздо более старой историей.
+                </p>
+                <div class="episode-more">Подробнее →</div>
+            </div>
+
+            <div class="episode"
+                 data-title="Гудвин: Великий и ужасный"
+                 data-text="Паша и его друзья приближаются к разгадке происходящего. Тайна человека в маске и других участников событий становится всё важнее.">
+                <div class="episode-number">СЕРИЯ 07</div>
+                <h4>Гудвин: Великий и ужасный</h4>
+                <p>
+                    Иллюзии рушатся, а настоящие цели
+                    участников становятся видны.
+                </p>
+                <div class="episode-more">Подробнее →</div>
+            </div>
+
+            <div class="episode"
+                 data-title="Припять 2.0"
+                 data-text="Финал второго сезона возвращает героев к Припяти. Костенко оказывается непосредственно связан с событиями, а герои приближаются к окончательной разгадке истории Зоны.">
+                <div class="episode-number">СЕРИЯ 08</div>
+                <h4>Припять 2.0</h4>
+                <p>
+                    Припять снова становится центром
+                    событий и последней точкой пути.
+                </p>
+                <div class="episode-more">Подробнее →</div>
+            </div>
 
         </div>
 
     </div>
 
+
+    <!-- ================= FINAL ================= -->
+
+    <div class="season" id="final">
+
+        <div class="season-head">
+            <div>
+                <div class="section-label">Финальная история</div>
+                <h3>Чернобыль: Зона отчуждения — Финал</h3>
+            </div>
+
+            <span>3 серии</span>
+        </div>
+
+        <div class="episodes">
+
+            <div class="episode"
+                 data-title="Финал — Эпизод 1"
+                 data-text="Спустя время Зона снова становится центром международного конфликта. Паша появляется уже в совершенно другой роли, а его друзья вынуждены вернуться в Припять, чтобы понять, что с ним произошло.">
+                <div class="episode-number">ФИНАЛ 01</div>
+                <h4>Возвращение в Зону</h4>
+                <p>
+                    Паша становится частью новой угрозы,
+                    а друзья возвращаются за ним.
+                </p>
+                <div class="episode-more">Подробнее →</div>
+            </div>
+
+            <div class="episode"
+                 data-title="Финал — Эпизод 2"
+                 data-text="Аня, Лёха, Настя и Гоша снова оказываются в Припяти. Им предстоит разобраться в происходящем и понять, почему Паша оказался связан с новой катастрофой.">
+                <div class="episode-number">ФИНАЛ 02</div>
+                <h4>Последний путь</h4>
+                <p>
+                    Друзья идут по следу Паши
+                    и приближаются к сердцу Зоны.
+                </p>
+                <div class="episode-more">Подробнее →</div>
+            </div>
+
+            <div class="episode"
+                 data-title="Финал — Эпизод 3"
+                 data-text="Последняя часть истории возвращает героев к главным вопросам сериала: что такое Зона, почему она появилась и можно ли окончательно разорвать цепочку событий, начавшуюся в 1986 году.">
+                <div class="episode-number">ФИНАЛ 03</div>
+                <h4>Последняя точка</h4>
+                <p>
+                    Финальная попытка остановить
+                    цепь событий, начавшуюся много лет назад.
+                </p>
+                <div class="episode-more">Подробнее →</div>
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- ================= KOSTENKO ================= -->
+
+<section class="kostenko" id="kostenko">
+
+    <div class="kostenko-grid">
+
+        <div class="kostenko-image">
+
+            <div class="kostenko-name">
+                Сергей
+                <strong>Костенко</strong>
+
+                <span>
+                    КАПИТАН КГБ СССР
+                </span>
+            </div>
+
+        </div>
+
+
+        <div class="kostenko-info">
+
+            <div class="section-label">
+                Главный антагонист
+            </div>
+
+            <h2>
+                Костенко
+            </h2>
+
+            <p>
+                Сергей Костенко — один из самых важных
+                персонажей всей истории. В 1986 году он
+                служил в КГБ и оказался непосредственно
+                связан с событиями вокруг Чернобыльской АЭС.
+            </p>
+
+            <p>
+                После катастрофы его жизнь оказывается
+                связана с желанием изменить прошлое.
+                Для него Зона становится не просто
+                территорией — она становится шансом
+                исправить собственную историю.
+            </p>
+
+            <p>
+                Именно Костенко становится человеком,
+                который двигает события первого сезона
+                и продолжает влиять на историю во втором.
+            </p>
+
+            <div class="kostenko-facts">
+
+                <div class="fact">
+                    <small>Имя</small>
+                    <strong>Сергей Костенко</strong>
+                </div>
+
+                <div class="fact">
+                    <small>Период</small>
+                    <strong>1986 / 2013</strong>
+                </div>
+
+                <div class="fact">
+                    <small>Служба</small>
+                    <strong>КГБ СССР</strong>
+                </div>
+
+                <div class="fact">
+                    <small>Роль</small>
+                    <strong>Антагонист</strong>
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- ================= CHARACTERS ================= -->
+
+<section class="characters" id="characters">
+
+    <div class="section-title">
+
+        <div class="section-label">
+            Люди Зоны
+        </div>
+
+        <h2>Главные персонажи</h2>
+
+        <p>
+            Герои, через которых раскрывается история
+            Чернобыля, времени и Зоны.
+        </p>
+
+    </div>
+
+
+    <div class="characters-grid">
+
+        <div class="character">
+
+            <div class="character-role">
+                Главный герой
+            </div>
+
+            <h3>Паша Вершинин</h3>
+
+            <p>
+                Парень, с которого начинается путешествие.
+                Постепенно Паша становится одним из ключевых
+                людей во всей истории Зоны.
+            </p>
+
+        </div>
+
+
+        <div class="character">
+
+            <div class="character-role">
+                Друг Паши
+            </div>
+
+            <h3>Лёша</h3>
+
+            <p>
+                Друг Паши, который вместе с ним оказывается
+                втянут в опасную погоню.
+            </p>
+
+        </div>
+
+
+        <div class="character">
+
+            <div class="character-role">
+                Герой
+            </div>
+
+            <h3>Настя</h3>
+
+            <p>
+                Одна из друзей Паши. Вместе с остальными
+                проходит через события Зоны.
+            </p>
+
+        </div>
+
+
+        <div class="character">
+
+            <div class="character-role">
+                Герой
+            </div>
+
+            <h3>Аня Антонова</h3>
+
+            <p>
+                Аня становится важной частью команды
+                и связана с событиями вокруг Чернобыля.
+            </p>
+
+        </div>
+
+
+        <div class="character">
+
+            <div class="character-role">
+                Технарь
+            </div>
+
+            <h3>Гоша</h3>
+
+            <p>
+                Компьютерный специалист группы.
+                Помогает друзьям разбираться с технологиями
+                и необычными ситуациями.
+            </p>
+
+        </div>
+
+
+        <div class="character">
+
+            <div class="character-role">
+                Антагонист
+            </div>
+
+            <h3>Сергей Костенко</h3>
+
+            <p>
+                Человек, чья история тесно связана
+                с катастрофой 1986 года и машиной времени.
+            </p>
+
+        </div>
+
+
+        <div class="character">
+
+            <div class="character-role">
+                Антагонист
+            </div>
+
+            <h3>Игорь Матвеев</h3>
+
+            <p>
+                Таинственный вор, с которого начинается
+                цепочка событий первого сезона.
+            </p>
+
+        </div>
+
+
+        <div class="character">
+
+            <div class="character-role">
+                Загадка Зоны
+            </div>
+
+            <h3>Виталий Сорокин</h3>
+
+            <p>
+                Инженер четвёртого энергоблока,
+                чья история оказывается связана
+                с самой природой Зоны.
+            </p>
+
+        </div>
+
+
+        <div class="character">
+
+            <div class="character-role">
+                Паша / другая версия
+            </div>
+
+            <h3>Никита</h3>
+
+            <p>
+                Загадочная версия Паши из другой реальности,
+                связанная с попытками предотвратить
+                новую катастрофу.
+            </p>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- ================= TIMELINE ================= -->
+
+<section class="timeline">
+
+    <div class="section-title">
+
+        <div class="section-label">
+            Временная линия
+        </div>
+
+        <h2>От 1986 до будущего</h2>
+
+        <p>
+            Основные точки истории в хронологическом порядке.
+        </p>
+
+    </div>
+
+
+    <div class="timeline-list">
+
+        <div class="time-item">
+
+            <div class="time-dot"></div>
+
+            <h3>1986 — Чернобыль</h3>
+
+            <p>
+                Катастрофа на четвёртом энергоблоке
+                становится отправной точкой всей истории.
+            </p>
+
+        </div>
+
+
+        <div class="time-item">
+
+            <div class="time-dot"></div>
+
+            <h3>2013 — Погоня</h3>
+
+            <p>
+                Паша и его друзья отправляются вслед
+                за вором в сторону Припяти.
+            </p>
+
+        </div>
+
+
+        <div class="time-item">
+
+            <div class="time-dot"></div>
+
+            <h3>Путешествие во времени</h3>
+
+            <p>
+                Герои получают возможность вмешиваться
+                в прошлое и сталкиваются с последствиями
+                изменения истории.
+            </p>
+
+        </div>
+
+
+        <div class="time-item">
+
+            <div class="time-dot"></div>
+
+            <h3>Альтернативная реальность</h3>
+
+            <p>
+                После изменения событий 1986 года
+                возникает новая версия мира.
+            </p>
+
+        </div>
+
+
+        <div class="time-item">
+
+            <div class="time-dot"></div>
+
+            <h3>Припять 2.0</h3>
+
+            <p>
+                История возвращается к Припяти,
+                где сходятся линии Паши, Костенко
+                и Зоны.
+            </p>
+
+        </div>
+
+
+        <div class="time-item">
+
+            <div class="time-dot"></div>
+
+            <h3>Финал</h3>
+
+            <p>
+                Спустя годы друзья снова возвращаются
+                в Зону, чтобы спасти Пашу и остановить
+                новую угрозу.
+            </p>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- ================= ZONE ================= -->
+
+<section class="zone">
+
+    <div class="zone-content">
+
+        <div class="zone-symbol">
+            ☢
+        </div>
+
+        <h2>
+            Зона помнит всё
+        </h2>
+
+        <p>
+            Здесь прошлое не исчезает.
+            Здесь каждый выбор оставляет след.
+            И иногда, чтобы изменить будущее,
+            приходится вернуться туда,
+            где всё началось.
+        </p>
+
+    </div>
+
+</section>
+
+
+<!-- ================= FOOTER ================= -->
+
+<footer>
+
+    <strong>
+        ЧЕРНОБЫЛЬ — ЗОНА ОТЧУЖДЕНИЯ
+    </strong>
+
+    <span>
+        Архив истории • Паша • Зона • Костенко
+    </span>
+
+</footer>
+
+
+<!-- ================= MODAL ================= -->
+
+<div class="modal" id="episodeModal">
+
+    <div class="modal-box">
+
+        <div class="modal-top">
+
+            <div>
+
+                <div class="modal-number" id="modalNumber">
+                    ЭПИЗОД
+                </div>
+
+                <h2 id="modalTitle">
+                    Название серии
+                </h2>
+
+            </div>
+
+            <button class="close" id="closeModal">
+                ✕
+            </button>
+
+        </div>
+
+        <p id="modalText"></p>
+
+    </div>
+
 </div>
 
-<!-- ================= NOTIFICATION ================= -->
-
-<div id="notification"></div>
 
 <script>
 
-/* =========================================================
-   CHZO: LAST SIGNAL
-   GAME ENGINE
-========================================================= */
+/* ================= MUSIC ================= */
 
-const SAVE_KEY = "chzo_last_signal_save_v1";
+const music = document.getElementById("music");
+const musicButton = document.getElementById("musicButton");
 
-let game = {
-    started:false,
+let musicEnabled =
+    localStorage.getItem("chernobylMusic") === "true";
 
-    chapter:1,
-    scene:"arrival",
+function updateMusicButton(){
 
-    health:100,
-    radiation:0,
-    stamina:100,
-    battery:100,
+    if(musicEnabled){
 
-    time:21*60+42,
+        musicButton.classList.add("active");
+        musicButton.textContent = "♫ Музыка: ВКЛ";
 
-    location:"checkpoint",
+    }else{
 
-    signal:37,
+        musicButton.classList.remove("active");
+        musicButton.textContent = "♪ Музыка";
 
-    inventory:[
-        "Старый телефон",
-        "Фонарик",
-        "Пачка бинтов"
-    ],
-
-    flags:{
-        foundNote:false,
-        metStranger:false,
-        trustedStranger:false,
-        stationOpened:false,
-        heardSignal:false,
-        foundKey:false,
-        enteredForest:false,
-        knowsAboutBunker:false,
-        helpedGirl:false,
-        tookArtifact:false,
-        sawShadow:false,
-        discoveredTruth:false
-    },
-
-    endings:[],
-    choices:0
-};
-
-
-/* =========================================================
-   BOOT
-========================================================= */
-
-setTimeout(()=>{
-    document.getElementById("boot").style.display="none";
-},3300);
-
-
-/* =========================================================
-   UTILITIES
-========================================================= */
-
-function clamp(value,min,max){
-    return Math.max(min,Math.min(max,value));
-}
-
-function notify(text){
-
-    const n=document.getElementById("notification");
-
-    n.textContent=text;
-    n.classList.add("show");
-
-    setTimeout(()=>{
-        n.classList.remove("show");
-    },2500);
-}
-
-function addItem(item){
-
-    if(!game.inventory.includes(item)){
-        game.inventory.push(item);
-        notify("ПОЛУЧЕН ПРЕДМЕТ: "+item);
-        updateUI();
-    }
-
-}
-
-function removeItem(item){
-
-    const i=game.inventory.indexOf(item);
-
-    if(i!==-1){
-        game.inventory.splice(i,1);
-    }
-
-}
-
-function hasItem(item){
-    return game.inventory.includes(item);
-}
-
-function changeStat(stat,value){
-
-    game[stat]=clamp(game[stat]+value,0,100);
-
-    if(stat==="radiation" && value>0){
-        notify("РАДИАЦИЯ +"+value+"%");
-    }
-
-    if(stat==="health" && value<0){
-        notify("ЗДОРОВЬЕ "+value+"%");
-    }
-
-    updateUI();
-}
-
-function advanceTime(minutes){
-
-    game.time+=minutes;
-
-    while(game.time>=1440){
-        game.time-=1440;
-    }
-
-    updateUI();
-}
-
-function currentTime(){
-
-    let h=Math.floor(game.time/60);
-    let m=game.time%60;
-
-    return String(h).padStart(2,"0")+":"+String(m).padStart(2,"0");
-}
-
-
-/* =========================================================
-   UI
-========================================================= */
-
-function updateUI(){
-
-    document.getElementById("healthValue").textContent=game.health+"%";
-    document.getElementById("radiationValue").textContent=game.radiation+"%";
-    document.getElementById("staminaValue").textContent=game.stamina+"%";
-    document.getElementById("batteryValue").textContent=game.battery+"%";
-
-    document.getElementById("healthBar").style.width=game.health+"%";
-    document.getElementById("radiationBar").style.width=game.radiation+"%";
-    document.getElementById("staminaBar").style.width=game.stamina+"%";
-    document.getElementById("batteryBar").style.width=game.battery+"%";
-
-    document.getElementById("timeValue").textContent=currentTime();
-
-    document.getElementById("locationText").textContent=
-        locationName(game.location);
-
-    document.getElementById("signalText").textContent=
-        game.signal+"%";
-
-    renderInventory();
-
-    if(game.health<=0){
-        ending("death");
-    }
-
-    if(game.radiation>=100){
-        ending("radiation");
     }
 }
 
-function locationName(id){
+musicButton.addEventListener("click", async ()=>{
 
-    const names={
-        checkpoint:"КОНТРОЛЬНЫЙ ПУНКТ",
-        village:"СТАРАЯ ДЕРЕВНЯ",
-        forest:"ЧЁРНЫЙ ЛЕС",
-        station:"СТАРАЯ СТАНЦИЯ",
-        pripyat:"ПРИПЯТЬ",
-        bunker:"ПОДЗЕМНЫЙ ОБЪЕКТ"
-    };
+    if(music.paused){
 
-    return names[id]||"НЕИЗВЕСТНО";
-}
+        try{
 
-function renderInventory(){
+            await music.play();
 
-    const box=document.getElementById("inventory");
+            musicEnabled = true;
 
-    box.innerHTML="";
+            localStorage.setItem(
+                "chernobylMusic",
+                "true"
+            );
 
-    for(let i=0;i<8;i++){
+        }catch(e){
 
-        const item=document.createElement("div");
+            musicEnabled = false;
 
-        item.className="item";
-
-        if(game.inventory[i]){
-            item.textContent=game.inventory[i];
-        }else{
-            item.classList.add("empty");
-            item.textContent="EMPTY";
         }
 
-        box.appendChild(item);
+    }else{
+
+        music.pause();
+
+        musicEnabled = false;
+
+        localStorage.setItem(
+            "chernobylMusic",
+            "false"
+        );
     }
 
-    const big=document.getElementById("bigInventory");
+    updateMusicButton();
 
-    if(big){
+});
 
-        big.innerHTML="";
-
-        game.inventory.forEach((item,index)=>{
-
-            const el=document.createElement("div");
-
-            el.className="info-box";
-
-            el.innerHTML=`
-                <div class="info-label">SLOT ${index+1}</div>
-                <div class="info-value">${item}</div>
-            `;
-
-            big.appendChild(el);
-        });
-    }
-}
+updateMusicButton();
 
 
-/* =========================================================
-   MENU
-========================================================= */
+/* ================= SEASONS ================= */
 
-function startGame(){
+const seasonTabs =
+    document.querySelectorAll(".season-tab");
 
-    const saved=localStorage.getItem(SAVE_KEY);
+const seasons =
+    document.querySelectorAll(".season");
 
-    if(saved){
-        if(confirm("У тебя уже есть сохранение. Начать новую игру?")){
-            localStorage.removeItem(SAVE_KEY);
-        }else{
-            continueGame();
-            return;
+seasonTabs.forEach(tab=>{
+
+    tab.addEventListener("click",()=>{
+
+        seasonTabs.forEach(t=>
+            t.classList.remove("active")
+        );
+
+        seasons.forEach(s=>
+            s.classList.remove("active")
+        );
+
+        tab.classList.add("active");
+
+        const target =
+            document.getElementById(
+                tab.dataset.season
+            );
+
+        if(target){
+            target.classList.add("active");
         }
-    }
-
-    game={
-        started:true,
-        chapter:1,
-        scene:"arrival",
-        health:100,
-        radiation:0,
-        stamina:100,
-        battery:100,
-        time:21*60+42,
-        location:"checkpoint",
-        signal:37,
-        inventory:[
-            "Старый телефон",
-            "Фонарик",
-            "Пачка бинтов"
-        ],
-        flags:{
-            foundNote:false,
-            metStranger:false,
-            trustedStranger:false,
-            stationOpened:false,
-            heardSignal:false,
-            foundKey:false,
-            enteredForest:false,
-            knowsAboutBunker:false,
-            helpedGirl:false,
-            tookArtifact:false,
-            sawShadow:false,
-            discoveredTruth:false
-        },
-        endings:[],
-        choices:0
-    };
-
-    document.getElementById("menu").classList.add("hidden");
-    document.getElementById("game").classList.remove("hidden");
-
-    renderScene("arrival");
-}
-
-function continueGame(){
-
-    const data=localStorage.getItem(SAVE_KEY);
-
-    if(!data){
-        notify("СОХРАНЕНИЕ НЕ НАЙДЕНО");
-        return;
-    }
-
-    try{
-        game=JSON.parse(data);
-
-        document.getElementById("menu").classList.add("hidden");
-        document.getElementById("game").classList.remove("hidden");
-
-        renderScene(game.scene);
-
-        notify("ПРОГРЕСС ЗАГРУЖЕН");
-
-    }catch(e){
-        notify("ОШИБКА СОХРАНЕНИЯ");
-    }
-}
-
-function returnToMenu(){
-
-    closeModal("settingsModal");
-
-    document.getElementById("game").classList.add("hidden");
-    document.getElementById("menu").classList.remove("hidden");
-}
-
-
-/* =========================================================
-   STORY ENGINE
-========================================================= */
-
-function renderScene(scene){
-
-    game.scene=scene;
-
-    const scenes={
-
-        arrival:{
-            chapter:"CHAPTER 01 // ARRIVAL",
-            title:"Последний сигнал",
-            location:"checkpoint",
-            text:`
-                <p class="system">21:42 // КОНТРОЛЬНЫЙ ПУНКТ «ДИТЯТКИ»</p>
-
-                <p>
-                Дождь идёт уже несколько часов.
-                Дорога впереди почти полностью скрыта туманом.
-                За бетонным блоком начинается территория,
-                куда обычным людям входить запрещено.
-                </p>
-
-                <p>
-                Ты стоишь у старого КПП и проверяешь телефон.
-                Сети нет. GPS молчит.
-                </p>
-
-                <p class="important">
-                Но внезапно телефон вибрирует.
-                </p>
-
-                <p>
-                На экране появляется неизвестное сообщение:
-                </p>
-
-                <p class="system">
-                «ЕСЛИ ТЫ УЖЕ В ЗОНЕ — НЕ ВОЗВРАЩАЙСЯ.»
-                </p>
-
-                <p>
-                Через несколько секунд приходит второе:
-                </p>
-
-                <p class="danger">
-                «ОН УЖЕ ЗНАЕТ, ЧТО ТЫ ПРИШЁЛ.»
-                </p>
-            `,
-            choices:[
-                {
-                    text:"Осмотреть телефон внимательнее",
-                    hint:"Попробовать определить источник сообщения.",
-                    action:()=>{
-                        game.flags.heardSignal=true;
-                        game.signal+=10;
-                        advanceTime(4);
-                        renderScene("phone");
-                    }
-                },
-                {
-                    text:"Осмотреть КПП",
-                    hint:"Проверить, есть ли здесь кто-нибудь.",
-                    action:()=>{
-                        advanceTime(6);
-                        renderScene("checkpoint");
-                    }
-                },
-                {
-                    text:"Сразу войти в Зону",
-                    hint:"Не тратить время.",
-                    action:()=>{
-                        game.choices++;
-                        advanceTime(12);
-                        renderScene("road");
-                    }
-                }
-            ]
-        },
-
-        phone:{
-            chapter:"CHAPTER 01 // UNKNOWN SIGNAL",
-            title:"103.7 MHz",
-            location:"checkpoint",
-            text:`
-                <p>
-                Ты открываешь журнал телефона.
-                Никаких входящих сообщений нет.
-                Только одно неизвестное уведомление.
-                </p>
-
-                <p class="system">
-                SOURCE: UNKNOWN<br>
-                FREQUENCY: 103.7 MHz
-                </p>
-
-                <p>
-                Ты запускаешь старое приложение радиосканера.
-                Полоса частот почти полностью пуста.
-                </p>
-
-                <p>
-                Затем из динамика раздаётся голос.
-                Очень тихий.
-                Мужской.
-                </p>
-
-                <p class="danger">
-                «...если ты слышишь меня — выключи свет...»
-                </p>
-
-                <p>
-                Голос обрывается.
-                Вдалеке на дороге появляется слабое движение.
-                Кто-то идёт к КПП.
-                </p>
-            `,
-            choices:[
-                {
-                    text:"Включить фонарик",
-                    hint:"Попробовать рассмотреть человека.",
-                    action:()=>{
-                        game.battery-=8;
-                        game.flags.sawShadow=true;
-                        advanceTime(5);
-                        renderScene("stranger");
-                    }
-                },
-                {
-                    text:"Выключить фонарик и спрятаться",
-                    hint:"Не привлекать внимание.",
-                    action:()=>{
-                        game.flags.sawShadow=true;
-                        advanceTime(7);
-                        renderScene("hidden");
-                    }
-                },
-                {
-                    text:"Ответить в радио",
-                    hint:"Попытаться связаться с неизвестным.",
-                    action:()=>{
-                        game.signal+=15;
-                        game.flags.heardSignal=true;
-                        advanceTime(3);
-                        renderScene("radio");
-                    }
-                }
-            ]
-        },
-
-        checkpoint:{
-            chapter:"CHAPTER 01 // CHECKPOINT",
-            title:"Пустой пост",
-            location:"checkpoint",
-            text:`
-                <p>
-                КПП выглядит так, будто его бросили несколько лет назад.
-                В будке разбитое окно.
-                На столе лежит толстый слой пыли.
-                </p>
-
-                <p>
-                Ты заходишь внутрь.
-                На стене висит старый календарь.
-                Последняя отмеченная дата — <span class="important">26 апреля 1986 года</span>.
-                </p>
-
-                <p>
-                Под столом ты замечаешь металлический ящик.
-                Он не заперт.
-                </p>
-            `,
-            choices:[
-                {
-                    text:"Открыть ящик",
-                    action:()=>{
-                        addItem("Ржавая карта Зоны");
-                        game.flags.foundNote=true;
-                        advanceTime(5);
-                        renderScene("box");
-                    }
-                },
-                {
-                    text:"Оставить ящик и идти дальше",
-                    action:()=>{
-                        advanceTime(4);
-                        renderScene("road");
-                    }
-                }
-            ]
-        },
-
-        box:{
-            chapter:"CHAPTER 01 // OLD DOCUMENTS",
-            title:"Карта",
-            location:"checkpoint",
-            text:`
-                <p>
-                В ящике лежит старая карта.
-                На ней карандашом отмечены несколько объектов,
-                которых нет ни на одной современной схеме.
-                </p>
-
-                <p class="important">
-                Один объект отмечен буквами: «ОБЪЕКТ 17».
-                </p>
-
-                <p>
-                Рядом написано:
-                </p>
-
-                <p class="system">
-                «НЕ ИСКАТЬ ВХОД. ОН САМ НАЙДЁТ ТЕБЯ.»
-                </p>
-            `,
-            choices:[
-                {
-                    text:"Изучить карту",
-                    action:()=>{
-                        game.flags.knowsAboutBunker=true;
-                        renderScene("road");
-                    }
-                },
-                {
-                    text:"Сжечь карту",
-                    action:()=>{
-                        removeItem("Ржавая карта Зоны");
-                        renderScene("road");
-                    }
-                }
-            ]
-        },
-
-        stranger:{
-            chapter:"CHAPTER 02 // THE MAN",
-            title:"Человек в противогазе",
-            location:"checkpoint",
-            text:`
-                <p>
-                Луч фонаря выхватывает фигуру из тумана.
-                </p>
-
-                <p>
-                На человеке старый противогаз.
-                Военная куртка.
-                В руках — ржавая винтовка.
-                </p>
-
-                <p>
-                Он останавливается.
-                </p>
-
-                <p class="danger">
-                «Убери свет.»
-                </p>
-
-                <p>
-                Голос тот же самый, который ты слышал по радио.
-                </p>
-
-                <p>
-                «Если хочешь выйти отсюда живым — тебе нельзя идти в Припять.»
-                </p>
-            `,
-            choices:[
-                {
-                    text:"Довериться ему",
-                    action:()=>{
-                        game.flags.metStranger=true;
-                        game.flags.trustedStranger=true;
-                        advanceTime(10);
-                        renderScene("strangerTrusted");
-                    }
-                },
-                {
-                    text:"Спросить, кто он",
-                    action:()=>{
-                        game.flags.metStranger=true;
-                        advanceTime(4);
-                        renderScene("strangerQuestion");
-                    }
-                },
-                {
-                    text:"Направить на него фонарь и отойти",
-                    action:()=>{
-                        game.health-=10;
-                        advanceTime(5);
-                        renderScene("strangerFight");
-                    }
-                }
-            ]
-        },
-
-        hidden:{
-            chapter:"CHAPTER 02 // SILENCE",
-            title:"Тишина",
-            location:"checkpoint",
-            text:`
-                <p>
-                Ты выключаешь фонарь.
-                </p>
-
-                <p>
-                Шаги становятся ближе.
-                Потом останавливаются прямо у будки.
-                </p>
-
-                <p>
-                Несколько секунд ничего не происходит.
-                </p>
-
-                <p class="danger">
-                Затем кто-то произносит твоё имя.
-                </p>
-
-                <p>
-                Ты никому здесь его не говорил.
-                </p>
-            `,
-            choices:[
-                {
-                    text:"Выйти",
-                    action:()=>{
-                        game.flags.metStranger=true;
-                        renderScene("stranger");
-                    }
-                },
-                {
-                    text:"Остаться внутри",
-                    action:()=>{
-                        game.battery-=10;
-                        game.signal+=20;
-                        renderScene("shadow");
-                    }
-                }
-            ]
-        },
-
-        radio:{
-            chapter:"CHAPTER 02 // CONTACT",
-            title:"Ответ",
-            location:"checkpoint",
-            text:`
-                <p>
-                Ты нажимаешь кнопку передачи.
-                </p>
-
-                <p class="system">
-                TRANSMITTING...
-                </p>
-
-                <p>
-                Несколько секунд — только шум.
-                </p>
-
-                <p>
-                Затем голос отвечает:
-                </p>
-
-                <p class="danger">
-                «Ты сделал ошибку.»
-                </p>
-
-                <p>
-                На экране появляется координата.
-                Она ведёт в сторону старой станции.
-                </p>
-            `,
-            choices:[
-                {
-                    text:"Принять координаты",
-                    action:()=>{
-                        game.flags.stationOpened=true;
-                        addItem("Координаты станции");
-                        renderScene("road");
-                    }
-                },
-                {
-                    text:"Отклонить сообщение",
-                    action:()=>{
-                        game.signal-=15;
-                        renderScene("road");
-                    }
-                }
-            ]
-        },
-
-        strangerTrusted:{
-            chapter:"CHAPTER 02 // THE GUIDE",
-            title:"Проводник",
-            location:"checkpoint",
-            text:`
-                <p>
-                Человек снимает противогаз.
-                Его лицо выглядит измученным.
-                </p>
-
-                <p>
-                «Меня зовут Сергей. Но имя здесь ничего не значит.»
-                </p>
-
-                <p>
-                Он показывает на дорогу.
-                </p>
-
-                <p>
-                «Есть старая станция. Там можно переждать ночь.
-                Только не заходи в лес.»
-                </p>
-
-                <p class="important">
-                Перед уходом он добавляет:
-                «И если увидишь девочку в красной куртке — не разговаривай с ней.»
-                </p>
-            `,
-            choices:[
-                {
-                    text:"Пойти к станции",
-                    action:()=>{
-                        game.location="station";
-                        advanceTime(25);
-                        renderScene("station");
-                    }
-                },
-                {
-                    text:"Спросить про девочку",
-                    action:()=>{
-                        renderScene("girlQuestion");
-                    }
-                },
-                {
-                    text:"Пойти в лес вопреки предупреждению",
-                    action:()=>{
-                        game.location="forest";
-                        game.flags.enteredForest=true;
-                        advanceTime(30);
-                        renderScene("forest");
-                    }
-                }
-            ]
-        },
-
-        strangerQuestion:{
-            chapter:"CHAPTER 02 // QUESTIONS",
-            title:"Кто ты?",
-            location:"checkpoint",
-            text:`
-                <p>
-                Человек долго молчит.
-                </p>
-
-                <p>
-                «Я был здесь до того, как появилась Зона такой,
-                какой ты её знаешь.»
-                </p>
-
-                <p>
-                Он смотрит на твой телефон.
-                </p>
-
-                <p class="danger">
-                «Ты пришёл из-за сигнала. Все приходят из-за сигнала.»
-                </p>
-            `,
-            choices:[
-                {
-                    text:"Попросить его объяснить сигнал",
-                    action:()=>{
-                        game.signal+=10;
-                        renderScene("signalTruth");
-                    }
-                },
-                {
-                    text:"Потребовать назвать имя",
-                    action:()=>{
-                        game.health-=5;
-                        renderScene("strangerFight");
-                    }
-                }
-            ]
-        },
-
-        strangerFight:{
-            chapter:"CHAPTER 02 // CONFRONTATION",
-            title:"Выстрел",
-            location:"checkpoint",
-            text:`
-                <p>
-                Человек резко поднимает оружие.
-                Раздаётся выстрел.
-                Пуля проходит рядом с плечом.
-                </p>
-
-                <p class="danger">
-                «Уходи!»
-                </p>
-
-                <p>
-                Он исчезает в тумане.
-                На земле остаётся небольшой металлический предмет.
-                </p>
-            `,
-            choices:[
-                {
-                    text:"Поднять предмет",
-                    action:()=>{
-                        addItem("Неизвестный жетон");
-                        renderScene("road");
-                    }
-                },
-                {
-                    text:"Не трогать его",
-                    action:()=>{
-                        renderScene("road");
-                    }
-                }
-            ]
-        },
-
-        signalTruth:{
-            chapter:"CHAPTER 03 // THE SIGNAL",
-            title:"Почему ты слышишь его?",
-            location:"checkpoint",
-            text:`
-                <p>
-                «Потому что сигнал не передаёт звук», — говорит Сергей.
-                </p>
-
-                <p>
-                «Он передаёт память.»
-                </p>
-
-                <p>
-                Ты сначала думаешь, что он шутит.
-                </p>
-
-                <p class="danger">
-                Но телефон начинает показывать фотографии,
-                которых ты никогда не делал.
-                </p>
-
-                <p>
-                На последней фотографии — ты сам.
-                Стоишь перед разрушенным зданием.
-                </p>
-
-                <p class="important">
-                Дата фотографии: 26.04.1986.
-                </p>
-            `,
-            choices:[
-                {
-                    text:"Показать ему фотографию",
-                    action:()=>{
-                        game.flags.discoveredTruth=true;
-                        renderScene("photo");
-                    }
-                },
-                {
-                    text:"Спрятать телефон",
-                    action:()=>{
-                        renderScene("road");
-                    }
-                }
-            ]
-        },
-
-        photo:{
-            chapter:"CHAPTER 03 // IMPOSSIBLE",
-            title:"Фотография",
-            location:"checkpoint",
-            text:`
-                <p>
-                Сергей смотрит на экран.
-                Его лицо меняется.
-                </p>
-
-                <p>
-                «Этого не может быть.»
-                </p>
-
-                <p>
-                Он впервые выглядит испуганным.
-                </p>
-
-                <p class="danger">
-                «Ты должен попасть в подземный объект раньше полуночи.»
-                </p>
-
-                <p>
-                «Иначе сигнал начнёт повторять события.»
-                </p>
-            `,
-            choices:[
-                {
-                    text:"Идти к подземному объекту",
-                    action:()=>{
-                        game.flags.knowsAboutBunker=true;
-                        game.location="bunker";
-                        advanceTime(40);
-                        renderScene("bunkerEntrance");
-                    }
-                },
-                {
-                    text:"Идти в Припять",
-                    action:()=>{
-                        game.location="pripyat";
-                        advanceTime(45);
-                        renderScene("pripyatEntrance");
-                    }
-                }
-            ]
-        },
-
-        road:{
-            chapter:"CHAPTER 02 // ROAD",
-            title:"Дорога в Зону",
-            location:"checkpoint",
-            text:`
-                <p>
-                Ты оставляешь КПП позади.
-                Дорога уходит в туман.
-                </p>
-
-                <p>
-                На обочине стоят старые указатели.
-                Некоторые перевёрнуты.
-                </p>
-
-                <p class="system">
-                SIGNAL: ${game.signal}%
-                </p>
-
-                <p>
-                Где-то далеко работает генератор.
-                Время — ${currentTime()}.
-                </p>
-            `,
-            choices:[
-                {
-                    text:"Пойти к старой станции",
-                    action:()=>{
-                        game.location="station";
-                        advanceTime(30);
-                        renderScene("station");
-                    }
-                },
-                {
-                    text:"Пойти в деревню",
-                    action:()=>{
-                        game.location="village";
-                        advanceTime(20);
-                        renderScene("village");
-                    }
-                },
-                {
-                    text:"Пойти в Чёрный лес",
-                    action:()=>{
-                        game.location="forest";
-                        game.flags.enteredForest=true;
-                        advanceTime(25);
-                        renderScene("forest");
-                    }
-                },
-                {
-                    text:"Открыть карту",
-                    action:()=>{
-                        openMap();
-                    }
-                }
-            ]
-        },
-
-        village:{
-            chapter:"CHAPTER 03 // OLD VILLAGE",
-            title:"Старая деревня",
-            location:"village",
-            text:`
-                <p>
-                Дома стоят пустыми.
-                Некоторые окна заколочены изнутри.
-                </p>
-
-                <p>
-                В одном доме горит свет.
-                </p>
-
-                <p class="important">
-                Это невозможно — электричество в деревне отключили много лет назад.
-                </p>
-
-                <p>
-                Из дома доносится детский голос:
-                </p>
-
-                <p class="system">
-                «Ты опять опоздал.»
-                </p>
-            `,
-            choices:[
-                {
-                    text:"Войти в дом",
-                    action:()=>{
-                        advanceTime(12);
-                        renderScene("house");
-                    }
-                },
-                {
-                    text:"Обойти дом",
-                    action:()=>{
-                        renderScene("villageBack");
-                    }
-                },
-                {
-                    text:"Проверить уровень радиации",
-                    action:()=>{
-                        game.radiation+=7;
-                        renderScene("radiationCheck");
-                    }
-                }
-            ]
-        },
-
-        house:{
-            chapter:"CHAPTER 03 // THE HOUSE",
-            title:"Дом",
-            location:"village",
-            text:`
-                <p>
-                Внутри тепло.
-                На столе стоят две чашки чая.
-                Одна ещё горячая.
-                </p>
-
-                <p>
-                На стене висит фотография семьи.
-                </p>
-
-                <p class="danger">
-                На фотографии ты тоже есть.
-                </p>
-
-                <p>
-                Сверху раздаётся скрип пола.
-                </p>
-            `,
-            choices:[
-                {
-                    text:"Подняться наверх",
-                    action:()=>{
-                        renderScene("upstairs");
-                    }
-                },
-                {
-                    text:"Взять фотографию",
-                    action:()=>{
-                        addItem("Старая фотография");
-                        renderScene("houseMirror");
-                    }
-                },
-                {
-                    text:"Уйти",
-                    action:()=>{
-                        renderScene("villageBack");
-                    }
-                }
-            ]
-        },
-
-        upstairs:{
-            chapter:"CHAPTER 03 // SECOND FLOOR",
-            title:"Комната",
-            location:"village",
-            text:`
-                <p>
-                Комната пуста.
-                Только старое зеркало стоит у окна.
-                </p>
-
-                <p>
-                Ты смотришь в него.
-                </p>
-
-                <p>
-                Отражение улыбается.
-                </p>
-
-                <p class="danger">
-                Ты — нет.
-                </p>
-            `,
-            choices:[
-                {
-                    text:"Разбить зеркало",
-                    action:()=>{
-                        game.health-=8;
-                        game.flags.sawShadow=true;
-                        renderScene("mirrorBroken");
-                    }
-                },
-                {
-                    text:"Отойти",
-                    action:()=>{
-                        renderScene("villageBack");
-                    }
-                }
-            ]
-        },
-
-        mirrorBroken:{
-            chapter:"CHAPTER 03 // REFLECTION",
-            title:"Осколок",
-            location:"village",
-            text:`
-                <p>
-                Зеркало разбивается.
-                За ним оказывается пустота в стене.
-                </p>
-
-                <p>
-                Внутри лежит маленький ключ.
-                На нём выгравировано:
-                </p>
-
-                <p class="important">
-                «ОБЪЕКТ 17»
-                </p>
-            `,
-            choices:[
-                {
-                    text:"Взять ключ",
-                    action:()=>{
-                        addItem("Ключ объекта 17");
-                        game.flags.foundKey=true;
-                        renderScene("villageBack");
-                    }
-                }
-            ]
-        },
-
-        villageBack:{
-            chapter:"CHAPTER 03 // VILLAGE EXIT",
-            title:"За деревней",
-            location:"village",
-            text:`
-                <p>
-                За последним домом начинается поле.
-                Вдалеке видна старая вышка.
-                </p>
-
-                <p>
-                На вышке мигает зелёный огонь.
-                </p>
-
-                <p>
-                Твой телефон снова принимает сигнал.
-                </p>
-            `,
-            choices:[
-                {
-                    text:"Следовать к станции",
-                    action:()=>{
-                        game.location="station";
-                        advanceTime(25);
-                        renderScene("station");
-                    }
-                },
-                {
-                    text:"Идти к вышке",
-                    action:()=>{
-                        advanceTime(18);
-                        renderScene("tower");
-                    }
-                }
-            ]
-        },
-
-        tower:{
-            chapter:"CHAPTER 03 // RADIO TOWER",
-            title:"Вышка",
-            location:"village",
-            text:`
-                <p>
-                Лестница скрипит под ногами.
-                Наверху установлен старый передатчик.
-                </p>
-
-                <p class="system">
-                FREQUENCY LOCKED: 103.7 MHz
-                </p>
-
-                <p>
-                Ты понимаешь:
-                именно отсюда идёт сигнал.
-                </p>
-
-                <p class="danger">
-                Но передатчик подключён к чему-то,
-                чего нет ни на одной схеме.
-                </p>
-            `,
-            choices:[
-                {
-                    text:"Отключить передатчик",
-                    action:()=>{
-                        game.signal=0;
-                        renderScene("towerOff");
-                    }
-                },
-                {
-                    text:"Усилить сигнал",
-                    action:()=>{
-                        game.signal=100;
-                        game.flags.heardSignal=true;
-                        renderScene("towerBoost");
-                    }
-                }
-            ]
-        },
-
-        towerOff:{
-            chapter:"CHAPTER 03 // SILENCE",
-            title:"Тишина",
-            location:"village",
-            text:`
-                <p>
-                Передатчик выключается.
-                </p>
-
-                <p>
-                Впервые за несколько часов вокруг становится абсолютно тихо.
-                </p>
-
-                <p class="important">
-                Затем вся Зона одновременно включает свет.
-                </p>
-            `,
-            choices:[
-                {
-                    text:"Бежать к станции",
-                    action:()=>{
-                        game.location="station";
-                        advanceTime(20);
-                        renderScene("station");
-                    }
-                },
-                {
-                    text:"Остаться и наблюдать",
-                    action:()=>{
-                        renderScene("lights");
-                    }
-                }
-            ]
-        },
-
-        towerBoost:{
-            chapter:"CHAPTER 03 // TRANSMISSION",
-            title:"Ответ из прошлого",
-            location:"village",
-            text:`
-                <p>
-                Ты увеличиваешь мощность передатчика.
-                </p>
-
-                <p>
-                Шум превращается в голоса.
-                Их десятки.
-                </p>
-
-                <p class="danger">
-                Все говорят одновременно.
-                Но один голос звучит совершенно ясно:
-                </p>
-
-                <p class="system">
-                «ТЫ НЕ ДОЛЖЕН БЫЛ НАЙТИ ЭТО МЕСТО.»
-                </p>
-
-                <p>
-                Вдалеке что-то взрывается.
-                </p>
-            `,
-            choices:[
-                {
-                    text:"Спуститься и бежать",
-                    action:()=>{
-                        game.health-=12;
-                        renderScene("road");
-                    }
-                }
-            ]
-        },
-
-        station:{
-            chapter:"CHAPTER 04 // OLD STATION",
-            title:"Станция",
-            location:"station",
-            text:`
-                <p>
-                Старая станция выглядит заброшенной.
-                Внутри всё покрыто пылью.
-                </p>
-
-                <p>
-                Но один компьютер работает.
-                </p>
-
-                <p class="system">
-                USER: UNKNOWN<br>
-                PASSWORD: REQUIRED
-                </p>
-
-                <p>
-                Рядом лежит записка:
-                </p>
-
-                <p class="important">
-                «Пароль — дата, которую ты никогда не забудешь.»
-                </p>
-            `,
-            choices:[
-                {
-                    text:"Попробовать 26.04.1986",
-                    action:()=>{
-                        game.flags.stationOpened=true;
-                        renderScene("computer");
-                    }
-                },
-                {
-                    text:"Искать пароль",
-                    action:()=>{
-                        addItem("Записка с кодом");
-                        renderScene("stationSearch");
-                    }
-                },
-                {
-                    text:"Уйти",
-                    action:()=>{
-                        renderScene("road");
-                    }
-                }
-            ]
-        },
-
-        stationSearch:{
-            chapter:"CHAPTER 04 // ARCHIVE",
-            title:"Архив",
-            location:"station",
-            text:`
-                <p>
-                В шкафу ты находишь старый архив.
-                Большинство документов уничтожено.
-                </p>
-
-                <p>
-                Один файл сохранился.
-                </p>
-
-                <p class="system">
-                PROJECT: ECHO
-                </p>
-
-                <p>
-                Цель проекта — передача человеческой памяти
-                через электромагнитный сигнал.
-                </p>
-            `,
-            choices:[
-                {
-                    text:"Взять документы",
-                    action:()=>{
-                        addItem("Документы ECHO");
-                        game.flags.discoveredTruth=true;
-                        renderScene("computer");
-                    }
-                },
-                {
-                    text:"Оставить документы",
-                    action:()=>{
-                        renderScene("computer");
-                    }
-                }
-            ]
-        },
-
-        computer:{
-            chapter:"CHAPTER 04 // PROJECT ECHO",
-            title:"ECHO",
-            location:"station",
-            text:`
-                <p class="system">
-                ACCESS GRANTED
-                </p>
-
-                <p>
-                На экране появляется архив проекта.
-                </p>
-
-                <p>
-                «После аварии эксперимент не прекратился.
-                Зона стала усилителем.
-                </p>
-
-                <p class="danger">
-                Сигнал способен передавать воспоминания
-                из одной временной точки в другую.»
-                </p>
-
-                <p>
-                Последняя запись датирована сегодняшним числом.
-                </p>
-            `,
-            choices:[
-                {
-                    text:"Открыть последнюю запись",
-                    action:()=>{
-                        renderScene("lastRecord");
-                    }
-                },
-                {
-                    text:"Удалить архив",
-                    action:()=>{
-                        renderScene("deleteArchive");
-                    }
-                }
-            ]
-        },
-
-        lastRecord:{
-            chapter:"CHAPTER 04 // LAST RECORD",
-            title:"Ты",
-            location:"station",
-            text:`
-                <p>
-                На видео человек сидит перед камерой.
-                </p>
-
-                <p>
-                Ты узнаёшь себя.
-                </p>
-
-                <p class="danger">
-                «Если ты смотришь это видео,
-                значит предыдущая попытка провалилась.»
-                </p>
-
-                <p>
-                «Не доверяй Сергею.»
-                </p>
-
-                <p>
-                Видео заканчивается.
-                </p>
-            `,
-            choices:[
-                {
-                    text:"Вернуться к Сергею",
-                    action:()=>{
-                        renderScene("returnSergey");
-                    }
-                },
-                {
-                    text:"Идти к объекту 17",
-                    action:()=>{
-                        game.flags.knowsAboutBunker=true;
-                        game.location="bunker";
-                        renderScene("bunkerEntrance");
-                    }
-                }
-            ]
-        },
-
-        returnSergey:{
-            chapter:"CHAPTER 05 // BETRAYAL",
-            title:"Кому верить?",
-            location:"station",
-            text:`
-                <p>
-                Ты выходишь со станции.
-                Сергей уже ждёт тебя.
-                </p>
-
-                <p>
-                «Ты нашёл архив.»
-                </p>
-
-                <p>
-                Это не вопрос.
-                </p>
-
-                <p class="danger">
-                Он знает всё, что ты делал.
-                </p>
-            `,
-            choices:[
-                {
-                    text:"Потребовать объяснений",
-                    action:()=>{
-                        renderScene("sergeyTruth");
-                    }
-                },
-                {
-                    text:"Атаковать первым",
-                    action:()=>{
-                        game.health-=20;
-                        renderScene("sergeyFight");
-                    }
-                },
-                {
-                    text:"Уйти молча",
-                    action:()=>{
-                        game.location="bunker";
-                        renderScene("bunkerEntrance");
-                    }
-                }
-            ]
-        },
-
-        sergeyTruth:{
-            chapter:"CHAPTER 05 // SERGEY",
-            title:"Проводник",
-            location:"station",
-            text:`
-                <p>
-                Сергей снимает перчатку.
-                На его руке видны следы ожогов.
-                </p>
-
-                <p>
-                «Я уже проходил это.»
-                </p>
-
-                <p>
-                «Каждый раз ты приходишь сюда.
-                Каждый раз находишь сигнал.
-                Каждый раз пытаешься изменить прошлое.»
-                </p>
-
-                <p class="important">
-                «И каждый раз Зона возвращает тебя обратно.»
-                </p>
-            `,
-            choices:[
-                {
-                    text:"Спросить, сколько раз это было",
-                    action:()=>{
-                        renderScene("loops");
-                    }
-                },
-                {
-                    text:"Не верить ему",
-                    action:()=>{
-                        renderScene("bunkerEntrance");
-                    }
-                }
-            ]
-        },
-
-        loops:{
-            chapter:"CHAPTER 05 // LOOP",
-            title:"Сколько раз?",
-            location:"station",
-            text:`
-                <p>
-                «Двадцать семь», — отвечает Сергей.
-                </p>
-
-                <p>
-                «И это число будет расти,
-                пока ты не сделаешь правильный выбор.»
-                </p>
-
-                <p class="danger">
-                «Но правильного выбора нет.»
-                </p>
-            `,
-            choices:[
-                {
-                    text:"Спросить про объект 17",
-                    action:()=>{
-                        game.flags.knowsAboutBunker=true;
-                        renderScene("object17");
-                    }
-                }
-            ]
-        },
-
-        object17:{
-            chapter:"CHAPTER 05 // OBJECT 17",
-            title:"Под землёй",
-            location:"station",
-            text:`
-                <p>
-                Сергей показывает на старую карту.
-                </p>
-
-                <p>
-                Под станцией действительно есть подземный комплекс.
-                </p>
-
-                <p>
-                «Там находится источник сигнала.»
-                </p>
-
-                <p class="danger">
-                «Но если ты войдёшь туда,
-                обратно выйдешь уже не тем человеком.»
-                </p>
-            `,
-            choices:[
-                {
-                    text:"Спуститься в объект 17",
-                    action:()=>{
-                        game.location="bunker";
-                        advanceTime(20);
-                        renderScene("bunkerEntrance");
-                    }
-                },
-                {
-                    text:"Отправиться в Припять",
-                    action:()=>{
-                        game.location="pripyat";
-                        advanceTime(35);
-                        renderScene("pripyatEntrance");
-                    }
-                }
-            ]
-        },
-
-        forest:{
-            chapter:"CHAPTER 03 // BLACK FOREST",
-            title:"Чёрный лес",
-            location:"forest",
-            text:`
-                <p>
-                Деревья здесь растут слишком близко друг к другу.
-                </p>
-
-                <p>
-                Фонарик начинает мигать.
-                </p>
-
-                <p class="danger">
-                Между деревьями кто-то идёт параллельно тебе.
-                </p>
-
-                <p>
-                Каждый раз, когда ты останавливаешься,
-                он тоже останавливается.
-                </p>
-            `,
-            choices:[
-                {
-                    text:"Продолжить идти",
-                    action:()=>{
-                        game.battery-=15;
-                        game.radiation+=8;
-                        renderScene("forestDeep");
-                    }
-                },
-                {
-                    text:"Крикнуть ему",
-                    action:()=>{
-                        game.health-=15;
-                        renderScene("forestVoice");
-                    }
-                },
-                {
-                    text:"Вернуться",
-                    action:()=>{
-                        game.location="village";
-                        renderScene("village");
-                    }
-                }
-            ]
-        },
-
-        forestDeep:{
-            chapter:"CHAPTER 03 // BLACK FOREST",
-            title:"Голоса",
-            location:"forest",
-            text:`
-                <p>
-                Ты выходишь на небольшую поляну.
-                В центре лежит металлический контейнер.
-                </p>
-
-                <p>
-                Рядом стоит человек в противогазе.
-                </p>
-
-                <p class="danger">
-                Но это не Сергей.
-                </p>
-
-                <p>
-                Человек говорит:
-                «Ты уже был здесь.»
-                </p>
-            `,
-            choices:[
-                {
-                    text:"Открыть контейнер",
-                    action:()=>{
-                        addItem("Странный артефакт");
-                        game.flags.tookArtifact=true;
-                        game.radiation+=20;
-                        renderScene("artifact");
-                    }
-                },
-                {
-                    text:"Уйти",
-                    action:()=>{
-                        game.location="station";
-                        renderScene("station");
-                    }
-                }
-            ]
-        },
-
-        artifact:{
-            chapter:"CHAPTER 03 // ARTIFACT",
-            title:"Эхо",
-            location:"forest",
-            text:`
-                <p>
-                Артефакт выглядит как кусок чёрного стекла.
-                Внутри него движется свет.
-                </p>
-
-                <p>
-                Когда ты касаешься его,
-                в голове появляется чужое воспоминание.
-                </p>
-
-                <p class="important">
-                Ты видишь лабораторию.
-                Камера.
-                Люди в белых халатах.
-                И себя.
-                </p>
-            `,
-            choices:[
-                {
-                    text:"Отбросить артефакт",
-                    action:()=>{
-                        removeItem("Странный артефакт");
-                        game.radiation-=15;
-                        renderScene("forestExit");
-                    }
-                },
-                {
-                    text:"Оставить его",
-                    action:()=>{
-                        renderScene("artifactVision");
-                    }
-                }
-            ]
-        },
-
-        artifactVision:{
-            chapter:"CHAPTER 03 // MEMORY",
-            title:"Чужая память",
-            location:"forest",
-            text:`
-                <p>
-                Ты видишь дверь с надписью:
-                </p>
-
-                <p class="system">
-                OBJECT 17
-                </p>
-
-                <p>
-                За дверью стоит человек.
-                Он похож на тебя.
-                </p>
-
-                <p class="danger">
-                Он говорит:
-                «Не открывай дверь.»
-                </p>
-            `,
-            choices:[
-                {
-                    text:"Пойти к объекту 17",
-                    action:()=>{
-                        game.location="bunker";
-                        renderScene("bunkerEntrance");
-                    }
-                },
-                {
-                    text:"Вернуться к станции",
-                    action:()=>{
-                        game.location="station";
-                        renderScene("station");
-                    }
-                }
-            ]
-        },
-
-        forestVoice:{
-            chapter:"CHAPTER 03 // BLACK FOREST",
-            title:"Ответ",
-            location:"forest",
-            text:`
-                <p>
-                Ты кричишь:
-                «Кто ты?»
-                </p>
-
-                <p>
-                Лес отвечает твоим же голосом.
-                </p>
-
-                <p class="danger">
-                «Кто ты?»
-                </p>
-
-                <p>
-                Фонарик гаснет.
-                </p>
-            `,
-            choices:[
-                {
-                    text:"Бежать",
-                    action:()=>{
-                        game.stamina-=35;
-                        game.health-=10;
-                        renderScene("forestExit");
-                    }
-                }
-            ]
-        },
-
-        forestExit:{
-            chapter:"CHAPTER 03 // ESCAPE",
-            title:"Выход из леса",
-            location:"forest",
-            text:`
-                <p>
-                Ты выбираешься на дорогу.
-                </p>
-
-                <p>
-                Впереди видна старая станция.
-                </p>
-
-                <p>
-                Телефон снова показывает сигнал:
-                <span class="important">${game.signal}%</span>
-                </p>
-            `,
-            choices:[
-                {
-                    text:"Идти к станции",
-                    action:()=>{
-                        game.location="station";
-                        renderScene("station");
-                    }
-                },
-                {
-                    text:"Идти в Припять",
-                    action:()=>{
-                        game.location="pripyat";
-                        renderScene("pripyatEntrance");
-                    }
-                }
-            ]
-        },
-
-        bunkerEntrance:{
-            chapter:"CHAPTER 06 // OBJECT 17",
-            title:"Дверь",
-            location:"bunker",
-            text:`
-                <p>
-                Вход находится под землёй.
-                </p>
-
-                <p>
-                Перед массивной дверью установлен старый терминал.
-                </p>
-
-                <p class="system">
-                OBJECT 17<br>
-                STATUS: ACTIVE
-                </p>
-
-                <p>
-                На двери три слова:
-                </p>
-
-                <p class="important">
-                ПАМЯТЬ. ВРЕМЯ. ВЫБОР.
-                </p>
-            `,
-            choices:[
-                {
-                    text:"Использовать ключ",
-                    condition:()=>hasItem("Ключ объекта 17"),
-                    action:()=>{
-                        renderScene("bunkerOpen");
-                    }
-                },
-                {
-                    text:"Попробовать открыть без ключа",
-                    action:()=>{
-                        game.health-=10;
-                        game.radiation+=10;
-                        renderScene("bunkerLocked");
-                    }
-                },
-                {
-                    text:"Уйти",
-                    action:()=>{
-                        game.location="station";
-                        renderScene("station");
-                    }
-                }
-            ]
-        },
-
-        bunkerLocked:{
-            chapter:"CHAPTER 06 // LOCKED",
-            title:"Не открывается",
-            location:"bunker",
-            text:`
-                <p>
-                Терминал не реагирует.
-                </p>
-
-                <p>
-                Затем на экране появляется:
-                </p>
-
-                <p class="danger">
-                «ТЫ ЕЩЁ НЕ ГОТОВ.»
-                </p>
-
-                <p>
-                Где-то внутри комплекса слышится стук.
-                </p>
-            `,
-            choices:[
-                {
-                    text:"Идти обратно",
-                    action:()=>{
-                        game.location="station";
-                        renderScene("station");
-                    }
-                },
-                {
-                    text:"Ждать",
-                    action:()=>{
-                        advanceTime(15);
-                        renderScene("bunkerWait");
-                    }
-                }
-            ]
-        },
-
-        bunkerWait:{
-            chapter:"CHAPTER 06 // WAITING",
-            title:"Стук",
-            location:"bunker",
-            text:`
-                <p>
-                Стук повторяется.
-                Три раза.
-                Пауза.
-                Ещё три раза.
-                </p>
-
-                <p>
-                Ты понимаешь, что это код.
-                </p>
-
-                <p class="system">
-                3 - 3 - 3
-                </p>
-            `,
-            choices:[
-                {
-                    text:"Ответить тремя ударами",
-                    action:()=>{
-                        renderScene("bunkerOpen");
-                    }
-                },
-                {
-                    text:"Не отвечать",
-                    action:()=>{
-                        renderScene("bunkerDark");
-                    }
-                }
-            ]
-        },
-
-        bunkerOpen:{
-            chapter:"CHAPTER 06 // BELOW",
-            title:"Подземный объект",
-            location:"bunker",
-            text:`
-                <p>
-                Дверь открывается.
-                </p>
-
-                <p>
-                Внутри работают аварийные лампы.
-                Коридор уходит далеко под землю.
-                </p>
-
-                <p>
-                На стенах висят фотографии.
-                </p>
-
-                <p class="danger">
-                На всех фотографиях изображён один и тот же человек.
-                Ты.
-                </p>
-            `,
-            choices:[
-                {
-                    text:"Идти по коридору",
-                    action:()=>{
-                        game.radiation+=12;
-                        renderScene("lab");
-                    }
-                },
-                {
-                    text:"Исследовать фотографии",
-                    action:()=>{
-                        addItem("Фотоархив");
-                        renderScene("photos");
-                    }
-                }
-            ]
-        },
-
-        photos:{
-            chapter:"CHAPTER 06 // ARCHIVE",
-            title:"Фотографии",
-            location:"bunker",
-            text:`
-                <p>
-                На обороте фотографий стоят даты.
-                </p>
-
-                <p class="system">
-                1986<br>
-                1994<br>
-                2003<br>
-                2014<br>
-                2014<br>
-                2014
-                </p>
-
-                <p>
-                Последние фотографии сделаны в один и тот же день.
-                </p>
-
-                <p class="danger">
-                На каждой из них ты принимаешь другое решение.
-                </p>
-            `,
-            choices:[
-                {
-                    text:"Идти дальше",
-                    action:()=>{
-                        renderScene("lab");
-                    }
-                }
-            ]
-        },
-
-        lab:{
-            chapter:"CHAPTER 07 // LABORATORY",
-            title:"Лаборатория",
-            location:"bunker",
-            text:`
-                <p>
-                Ты входишь в лабораторию.
-                </p>
-
-                <p>
-                В центре помещения находится огромный генератор.
-                Вокруг него стоят мониторы.
-                </p>
-
-                <p class="system">
-                ECHO SYSTEM<br>
-                CYCLE: 27
-                </p>
-
-                <p>
-                На главном экране появляется вопрос:
-                </p>
-
-                <p class="important">
-                «ХОЧЕШЬ УЗНАТЬ, ПОЧЕМУ ТЫ ВЕРНУЛСЯ?»
-                </p>
-            `,
-            choices:[
-                {
-                    text:"ДА",
-                    action:()=>{
-                        renderScene("truth");
-                    }
-                },
-                {
-                    text:"НЕТ",
-                    action:()=>{
-                        renderScene("escape");
-                    }
-                }
-            ]
-        },
-
-        truth:{
-            chapter:"FINAL CHAPTER // TRUTH",
-            title:"Последняя запись",
-            location:"bunker",
-            text:`
-                <p>
-                Экран показывает твою комнату.
-                </p>
-
-                <p>
-                Ты видишь себя до поездки в Зону.
-                </p>
-
-                <p>
-                На столе лежит письмо.
-                </p>
-
-                <p class="danger">
-                Ты сам написал его.
-                </p>
-
-                <p>
-                В нём всего одна фраза:
-                </p>
-
-                <p class="important">
-                «Если ты читаешь это — значит, я не смог остановить себя.»
-                </p>
-
-                <p>
-                Теперь ты понимаешь:
-                сигнал не заманивал тебя в Зону.
-                </p>
-
-                <p class="danger">
-                Ты сам отправил его в прошлое.
-                </p>
-            `,
-            choices:[
-                {
-                    text:"Изменить сигнал",
-                    action:()=>{
-                        game.flags.discoveredTruth=true;
-                        renderScene("finalChoice");
-                    }
-                },
-                {
-                    text:"Остановить систему",
-                    action:()=>{
-                        renderScene("finalChoice");
-                    }
-                }
-            ]
-        },
-
-        finalChoice:{
-            chapter:"FINAL CHAPTER // LAST CHOICE",
-            title:"Последний выбор",
-            location:"bunker",
-            text:`
-                <p>
-                Перед тобой два переключателя.
-                </p>
-
-                <p>
-                <span class="important">ПЕРВЫЙ</span> —
-                отправить сигнал обратно в 1986 год.
-                </p>
-
-                <p>
-                <span class="important">ВТОРОЙ</span> —
-                уничтожить источник.
-                </p>
-
-                <p class="danger">
-                Система предупреждает:
-                после выбора возврата не будет.
-                </p>
-            `,
-            choices:[
-                {
-                    text:"ОТПРАВИТЬ СИГНАЛ В ПРОШЛОЕ",
-                    action:()=>{
-                        ending("loop");
-                    }
-                },
-                {
-                    text:"УНИЧТОЖИТЬ ИСТОЧНИК",
-                    action:()=>{
-                        ending("escape");
-                    }
-                },
-                {
-                    text:"ОСТАВИТЬ ВСЁ КАК ЕСТЬ",
-                    action:()=>{
-                        ending("truth");
-                    }
-                }
-            ]
-        },
-
-        escape:{
-            chapter:"FINAL CHAPTER // ESCAPE",
-            title:"Бежать",
-            location:"bunker",
-            text:`
-                <p>
-                Ты выключаешь систему.
-                </p>
-
-                <p>
-                Лаборатория начинает разрушаться.
-                </p>
-
-                <p>
-                Красные лампы мигают.
-                Сигнал исчезает.
-                </p>
-            `,
-            choices:[
-                {
-                    text:"Бежать наружу",
-                    action:()=>{
-                        ending("escape");
-                    }
-                }
-            ]
-        },
-
-        lights:{
-            chapter:"CHAPTER 04 // LIGHTS",
-            title:"Город проснулся",
-            location:"village",
-            text:`
-                <p>
-                На горизонте загораются тысячи окон.
-                </p>
-
-                <p>
-                Деревня, которая должна быть мёртвой,
-                снова становится живой.
-                </p>
-
-                <p class="danger">
-                Но люди внутри домов не двигаются.
-                Они просто смотрят на тебя.
-                </p>
-            `,
-            choices:[
-                {
-                    text:"Уйти",
-                    action:()=>{
-                        game.location="station";
-                        renderScene("station");
-                    }
-                }
-            ]
-        },
-
-        houseMirror:{
-            chapter:"CHAPTER 03 // PHOTO",
-            title:"Снимок",
-            location:"village",
-            text:`
-                <p>
-                На фотографии семья улыбается.
-                </p>
-
-                <p>
-                Ты замечаешь одну деталь.
-                </p>
-
-                <p class="danger">
-                Человек рядом с тобой — Сергей.
-                </p>
-            `,
-            choices:[
-                {
-                    text:"Вернуться к станции",
-                    action:()=>{
-                        game.location="station";
-                        renderScene("station");
-                    }
-                }
-            ]
-        },
-
-        radiationCheck:{
-            chapter:"CHAPTER 03 // RADIATION",
-            title:"Слишком много",
-            location:"village",
-            text:`
-                <p>
-                Дозиметр начинает пищать.
-                </p>
-
-                <p class="danger">
-                Уровень радиации быстро растёт.
-                </p>
-
-                <p>
-                Здесь нельзя оставаться.
-                </p>
-            `,
-            choices:[
-                {
-                    text:"Уйти к станции",
-                    action:()=>{
-                        game.location="station";
-                        renderScene("station");
-                    }
-                }
-            ]
-        },
-
-        bunkerDark:{
-            chapter:"CHAPTER 06 // DARK",
-            title:"Темнота",
-            location:"bunker",
-            text:`
-                <p>
-                Свет внутри объекта гаснет.
-                </p>
-
-                <p>
-                В темноте кто-то произносит:
-                </p>
-
-                <p class="danger">
-                «Наконец-то.»
-                </p>
-            `,
-            choices:[
-                {
-                    text:"Включить фонарик",
-                    action:()=>{
-                        game.battery-=20;
-                        renderScene("lab");
-                    }
-                }
-            ]
-        },
-
-        pripyatEntrance:{
-            chapter:"CHAPTER 05 // PRIPYAT",
-            title:"Припять",
-            location:"pripyat",
-            text:`
-                <p>
-                Ты входишь в город.
-                </p>
-
-                <p>
-                Дома стоят чёрными силуэтами.
-                Ветер гонит по улице мусор.
-                </p>
-
-                <p>
-                Где-то играет детская музыка.
-                </p>
-
-                <p class="danger">
-                Музыка доносится из здания,
-                которое было заброшено много лет назад.
-                </p>
-            `,
-            choices:[
-                {
-                    text:"Идти к зданию",
-                    action:()=>{
-                        advanceTime(15);
-                        renderScene("pripyatBuilding");
-                    }
-                },
-                {
-                    text:"Искать дорогу к объекту 17",
-                    action:()=>{
-                        game.location="bunker";
-                        renderScene("bunkerEntrance");
-                    }
-                }
-            ]
-        },
-
-        pripyatBuilding:{
-            chapter:"CHAPTER 05 // PRIPYAT",
-            title:"Музыка",
-            location:"pripyat",
-            text:`
-                <p>
-                Внутри старого здания стоит магнитофон.
-                </p>
-
-                <p>
-                Он продолжает работать.
-                </p>
-
-                <p class="system">
-                TRACK: UNKNOWN
-                </p>
-
-                <p>
-                В колонках звучит запись твоего голоса.
-                </p>
-
-                <p class="danger">
-                «Не заходи дальше.»
-                </p>
-            `,
-            choices:[
-                {
-                    text:"Остановить магнитофон",
-                    action:()=>{
-                        game.signal-=20;
-                        renderScene("pripyatSilence");
-                    }
-                },
-                {
-                    text:"Продолжить слушать",
-                    action:()=>{
-                        game.signal+=20;
-                        renderScene("pripyatVoice");
-                    }
-                }
-            ]
-        },
-
-        pripyatSilence:{
-            chapter:"CHAPTER 05 // SILENCE",
-            title:"Тишина",
-            location:"pripyat",
-            text:`
-                <p>
-                Музыка прекращается.
-                </p>
-
-                <p>
-                В тишине слышны шаги на лестнице.
-                </p>
-
-                <p>
-                Они идут сверху вниз.
-                </p>
-            `,
-            choices:[
-                {
-                    text:"Спрятаться",
-                    action:()=>{
-                        renderScene("pripyatShadow");
-                    }
-                },
-                {
-                    text:"Выйти наружу",
-                    action:()=>{
-                        game.location="bunker";
-                        renderScene("bunkerEntrance");
-                    }
-                }
-            ]
-        },
-
-        pripyatVoice:{
-            chapter:"CHAPTER 05 // VOICE",
-            title:"Твой голос",
-            location:"pripyat",
-            text:`
-                <p>
-                Запись продолжается.
-                </p>
-
-                <p>
-                «Ты думаешь, что можешь изменить прошлое.»
-                </p>
-
-                <p>
-                «Но прошлое уже изменило тебя.»
-                </p>
-
-                <p class="danger">
-                «Объект 17 ждёт.»
-                </p>
-            `,
-            choices:[
-                {
-                    text:"Идти к объекту 17",
-                    action:()=>{
-                        game.location="bunker";
-                        renderScene("bunkerEntrance");
-                    }
-                }
-            ]
-        },
-
-        pripyatShadow:{
-            chapter:"CHAPTER 05 // SHADOW",
-            title:"Кто-то рядом",
-            location:"pripyat",
-            text:`
-                <p>
-                Шаги останавливаются.
-                </p>
-
-                <p>
-                Тень появляется на стене.
-                </p>
-
-                <p class="danger">
-                У неё нет человека.
-                </p>
-            `,
-            choices:[
-                {
-                    text:"Бежать",
-                    action:()=>{
-                        game.health-=15;
-                        game.location="bunker";
-                        renderScene("bunkerEntrance");
-                    }
-                }
-            ]
-        }
-
-    };
-
-    const data=scenes[scene];
-
-    if(!data){
-        renderScene("arrival");
-        return;
-    }
-
-    document.getElementById("chapterText").textContent=data.chapter;
-    document.getElementById("sceneTitle").textContent=data.title;
-
-    document.getElementById("storyText").innerHTML=data.text;
-
-    if(data.location){
-        game.location=data.location;
-    }
-
-    const choicesBox=document.getElementById("choices");
-
-    choicesBox.innerHTML="";
-
-    data.choices.forEach((choice)=>{
-
-        if(choice.condition && !choice.condition()){
-            return;
-        }
-
-        const button=document.createElement("button");
-
-        button.className="choice";
-
-        button.innerHTML=choice.text+
-            (choice.hint?`<small>${choice.hint}</small>`:"");
-
-        button.onclick=()=>{
-
-            game.choices++;
-
-            if(Math.random()<.12){
-                randomEvent();
-            }
-
-            if(choice.action){
-                choice.action();
-            }
-
-            updateUI();
-        };
-
-        choicesBox.appendChild(button);
 
     });
 
-    advanceTime(1);
+});
 
-    updateUI();
+
+/* ================= EPISODE MODAL ================= */
+
+const modal =
+    document.getElementById("episodeModal");
+
+const modalTitle =
+    document.getElementById("modalTitle");
+
+const modalText =
+    document.getElementById("modalText");
+
+const modalNumber =
+    document.getElementById("modalNumber");
+
+const closeModal =
+    document.getElementById("closeModal");
+
+
+document.querySelectorAll(".episode")
+.forEach((episode,index)=>{
+
+    episode.addEventListener("click",()=>{
+
+        modalTitle.textContent =
+            episode.dataset.title;
+
+        modalText.textContent =
+            episode.dataset.text;
+
+        modalNumber.textContent =
+            episode.querySelector(
+                ".episode-number"
+            ).textContent;
+
+        modal.classList.add("open");
+
+    });
+
+});
+
+
+function closeEpisodeModal(){
+
+    modal.classList.remove("open");
 
 }
 
+closeModal.addEventListener(
+    "click",
+    closeEpisodeModal
+);
 
-/* =========================================================
-   RANDOM EVENTS
-========================================================= */
+modal.addEventListener("click",(e)=>{
 
-function randomEvent(){
-
-    const events=[
-
-        ()=>{
-            game.battery-=4;
-            notify("ФОНАРИК МИГНУЛ");
-        },
-
-        ()=>{
-            game.signal+=4;
-            notify("НЕИЗВЕСТНЫЙ СИГНАЛ +4%");
-        },
-
-        ()=>{
-            game.radiation+=3;
-            notify("ДОЗИМЕТР: ФОНОВЫЙ ВСПЛЕСК");
-        },
-
-        ()=>{
-            notify("ГДЕ-ТО ВДАЛЕКЕ ХЛОПНУЛА ДВЕРЬ");
-        },
-
-        ()=>{
-            game.stamina-=5;
-            notify("ТЫ УСТАЛ");
-        }
-
-    ];
-
-    events[Math.floor(Math.random()*events.length)]();
-}
-
-
-/* =========================================================
-   ENDINGS
-========================================================= */
-
-function ending(type){
-
-    if(game.endings.includes(type)){
-        return;
+    if(e.target === modal){
+        closeEpisodeModal();
     }
 
-    game.endings.push(type);
-
-    let title="";
-    let text="";
-
-    if(type==="loop"){
-
-        title="КОНЦОВКА: ЦИКЛ";
-
-        text=`
-        <p>
-        Ты активируешь передачу.
-        </p>
-
-        <p>
-        Экран заполняется шумом.
-        Затем появляется дата:
-        <strong>26.04.1986</strong>.
-        </p>
-
-        <p>
-        Последнее, что ты слышишь:
-        «Если ты это слышишь — не возвращайся.»
-        </p>
-
-        <p class="danger">
-        Ты понимаешь, что именно ты только что отправил
-        сообщение самому себе.
-        </p>
-
-        <p>
-        Цикл замыкается.
-        </p>
-        `;
-
-    }
-
-    if(type==="escape"){
-
-        title="КОНЦОВКА: ВЫХОД";
-
-        text=`
-        <p>
-        Система отключается.
-        </p>
-
-        <p>
-        Ты выбираешься наружу незадолго до рассвета.
-        </p>
-
-        <p>
-        На границе Зоны телефон снова получает сеть.
-        </p>
-
-        <p class="important">
-        Но последнее сообщение всё ещё находится на экране:
-        </p>
-
-        <p>
-        «НЕ ДУМАЙ, ЧТО ТЫ ВЫШЕЛ ОДИН.»
-        </p>
-
-        <p>
-        Ты удаляешь его.
-        </p>
-
-        <p class="danger">
-        Через секунду сообщение появляется снова.
-        </p>
-        `;
-
-    }
-
-    if(type==="truth"){
-
-        title="КОНЦОВКА: ПРАВДА";
-
-        text=`
-        <p>
-        Ты оставляешь систему работать.
-        </p>
-
-        <p>
-        Никаких взрывов.
-        Никакого света.
-        Просто тишина.
-        </p>
-
-        <p>
-        На экране появляется последняя строка:
-        </p>
-
-        <p class="important">
-        «ЦИКЛ ОСТАНОВЛЕН.»
-        </p>
-
-        <p>
-        Ты выходишь из лаборатории.
-        </p>
-
-        <p class="danger">
-        На поверхности уже рассвет.
-        Но Зона выглядит совсем иначе.
-        </p>
-
-        <p>
-        Возможно, ты впервые действительно изменил историю.
-        </p>
-        `;
-
-    }
-
-    if(type==="death"){
-
-        title="КОНЦОВКА: ПОСЛЕДНИЙ ШАГ";
-
-        text=`
-        <p>
-        Сил больше нет.
-        </p>
-
-        <p>
-        Ты падаешь в темноте.
-        </p>
-
-        <p class="danger">
-        Телефон продолжает работать.
-        </p>
-
-        <p>
-        Последнее сообщение:
-        </p>
-
-        <p class="important">
-        «Сигнал принят.»
-        </p>
-        `;
-
-    }
-
-    if(type==="radiation"){
-
-        title="КОНЦОВКА: ДОЗА";
-
-        text=`
-        <p>
-        Дозиметр перестаёт пищать.
-        </p>
-
-        <p>
-        Вокруг становится тихо.
-        </p>
-
-        <p>
-        Где-то далеко продолжает работать передатчик.
-        </p>
-
-        <p class="danger">
-        Сигнал снова начинает искать нового человека.
-        </p>
-        `;
-
-    }
-
-    document.getElementById("chapterText").textContent="FINAL // END OF TRANSMISSION";
-
-    document.getElementById("sceneTitle").textContent=title;
-
-    document.getElementById("storyText").innerHTML=
-        `<div class="ending">
-            <h2>${title}</h2>
-            ${text}
-            <p class="system">
-            CHOICES MADE: ${game.choices}<br>
-            SIGNAL: ${game.signal}%<br>
-            RADIATION: ${game.radiation}%
-            </p>
-        </div>`;
-
-    document.getElementById("choiceTitle").textContent="TRANSMISSION ENDED";
-
-    document.getElementById("choices").innerHTML=`
-
-        <button class="choice" onclick="startGame()">
-            ↻ НОВАЯ ИГРА
-            <small>Начать историю заново.</small>
-        </button>
-
-        <button class="choice" onclick="returnToMenu()">
-            ← ГЛАВНОЕ МЕНЮ
-            <small>Вернуться на стартовый экран.</small>
-        </button>
-
-    `;
-
-    localStorage.setItem(SAVE_KEY,JSON.stringify(game));
-
-}
-
-
-/* =========================================================
-   MAP
-========================================================= */
-
-function openMap(){
-
-    document.getElementById("mapModal").classList.remove("hidden");
-
-}
-
-function travelTo(location){
-
-    const allowed={
-
-        checkpoint:true,
-
-        village:true,
-
-        station:true,
-
-        forest:true,
-
-        pripyat:game.chapter>=3,
-
-        bunker:game.flags.knowsAboutBunker || game.flags.foundKey
-
-    };
-
-    if(!allowed[location]){
-
-        notify("ЭТА ЛОКАЦИЯ ПОКА НЕДОСТУПНА");
-
-        return;
-    }
-
-    game.location=location;
-
-    closeModal("mapModal");
-
-    switch(location){
-
-        case"checkpoint":
-            renderScene("arrival");
-            break;
-
-        case"village":
-            renderScene("village");
-            break;
-
-        case"station":
-            renderScene("station");
-            break;
-
-        case"forest":
-            renderScene("forest");
-            break;
-
-        case"pripyat":
-            renderScene("pripyatEntrance");
-            break;
-
-        case"bunker":
-            renderScene("bunkerEntrance");
-            break;
-
-    }
-
-}
-
-
-/* =========================================================
-   INVENTORY
-========================================================= */
-
-function openInventory(){
-
-    renderInventory();
-
-    document
-        .getElementById("inventoryModal")
-        .classList.remove("hidden");
-
-}
-
-
-/* =========================================================
-   SAVE SYSTEM
-========================================================= */
-
-function saveGame(){
-
-    document
-        .getElementById("saveModal")
-        .classList.remove("hidden");
-
-}
-
-function performSave(){
-
-    localStorage.setItem(
-        SAVE_KEY,
-        JSON.stringify(game)
-    );
-
-    closeModal("saveModal");
-
-    notify("ПРОГРЕСС СОХРАНЁН");
-
-}
-
-function deleteSave(){
-
-    if(confirm("Удалить локальное сохранение?")){
-
-        localStorage.removeItem(SAVE_KEY);
-
-        closeModal("saveModal");
-
-        notify("СОХРАНЕНИЕ УДАЛЕНО");
-
-    }
-
-}
-
-
-/* =========================================================
-   SYSTEM
-========================================================= */
-
-function openSettings(){
-
-    document
-        .getElementById("settingsModal")
-        .classList.remove("hidden");
-
-}
-
-function openInfo(){
-
-    alert(
-`CHZO: LAST SIGNAL
-
-Фанатский браузерный сюжетный проект.
-
-Игра работает полностью в браузере.
-Аккаунт не требуется.
-Прогресс хранится локально.
-
-Версия: 0.1.0`
-    );
-
-}
-
-function scanSignal(){
-
-    const signals=[
-
-        "103.7 MHz — UNKNOWN SOURCE",
-
-        "87.4 MHz — HUMAN VOICE DETECTED",
-
-        "114.2 MHz — DATA CORRUPTED",
-
-        "103.7 MHz — SIGNAL FROM 1986"
-
-    ];
-
-    const value=
-        signals[Math.floor(Math.random()*signals.length)];
-
-    document.getElementById("pdaSignal").textContent=value;
-
-    game.signal=clamp(game.signal+5,0,100);
-
-    notify("СКАНИРОВАНИЕ ЗАВЕРШЕНО");
-
-    updateUI();
-
-}
-
-
-/* =========================================================
-   MODALS
-========================================================= */
-
-function closeModal(id){
-
-    document
-        .getElementById(id)
-        .classList.add("hidden");
-
-}
-
-function openPDA(){
-
-    document
-        .getElementById("pdaModal")
-        .classList.remove("hidden");
-
-}
-
-
-/* =========================================================
-   KEYBOARD
-========================================================= */
+});
 
 document.addEventListener("keydown",(e)=>{
 
-    if(e.key==="Escape"){
-
-        [
-            "mapModal",
-            "inventoryModal",
-            "saveModal",
-            "settingsModal",
-            "pdaModal"
-        ].forEach(closeModal);
-
+    if(e.key === "Escape"){
+        closeEpisodeModal();
     }
 
 });
 
 
-/* =========================================================
-   AUTO SAVE
-========================================================= */
+/* ================= MUSIC AUTOPLAY ================= */
 
-setInterval(()=>{
+/*
+   Браузеры запрещают автоматический звук
+   без действия пользователя.
 
-    if(game.started){
+   Поэтому после первого нажатия/касания
+   страницы музыка сможет запуститься.
+*/
 
-        localStorage.setItem(
-            SAVE_KEY,
-            JSON.stringify(game)
-        );
+document.addEventListener("click",()=>{
+
+    if(
+        musicEnabled &&
+        music.paused
+    ){
+
+        music.play().catch(()=>{});
 
     }
 
-},30000);
+},{once:true});
 
-
-/* =========================================================
-   INITIALIZATION
-========================================================= */
-
-updateUI();
 
 </script>
 
