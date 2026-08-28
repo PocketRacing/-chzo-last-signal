@@ -2,2201 +2,1289 @@
 <html lang="ru">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport"
-      content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
-
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
 <title>ЧЕРНОБЫЛЬ — ЗОНА ОТЧУЖДЕНИЯ</title>
 
 <style>
-*{
-    box-sizing:border-box;
-    margin:0;
-    padding:0;
-    -webkit-tap-highlight-color:transparent;
-}
-
-html{
-    scroll-behavior:smooth;
-}
-
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+:root{--g:#8cae68;--g2:#607d46;--bg:#050705;--p:#0c110c;--p2:#111811;--l:#263026;--r:#8b211b}
 body{
-    font-family:Arial,Helvetica,sans-serif;
-    background:#050605;
-    color:#eee;
-    overflow-x:hidden;
+font-family:Arial,sans-serif;background:var(--bg);color:#eee;min-height:100vh;
+background:
+radial-gradient(circle at 50% 0,rgba(120,150,80,.13),transparent 35%),#050705
 }
-
-button{
-    font:inherit;
+button{font:inherit}
+header{
+height:58px;position:fixed;top:0;left:0;right:0;z-index:10;
+display:flex;align-items:center;justify-content:space-between;padding:0 16px;
+background:rgba(4,6,4,.92);backdrop-filter:blur(10px);border-bottom:1px solid #1b241b
 }
-
-:root{
-    --green:#8cae68;
-    --green2:#607d46;
-    --dark:#050605;
-    --panel:#0c100c;
-    --panel2:#111711;
-    --line:#263026;
-    --red:#8b211b;
-    --yellow:#c3a84a;
+.logo{font-weight:900;font-size:13px;letter-spacing:1.5px}
+.logo b{color:var(--g)}
+.tools{display:flex;gap:7px}
+.tools button{
+border:1px solid var(--l);background:#0a0e0a;color:#9ba69a;
+border-radius:6px;padding:7px 9px;font-size:11px;cursor:pointer
 }
-
-/* ================= BACKGROUND ================= */
-
-body:before{
-    content:"";
-    position:fixed;
-    inset:0;
-    z-index:-3;
-
-    background:
-        radial-gradient(
-            circle at 50% 20%,
-            rgba(104,135,73,.16),
-            transparent 38%
-        ),
-        radial-gradient(
-            circle at 10% 80%,
-            rgba(119,90,45,.08),
-            transparent 30%
-        ),
-        #050605;
+#app{max-width:900px;margin:auto;padding:85px 15px 35px}
+.screen{display:none}
+.screen.active{display:block}
+.start{
+min-height:calc(100vh - 120px);display:flex;align-items:center;justify-content:center;text-align:center
 }
-
-body:after{
-    content:"";
-    position:fixed;
-    inset:0;
-    z-index:20;
-    pointer-events:none;
-
-    background:
-        repeating-linear-gradient(
-            0deg,
-            rgba(255,255,255,.018) 0px,
-            rgba(255,255,255,.018) 1px,
-            transparent 1px,
-            transparent 4px
-        );
-
-    opacity:.28;
-}
-
-/* ================= HEADER ================= */
-
-.header{
-    position:fixed;
-    top:0;
-    left:0;
-    right:0;
-    z-index:50;
-
-    height:68px;
-
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-
-    padding:0 28px;
-
-    background:rgba(4,6,4,.88);
-    backdrop-filter:blur(12px);
-
-    border-bottom:1px solid rgba(140,174,104,.16);
-}
-
-.logo{
-    display:flex;
-    align-items:center;
-    gap:12px;
-
-    font-size:15px;
-    font-weight:900;
-    letter-spacing:2px;
-}
-
-.logo-icon{
-    width:36px;
-    height:36px;
-
-    border:2px solid var(--green);
-    border-radius:50%;
-
-    display:flex;
-    align-items:center;
-    justify-content:center;
-
-    color:var(--green);
-    font-size:18px;
-
-    box-shadow:
-        0 0 18px rgba(140,174,104,.12);
-}
-
-.logo span{
-    color:#fff;
-}
-
-.nav{
-    display:flex;
-    gap:22px;
-}
-
-.nav a{
-    color:#a9b0a5;
-    text-decoration:none;
-    font-size:12px;
-    font-weight:bold;
-    text-transform:uppercase;
-    letter-spacing:1px;
-}
-
-.nav a:hover{
-    color:var(--green);
-}
-
-.music-button{
-    border:1px solid var(--line);
-    background:#0b0f0b;
-    color:#b8c2b1;
-
-    padding:9px 13px;
-    border-radius:7px;
-
-    cursor:pointer;
-    font-size:12px;
-}
-
-.music-button.active{
-    color:var(--green);
-    border-color:var(--green2);
-}
-
-/* ================= HERO ================= */
-
-.hero{
-    min-height:100vh;
-
-    display:flex;
-    align-items:center;
-
-    position:relative;
-    overflow:hidden;
-
-    padding:120px 7% 80px;
-}
-
-.hero-bg{
-    position:absolute;
-    inset:0;
-    z-index:-2;
-
-    background:
-        linear-gradient(
-            90deg,
-            rgba(3,5,3,.98) 0%,
-            rgba(3,5,3,.83) 42%,
-            rgba(3,5,3,.28) 75%,
-            rgba(3,5,3,.75) 100%
-        ),
-        radial-gradient(
-            ellipse at 72% 48%,
-            rgba(103,128,70,.28),
-            transparent 38%
-        ),
-        linear-gradient(
-            180deg,
-            #0c120c,
-            #030403
-        );
-}
-
-.hero-grid{
-    position:absolute;
-    inset:0;
-    z-index:-1;
-
-    opacity:.12;
-
-    background-image:
-        linear-gradient(rgba(140,174,104,.25) 1px,transparent 1px),
-        linear-gradient(90deg,rgba(140,174,104,.25) 1px,transparent 1px);
-
-    background-size:55px 55px;
-
-    transform:perspective(500px) rotateX(55deg) scale(1.7);
-    transform-origin:center bottom;
-}
-
-.hero-content{
-    max-width:720px;
-}
-
-.warning{
-    display:inline-flex;
-    align-items:center;
-    gap:9px;
-
-    color:var(--yellow);
-
-    font-size:11px;
-    font-weight:bold;
-    letter-spacing:2px;
-    text-transform:uppercase;
-
-    margin-bottom:18px;
-}
-
-.warning-icon{
-    font-size:20px;
-}
-
-.hero h1{
-    font-size:clamp(42px,7vw,88px);
-    line-height:.9;
-    text-transform:uppercase;
-    letter-spacing:-3px;
-
-    text-shadow:
-        0 0 35px rgba(0,0,0,.8);
-
-    margin-bottom:22px;
-}
-
-.hero h1 span{
-    display:block;
-    color:var(--green);
-
-    font-size:.45em;
-    letter-spacing:5px;
-    margin-top:14px;
-}
-
-.hero-text{
-    max-width:650px;
-
-    color:#aab0a7;
-    line-height:1.7;
-    font-size:15px;
-
-    margin-bottom:28px;
-}
-
-.hero-buttons{
-    display:flex;
-    flex-wrap:wrap;
-    gap:12px;
-}
-
+.startbox{max-width:650px}
+.radio{font-size:58px;margin-bottom:15px;filter:grayscale(1)}
+h1{font-size:clamp(38px,8vw,72px);line-height:.9;letter-spacing:-3px}
+h1 span{display:block;color:var(--g);font-size:.27em;letter-spacing:4px;margin-top:14px}
+.subtitle{color:#818a80;line-height:1.7;font-size:14px;margin:22px auto;max-width:580px}
 .btn{
-    border:1px solid var(--green2);
-    background:rgba(96,125,70,.16);
-
-    color:#dce4d8;
-
-    padding:13px 20px;
-    border-radius:6px;
-
-    text-decoration:none;
-
-    font-size:12px;
-    font-weight:bold;
-    letter-spacing:1px;
-    text-transform:uppercase;
-
-    cursor:pointer;
-}
-
-.btn:hover{
-    background:rgba(140,174,104,.25);
-}
-
-.btn.dark{
-    background:#0b0e0b;
-    border-color:#292f29;
-}
-
-.hero-info{
-    display:flex;
-    flex-wrap:wrap;
-    gap:24px;
-
-    margin-top:38px;
-
-    color:#687067;
-    font-size:10px;
-    text-transform:uppercase;
-    letter-spacing:1.5px;
-}
-
-/* ================= SECTION ================= */
-
-section{
-    padding:90px 7%;
-}
-
-.section-title{
-    margin-bottom:35px;
-}
-
-.section-label{
-    color:var(--green);
-
-    font-size:10px;
-    font-weight:bold;
-    letter-spacing:3px;
-    text-transform:uppercase;
-
-    margin-bottom:10px;
-}
-
-.section-title h2{
-    font-size:36px;
-    text-transform:uppercase;
-    letter-spacing:-1px;
-}
-
-.section-title p{
-    color:#747d73;
-    margin-top:10px;
-    max-width:650px;
-    line-height:1.6;
-}
-
-/* ================= STORY ================= */
-
-.story{
-    background:
-        linear-gradient(
-            180deg,
-            #070a07,
-            #090d09
-        );
-
-    border-top:1px solid #151b15;
-    border-bottom:1px solid #151b15;
-}
-
-.story-grid{
-    display:grid;
-    grid-template-columns:1fr 1fr;
-    gap:20px;
-}
-
-.story-card{
-    background:#0c110c;
-    border:1px solid var(--line);
-
-    border-radius:10px;
-    padding:25px;
-
-    position:relative;
-    overflow:hidden;
-}
-
-.story-card:before{
-    content:"";
-
-    position:absolute;
-    left:0;
-    top:0;
-    bottom:0;
-
-    width:3px;
-
-    background:var(--green);
-}
-
-.story-card h3{
-    margin-bottom:13px;
-
-    font-size:18px;
-    text-transform:uppercase;
-}
-
-.story-card p{
-    color:#899187;
-    font-size:14px;
-    line-height:1.7;
-}
-
-/* ================= SEASONS ================= */
-
-.seasons{
-    background:#050705;
-}
-
-.season-tabs{
-    display:flex;
-    gap:8px;
-
-    overflow-x:auto;
-    padding-bottom:12px;
-
-    margin-bottom:28px;
-}
-
-.season-tabs::-webkit-scrollbar{
-    display:none;
-}
-
-.season-tab{
-    flex:0 0 auto;
-
-    padding:11px 17px;
-
-    border:1px solid #222a22;
-    background:#0a0e0a;
-
-    color:#727b71;
-
-    border-radius:6px;
-
-    cursor:pointer;
-
-    font-size:11px;
-    font-weight:bold;
-    text-transform:uppercase;
-    letter-spacing:1px;
-}
-
-.season-tab.active{
-    color:#dce8d5;
-    border-color:var(--green2);
-    background:#131a12;
-}
-
-.season{
-    display:none;
-}
-
-.season.active{
-    display:block;
-}
-
-.season-head{
-    display:flex;
-    align-items:end;
-    justify-content:space-between;
-    gap:20px;
-
-    margin-bottom:22px;
-}
-
-.season-head h3{
-    font-size:27px;
-    text-transform:uppercase;
-}
-
-.season-head span{
-    color:#5f685d;
-    font-size:11px;
-}
-
-.episodes{
-    display:grid;
-    grid-template-columns:repeat(2,1fr);
-    gap:12px;
-}
-
-.episode{
-    background:#0b100b;
-    border:1px solid #1d261d;
-
-    border-radius:9px;
-    padding:20px;
-
-    cursor:pointer;
-
-    transition:.2s;
-}
-
-.episode:hover{
-    transform:translateY(-2px);
-    border-color:#3d4d3a;
-    background:#0f150f;
-}
-
-.episode-number{
-    color:var(--green);
-
-    font-size:10px;
-    font-weight:bold;
-    letter-spacing:2px;
-
-    margin-bottom:9px;
-}
-
-.episode h4{
-    font-size:16px;
-    margin-bottom:9px;
-}
-
-.episode p{
-    color:#777f76;
-    font-size:13px;
-    line-height:1.6;
-}
-
-.episode-more{
-    margin-top:13px;
-
-    color:#9aaa91;
-    font-size:10px;
-    font-weight:bold;
-    text-transform:uppercase;
-    letter-spacing:1px;
-}
-
-/* ================= KOSTENKO ================= */
-
-.kostenko{
-    position:relative;
-    overflow:hidden;
-
-    background:
-        radial-gradient(
-            circle at 80% 40%,
-            rgba(126,45,33,.17),
-            transparent 34%
-        ),
-        #070807;
-
-    border-top:1px solid #241916;
-    border-bottom:1px solid #241916;
-}
-
-.kostenko-grid{
-    display:grid;
-    grid-template-columns:1fr 1fr;
-
-    gap:35px;
-    align-items:center;
-}
-
-.kostenko-image{
-    min-height:480px;
-
-    border:1px solid #332321;
-    border-radius:12px;
-
-    display:flex;
-    align-items:end;
-
-    padding:30px;
-
-    background:
-        linear-gradient(
-            180deg,
-            transparent 25%,
-            rgba(0,0,0,.95)
-        ),
-        radial-gradient(
-            ellipse at 50% 28%,
-            rgba(155,118,84,.2),
-            transparent 28%
-        ),
-        linear-gradient(
-            140deg,
-            #1b1714,
-            #080908 60%
-        );
-
-    position:relative;
-}
-
-.kostenko-image:after{
-    content:"КГБ / 1986";
-
-    position:absolute;
-    top:22px;
-    right:22px;
-
-    color:#a35b4e;
-
-    font-size:10px;
-    letter-spacing:2px;
-}
-
-.kostenko-name{
-    font-size:45px;
-    text-transform:uppercase;
-    font-weight:900;
-    letter-spacing:-2px;
-}
-
-.kostenko-name span{
-    display:block;
-
-    color:#8f332b;
-
-    font-size:12px;
-    letter-spacing:3px;
-
-    margin-top:8px;
-}
-
-.kostenko-info .section-label{
-    color:#a74b41;
-}
-
-.kostenko-info h2{
-    font-size:42px;
-    text-transform:uppercase;
-
-    margin-bottom:18px;
-}
-
-.kostenko-info p{
-    color:#858b84;
-    font-size:14px;
-    line-height:1.8;
-
-    margin-bottom:18px;
-}
-
-.kostenko-facts{
-    display:grid;
-    grid-template-columns:1fr 1fr;
-
-    gap:9px;
-
-    margin-top:25px;
-}
-
-.fact{
-    background:#0e100e;
-    border:1px solid #272322;
-
-    border-radius:7px;
-    padding:14px;
-}
-
-.fact small{
-    display:block;
-
-    color:#626861;
-
-    font-size:9px;
-    text-transform:uppercase;
-    letter-spacing:1px;
-
-    margin-bottom:5px;
-}
-
-.fact strong{
-    color:#c6cbc3;
-    font-size:12px;
-}
-
-/* ================= CHARACTERS ================= */
-
-.characters{
-    background:#080b08;
-}
-
-.characters-grid{
-    display:grid;
-    grid-template-columns:repeat(3,1fr);
-    gap:13px;
-}
-
-.character{
-    min-height:190px;
-
-    background:#0c110c;
-    border:1px solid #202820;
-
-    border-radius:10px;
-    padding:22px;
-
-    position:relative;
-    overflow:hidden;
-}
-
-.character:after{
-    content:"";
-
-    position:absolute;
-    right:-35px;
-    bottom:-50px;
-
-    width:120px;
-    height:120px;
-
-    border-radius:50%;
-
-    background:rgba(140,174,104,.06);
-}
-
-.character-role{
-    color:#65725f;
-
-    font-size:9px;
-    font-weight:bold;
-    letter-spacing:2px;
-    text-transform:uppercase;
-
-    margin-bottom:9px;
-}
-
-.character h3{
-    font-size:20px;
-    margin-bottom:8px;
-}
-
-.character p{
-    color:#7c8579;
-
-    font-size:12px;
-    line-height:1.6;
-}
-
-/* ================= TIMELINE ================= */
-
-.timeline{
-    background:#050605;
-}
-
-.timeline-list{
-    max-width:900px;
-    margin:auto;
-
-    position:relative;
-}
-
-.timeline-list:before{
-    content:"";
-
-    position:absolute;
-    left:13px;
-    top:0;
-    bottom:0;
-
-    width:1px;
-
-    background:#293329;
-}
-
-.time-item{
-    position:relative;
-
-    padding-left:50px;
-    padding-bottom:30px;
-}
-
-.time-dot{
-    position:absolute;
-    left:7px;
-    top:3px;
-
-    width:13px;
-    height:13px;
-
-    border-radius:50%;
-
-    background:#101610;
-    border:2px solid var(--green);
-}
-
-.time-item h3{
-    font-size:15px;
-    margin-bottom:7px;
-}
-
-.time-item p{
-    color:#777f75;
-    font-size:13px;
-    line-height:1.7;
-}
-
-/* ================= ZONE ================= */
-
-.zone{
-    min-height:440px;
-
-    display:flex;
-    align-items:center;
-    justify-content:center;
-
-    text-align:center;
-
-    background:
-        radial-gradient(
-            circle,
-            rgba(118,150,75,.16),
-            transparent 40%
-        ),
-        #060806;
-
-    border-top:1px solid #172017;
-}
-
-.zone-content{
-    max-width:700px;
-}
-
-.zone-symbol{
-    font-size:70px;
-    margin-bottom:18px;
-
-    filter:
-        grayscale(1)
-        brightness(.8);
-}
-
-.zone h2{
-    font-size:48px;
-    text-transform:uppercase;
-    letter-spacing:-2px;
-
-    margin-bottom:15px;
-}
-
-.zone p{
-    color:#7d857b;
-    line-height:1.8;
-}
-
-/* ================= FOOTER ================= */
-
-footer{
-    padding:35px 7%;
-
-    background:#030403;
-
-    border-top:1px solid #171d17;
-
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-
-    gap:20px;
-}
-
-footer strong{
-    font-size:12px;
-    letter-spacing:2px;
-}
-
-footer span{
-    color:#555d54;
-    font-size:10px;
-}
-
-/* ================= MODAL ================= */
-
+border:1px solid var(--g2);background:rgba(96,125,70,.16);color:#dce5d7;
+padding:12px 18px;border-radius:6px;cursor:pointer;font-size:11px;
+font-weight:bold;text-transform:uppercase;letter-spacing:1px
+}
+.btn.red{border-color:#71332e;background:rgba(139,33,27,.12)}
+.game-head{
+display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:13px
+}
+.chapter{color:var(--g);font-size:9px;font-weight:bold;letter-spacing:2px;text-transform:uppercase}
+.location{color:#555e54;font-size:10px;text-transform:uppercase}
+.progress{height:3px;background:#151c15;margin-bottom:18px;border-radius:5px;overflow:hidden}
+.progress i{display:block;height:100%;width:0;background:var(--g);transition:.3s}
+.scene{
+background:var(--p);border:1px solid var(--l);border-radius:10px;padding:20px;
+box-shadow:0 15px 50px rgba(0,0,0,.25)
+}
+.scene-title{font-size:24px;text-transform:uppercase;margin-bottom:14px}
+.scene-text{color:#a0a89e;font-size:14px;line-height:1.8;white-space:pre-line}
+.dialog{
+margin:18px 0;padding:13px 15px;border-left:3px solid var(--g);
+background:#101610;color:#c6cec3;font-size:13px;line-height:1.6
+}
+.dialog b{display:block;color:var(--g);font-size:10px;letter-spacing:1px;margin-bottom:5px}
+.choices{display:grid;gap:8px;margin-top:20px}
+.choice{
+width:100%;text-align:left;padding:13px 14px;border:1px solid #263026;
+background:#0a0f0a;color:#b9c1b6;border-radius:7px;cursor:pointer;
+transition:.15s
+}
+.choice:hover{border-color:var(--g2);background:#101610}
+.choice small{display:block;color:#596258;font-size:10px;margin-top:5px}
+.stats{
+display:grid;grid-template-columns:repeat(4,1fr);gap:7px;margin-bottom:12px
+}
+.stat{background:#0a0e0a;border:1px solid #1d251d;border-radius:6px;padding:9px}
+.stat small{display:block;color:#596158;font-size:8px;text-transform:uppercase}
+.stat b{font-size:12px;color:#b9c5b4}
+.bottom{
+display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:10px
+}
+.panel{
+background:#0a0e0a;border:1px solid #1c251c;border-radius:8px;padding:13px
+}
+.panel h3{font-size:10px;color:var(--g);letter-spacing:1px;text-transform:uppercase;margin-bottom:9px}
+.items{display:flex;flex-wrap:wrap;gap:5px}
+.item{
+padding:6px 8px;background:#111711;border:1px solid #242d24;
+border-radius:5px;color:#899487;font-size:10px
+}
+.toast{
+position:fixed;left:50%;bottom:20px;transform:translateX(-50%) translateY(20px);
+background:#101610;border:1px solid var(--g2);color:#dce5d7;
+padding:10px 14px;border-radius:6px;font-size:11px;opacity:0;
+pointer-events:none;transition:.25s;z-index:30
+}
+.toast.show{opacity:1;transform:translateX(-50%)}
 .modal{
-    position:fixed;
-    inset:0;
-
-    z-index:100;
-
-    display:none;
-    align-items:center;
-    justify-content:center;
-
-    padding:20px;
-
-    background:rgba(0,0,0,.82);
-    backdrop-filter:blur(7px);
+position:fixed;inset:0;background:rgba(0,0,0,.82);z-index:20;
+display:none;align-items:center;justify-content:center;padding:15px
 }
-
-.modal.open{
-    display:flex;
+.modal.open{display:flex}
+.modalbox{
+width:100%;max-width:500px;background:#0c110c;border:1px solid #303a2f;
+border-radius:9px;padding:20px
 }
+.modalbox h2{font-size:18px;text-transform:uppercase;margin-bottom:15px}
+.modalbox p{color:#879086;font-size:13px;line-height:1.7}
+.modalbox .btn{margin-top:15px}
+.ending{text-align:center;padding:50px 15px}
+.ending h2{font-size:34px;text-transform:uppercase;margin-bottom:15px}
+.ending p{color:#838c80;line-height:1.7;font-size:14px;margin-bottom:22px}
 
-.modal-box{
-    width:100%;
-    max-width:700px;
-
-    max-height:85vh;
-    overflow:auto;
-
-    background:#0c100c;
-    border:1px solid #303b2e;
-
-    border-radius:12px;
-
-    padding:27px;
-
-    box-shadow:
-        0 20px 80px rgba(0,0,0,.7);
-}
-
-.modal-top{
-    display:flex;
-    align-items:start;
-    justify-content:space-between;
-
-    gap:15px;
-
-    margin-bottom:20px;
-}
-
-.modal-number{
-    color:var(--green);
-
-    font-size:10px;
-    letter-spacing:2px;
-    font-weight:bold;
-    text-transform:uppercase;
-
-    margin-bottom:8px;
-}
-
-.modal-box h2{
-    font-size:25px;
-    text-transform:uppercase;
-}
-
-.close{
-    width:34px;
-    height:34px;
-
-    border:1px solid #2c342c;
-    background:#101510;
-
-    color:#aaa;
-
-    border-radius:6px;
-
-    cursor:pointer;
-}
-
-.modal-box p{
-    color:#858d82;
-    font-size:14px;
-    line-height:1.8;
-}
-
-/* ================= RESPONSIVE ================= */
-
-@media(max-width:850px){
-
-    .header{
-        padding:0 15px;
-    }
-
-    .nav{
-        display:none;
-    }
-
-    .hero{
-        padding:110px 20px 60px;
-    }
-
-    .hero h1{
-        font-size:50px;
-    }
-
-    section{
-        padding:65px 20px;
-    }
-
-    .story-grid,
-    .kostenko-grid{
-        grid-template-columns:1fr;
-    }
-
-    .episodes{
-        grid-template-columns:1fr;
-    }
-
-    .characters-grid{
-        grid-template-columns:1fr 1fr;
-    }
-
-    .kostenko-image{
-        min-height:330px;
-    }
-
-    .kostenko-info h2{
-        font-size:34px;
-    }
-
-    .zone h2{
-        font-size:36px;
-    }
-
-    footer{
-        flex-direction:column;
-        align-items:flex-start;
-    }
-}
-
-@media(max-width:520px){
-
-    .logo{
-        font-size:11px;
-    }
-
-    .logo-icon{
-        width:32px;
-        height:32px;
-    }
-
-    .music-button{
-        padding:8px 10px;
-    }
-
-    .hero h1{
-        font-size:42px;
-    }
-
-    .hero h1 span{
-        font-size:10px;
-        letter-spacing:3px;
-    }
-
-    .hero-text{
-        font-size:13px;
-    }
-
-    .section-title h2{
-        font-size:28px;
-    }
-
-    .characters-grid{
-        grid-template-columns:1fr;
-    }
-
-    .kostenko-facts{
-        grid-template-columns:1fr;
-    }
+@media(max-width:600px){
+#app{padding-left:10px;padding-right:10px}
+.stats{grid-template-columns:repeat(2,1fr)}
+.bottom{grid-template-columns:1fr}
+.scene{padding:16px}
+.scene-title{font-size:20px}
+.scene-text{font-size:13px}
 }
 </style>
 </head>
 
 <body>
 
-<!-- ================= MUSIC ================= -->
-
-<audio id="music" loop preload="auto">
-    <source src="music.mp3" type="audio/mpeg">
-</audio>
-
-<!-- ================= HEADER ================= -->
-
-<header class="header">
-
-    <div class="logo">
-        <div class="logo-icon">☢</div>
-        <div>
-            ЧЕРНОБЫЛЬ
-            <span>ЗОНА ОТЧУЖДЕНИЯ</span>
-        </div>
-    </div>
-
-    <nav class="nav">
-        <a href="#story">История</a>
-        <a href="#seasons">Сезоны</a>
-        <a href="#characters">Персонажи</a>
-        <a href="#kostenko">Костенко</a>
-    </nav>
-
-    <button class="music-button" id="musicButton">
-        ♪ Музыка
-    </button>
-
+<header>
+<div class="logo">☢ <b>ЧЕРНОБЫЛЬ</b> / ЗОНА</div>
+<div class="tools">
+<button id="musicBtn">♪</button>
+<button onclick="openInfo()">☷</button>
+</div>
 </header>
 
+<audio id="music" loop>
+<source src="music.mp3" type="audio/mpeg">
+</audio>
 
-<!-- ================= HERO ================= -->
+<main id="app">
 
-<section class="hero">
-
-    <div class="hero-bg"></div>
-    <div class="hero-grid"></div>
-
-    <div class="hero-content">
-
-        <div class="warning">
-            <span class="warning-icon">☢</span>
-            Зона отчуждения
-        </div>
-
-        <h1>
-            ЧЕРНОБЫЛЬ
-            <span>ЗОНА ОТЧУЖДЕНИЯ</span>
-        </h1>
-
-        <p class="hero-text">
-            История Паши Вершинина и его друзей.
-            Погоня за украденными деньгами приводит их
-            в Припять, где обычное путешествие превращается
-            в борьбу со временем, прошлым и самой Зоной.
-        </p>
-
-        <div class="hero-buttons">
-
-            <a href="#seasons" class="btn">
-                Смотреть сезоны
-            </a>
-
-            <a href="#kostenko" class="btn dark">
-                История Костенко
-            </a>
-
-        </div>
-
-        <div class="hero-info">
-            <span>2014 — 2019</span>
-            <span>2 сезона + финал</span>
-            <span>Припять</span>
-            <span>26.04.1986</span>
-        </div>
-
-    </div>
-
+<!-- START -->
+<section class="screen active" id="start">
+<div class="start">
+<div class="startbox">
+<div class="radio">☢</div>
+<h1>ЧЕРНОБЫЛЬ<span>ЗОНА ОТЧУЖДЕНИЯ</span></h1>
+<p class="subtitle">
+Квестовая история. Ты играешь за Пашу.
+Твои решения меняют отношения, события и путь к финалу.
+</p>
+<button class="btn" onclick="startGame()">Начать игру</button>
+</div>
+</div>
 </section>
 
-
-<!-- ================= STORY ================= -->
-
-<section class="story" id="story">
-
-    <div class="section-title">
-
-        <div class="section-label">
-            Начало истории
-        </div>
-
-        <h2>Как всё началось</h2>
-
-        <p>
-            Пять друзей оказываются втянуты в события,
-            которые выходят далеко за пределы обычной
-            погони за преступником.
-        </p>
-
-    </div>
-
-    <div class="story-grid">
-
-        <div class="story-card">
-
-            <h3>Восемь миллионов</h3>
-
-            <p>
-                Пока родители Паши находятся в отпуске,
-                в его квартире проходит вечеринка.
-                Утром выясняется, что из сейфа исчезли
-                большие деньги. Вор оказывается связан
-                с загадочной поездкой в сторону Чернобыля.
-            </p>
-
-        </div>
-
-        <div class="story-card">
-
-            <h3>Погоня за Зоной</h3>
-
-            <p>
-                Паша, Лёша, Настя, Аня и Гоша отправляются
-                вслед за преступником. Дорога приводит
-                их в Припять, где герои сталкиваются
-                с событиями, которые невозможно объяснить
-                обычной логикой.
-            </p>
-
-        </div>
-
-        <div class="story-card">
-
-            <h3>Машина времени</h3>
-
-            <p>
-                Постепенно становится понятно, что
-                история связана не только с Чернобылем,
-                но и с возможностью перемещаться во времени.
-                Прошлое оказывается гораздо ближе, чем
-                кажется.
-            </p>
-
-        </div>
-
-        <div class="story-card">
-
-            <h3>Костенко</h3>
-
-            <p>
-                Сергей Костенко оказывается человеком,
-                который долгие годы пытался изменить
-                события 1986 года. Его собственная история
-                становится одной из главных загадок Зоны.
-            </p>
-
-        </div>
-
-    </div>
-
-</section>
-
-
-<!-- ================= SEASONS ================= -->
-
-<section class="seasons" id="seasons">
-
-    <div class="section-title">
-
-        <div class="section-label">
-            Хронология
-        </div>
-
-        <h2>Все сезоны</h2>
-
-        <p>
-            Выбери сезон и открой описание каждой серии.
-        </p>
-
-    </div>
-
-
-    <div class="season-tabs">
-
-        <button class="season-tab active" data-season="season1">
-            Сезон 1
-        </button>
-
-        <button class="season-tab" data-season="season2">
-            Сезон 2
-        </button>
-
-        <button class="season-tab" data-season="final">
-            Финал
-        </button>
-
-    </div>
-
-
-    <!-- ================= SEASON 1 ================= -->
-
-    <div class="season active" id="season1">
-
-        <div class="season-head">
-            <div>
-                <div class="section-label">2014</div>
-                <h3>Первый сезон</h3>
-            </div>
-
-            <span>8 серий</span>
-        </div>
-
-        <div class="episodes">
-
-            <div class="episode"
-                 data-title="Сон, деньги и Чернобыль"
-                 data-text="После вечеринки в квартире Паши исчезают деньги из сейфа. Друзья начинают поиски неизвестного вора и узнают, что он направляется в сторону Чернобыля. Паша, Лёша, Настя, Аня и Гоша решают отправиться за ним.">
-                <div class="episode-number">СЕРИЯ 01</div>
-                <h4>Сон, деньги и Чернобыль</h4>
-                <p>
-                    Исчезновение денег становится началом
-                    путешествия в сторону Зоны.
-                </p>
-                <div class="episode-more">Подробнее →</div>
-            </div>
-
-            <div class="episode"
-                 data-title="Беглец"
-                 data-text="Погоня продолжается. Герои всё глубже втягиваются в странную историю и постепенно понимают, что беглец оставляет за собой не случайные следы. Дорога к Припяти становится всё опаснее.">
-                <div class="episode-number">СЕРИЯ 02</div>
-                <h4>Беглец</h4>
-                <p>
-                    Погоня продолжается, а Зона начинает
-                    показывать свои правила.
-                </p>
-                <div class="episode-more">Подробнее →</div>
-            </div>
-
-            <div class="episode"
-                 data-title="Граница"
-                 data-text="Герои приближаются к территории Зоны. Обычная поездка окончательно превращается в борьбу за выживание. Появляются новые тайны и люди, которые явно знают о происходящем больше, чем говорят.">
-                <div class="episode-number">СЕРИЯ 03</div>
-                <h4>Граница</h4>
-                <p>
-                    За границей привычного мира начинается
-                    настоящая история Зоны.
-                </p>
-                <div class="episode-more">Подробнее →</div>
-            </div>
-
-            <div class="episode"
-                 data-title="Охота"
-                 data-text="На героев начинают охотиться. Паша и друзья понимают, что их путешествие кому-то необходимо, а события вокруг них связаны с гораздо более крупным планом.">
-                <div class="episode-number">СЕРИЯ 04</div>
-                <h4>Охота</h4>
-                <p>
-                    Теперь уже не только они преследуют —
-                    преследуют и их.
-                </p>
-                <div class="episode-more">Подробнее →</div>
-            </div>
-
-            <div class="episode"
-                 data-title="Бункер"
-                 data-text="Герои сталкиваются с тайнами прошлого и получают новые сведения о событиях, происходящих в Зоне. Бункер становится местом, где скрывается важная часть разгадки.">
-                <div class="episode-number">СЕРИЯ 05</div>
-                <h4>Бункер</h4>
-                <p>
-                    Под землёй скрывается информация,
-                    способная изменить всё.
-                </p>
-                <div class="episode-more">Подробнее →</div>
-            </div>
-
-            <div class="episode"
-                 data-title="Там"
-                 data-text="Путешествие приводит героев ещё глубже в тайну. Появляются признаки того, что время и пространство в этой истории работают совсем не так, как должны.">
-                <div class="episode-number">СЕРИЯ 06</div>
-                <h4>Там</h4>
-                <p>
-                    Граница между настоящим и прошлым
-                    начинает исчезать.
-                </p>
-                <div class="episode-more">Подробнее →</div>
-            </div>
-
-            <div class="episode"
-                 data-title="КГБ СССР"
-                 data-text="История Сергея Костенко выходит на первый план. Становится понятнее, почему события 1986 года так важны для него и почему он готов идти до конца ради возможности изменить прошлое.">
-                <div class="episode-number">СЕРИЯ 07</div>
-                <h4>КГБ СССР</h4>
-                <p>
-                    Костенко выходит из тени.
-                    Тайна прошлого становится явной.
-                </p>
-                <div class="episode-more">Подробнее →</div>
-            </div>
-
-            <div class="episode"
-                 data-title="ЧП в четвёртом блоке"
-                 data-text="Финал первого сезона переносит героев в 1986 год, к событиям вокруг четвёртого энергоблока Чернобыльской АЭС. Паша получает шанс вмешаться в историю и изменить будущее.">
-                <div class="episode-number">СЕРИЯ 08</div>
-                <h4>ЧП в четвёртом блоке</h4>
-                <p>
-                    Паша оказывается у четвёртого блока
-                    в ночь, которая должна изменить историю.
-                </p>
-                <div class="episode-more">Подробнее →</div>
-            </div>
-
-        </div>
-
-    </div>
-
-
-    <!-- ================= SEASON 2 ================= -->
-
-    <div class="season" id="season2">
-
-        <div class="season-head">
-            <div>
-                <div class="section-label">2017</div>
-                <h3>Второй сезон</h3>
-            </div>
-
-            <span>8 серий</span>
-        </div>
-
-        <div class="episodes">
-
-            <div class="episode"
-                 data-title="Прекрасное далёко"
-                 data-text="После попытки изменить прошлое Паша возвращается в изменённую реальность. Чернобыльская катастрофа произошла уже не там, где он её помнил. Мир изменился, а вместе с ним изменились судьбы героев.">
-                <div class="episode-number">СЕРИЯ 01</div>
-                <h4>Прекрасное далёко</h4>
-                <p>
-                    Изменённое будущее оказывается
-                    совершенно другим миром.
-                </p>
-                <div class="episode-more">Подробнее →</div>
-            </div>
-
-            <div class="episode"
-                 data-title="7505:800"
-                 data-text="Герои отправляются в США. Перелёт превращается в очередную загадку, а новая версия катастрофы начинает становиться всё более реальной.">
-                <div class="episode-number">СЕРИЯ 02</div>
-                <h4>7505:800</h4>
-                <p>
-                    Следующая точка истории находится
-                    уже по другую сторону океана.
-                </p>
-                <div class="episode-more">Подробнее →</div>
-            </div>
-
-            <div class="episode"
-                 data-title="Welcome to USA"
-                 data-text="Герои оказываются в альтернативных Соединённых Штатах. Теперь им необходимо понять, как устроена новая реальность и где именно должна произойти катастрофа.">
-                <div class="episode-number">СЕРИЯ 03</div>
-                <h4>Welcome to USA</h4>
-                <p>
-                    Новая страна. Новая реальность.
-                    Та же угроза.
-                </p>
-                <div class="episode-more">Подробнее →</div>
-            </div>
-
-            <div class="episode"
-                 data-title="Веришь в Бога, верь и в дьявола"
-                 data-text="История становится ещё более мистической. Герои сталкиваются с явлениями, которые невозможно объяснить только путешествиями во времени.">
-                <div class="episode-number">СЕРИЯ 04</div>
-                <h4>Веришь в Бога, верь и в дьявола</h4>
-                <p>
-                    Грань между научным объяснением
-                    и необъяснимым стирается.
-                </p>
-                <div class="episode-more">Подробнее →</div>
-            </div>
-
-            <div class="episode"
-                 data-title="1956"
-                 data-text="История переносится ещё дальше в прошлое. События 1956 года оказываются важным звеном в происхождении некоторых загадок и будущих событий.">
-                <div class="episode-number">СЕРИЯ 05</div>
-                <h4>1956</h4>
-                <p>
-                    Чтобы понять настоящее,
-                    героям приходится заглянуть намного дальше.
-                </p>
-                <div class="episode-more">Подробнее →</div>
-            </div>
-
-            <div class="episode"
-                 data-title="Дело о пропавших детях"
-                 data-text="Расследование приводит героев к новой тайне. Исчезновение детей связано с событиями, которые происходят вокруг Зоны и экспериментов с временем.">
-                <div class="episode-number">СЕРИЯ 06</div>
-                <h4>Дело о пропавших детях</h4>
-                <p>
-                    Новая загадка оказывается связана
-                    с гораздо более старой историей.
-                </p>
-                <div class="episode-more">Подробнее →</div>
-            </div>
-
-            <div class="episode"
-                 data-title="Гудвин: Великий и ужасный"
-                 data-text="Паша и его друзья приближаются к разгадке происходящего. Тайна человека в маске и других участников событий становится всё важнее.">
-                <div class="episode-number">СЕРИЯ 07</div>
-                <h4>Гудвин: Великий и ужасный</h4>
-                <p>
-                    Иллюзии рушатся, а настоящие цели
-                    участников становятся видны.
-                </p>
-                <div class="episode-more">Подробнее →</div>
-            </div>
-
-            <div class="episode"
-                 data-title="Припять 2.0"
-                 data-text="Финал второго сезона возвращает героев к Припяти. Костенко оказывается непосредственно связан с событиями, а герои приближаются к окончательной разгадке истории Зоны.">
-                <div class="episode-number">СЕРИЯ 08</div>
-                <h4>Припять 2.0</h4>
-                <p>
-                    Припять снова становится центром
-                    событий и последней точкой пути.
-                </p>
-                <div class="episode-more">Подробнее →</div>
-            </div>
-
-        </div>
-
-    </div>
-
-
-    <!-- ================= FINAL ================= -->
-
-    <div class="season" id="final">
-
-        <div class="season-head">
-            <div>
-                <div class="section-label">Финальная история</div>
-                <h3>Чернобыль: Зона отчуждения — Финал</h3>
-            </div>
-
-            <span>3 серии</span>
-        </div>
-
-        <div class="episodes">
-
-            <div class="episode"
-                 data-title="Финал — Эпизод 1"
-                 data-text="Спустя время Зона снова становится центром международного конфликта. Паша появляется уже в совершенно другой роли, а его друзья вынуждены вернуться в Припять, чтобы понять, что с ним произошло.">
-                <div class="episode-number">ФИНАЛ 01</div>
-                <h4>Возвращение в Зону</h4>
-                <p>
-                    Паша становится частью новой угрозы,
-                    а друзья возвращаются за ним.
-                </p>
-                <div class="episode-more">Подробнее →</div>
-            </div>
-
-            <div class="episode"
-                 data-title="Финал — Эпизод 2"
-                 data-text="Аня, Лёха, Настя и Гоша снова оказываются в Припяти. Им предстоит разобраться в происходящем и понять, почему Паша оказался связан с новой катастрофой.">
-                <div class="episode-number">ФИНАЛ 02</div>
-                <h4>Последний путь</h4>
-                <p>
-                    Друзья идут по следу Паши
-                    и приближаются к сердцу Зоны.
-                </p>
-                <div class="episode-more">Подробнее →</div>
-            </div>
-
-            <div class="episode"
-                 data-title="Финал — Эпизод 3"
-                 data-text="Последняя часть истории возвращает героев к главным вопросам сериала: что такое Зона, почему она появилась и можно ли окончательно разорвать цепочку событий, начавшуюся в 1986 году.">
-                <div class="episode-number">ФИНАЛ 03</div>
-                <h4>Последняя точка</h4>
-                <p>
-                    Финальная попытка остановить
-                    цепь событий, начавшуюся много лет назад.
-                </p>
-                <div class="episode-more">Подробнее →</div>
-            </div>
-
-        </div>
-
-    </div>
-
-</section>
-
-
-<!-- ================= KOSTENKO ================= -->
-
-<section class="kostenko" id="kostenko">
-
-    <div class="kostenko-grid">
-
-        <div class="kostenko-image">
-
-            <div class="kostenko-name">
-                Сергей
-                <strong>Костенко</strong>
-
-                <span>
-                    КАПИТАН КГБ СССР
-                </span>
-            </div>
-
-        </div>
-
-
-        <div class="kostenko-info">
-
-            <div class="section-label">
-                Главный антагонист
-            </div>
-
-            <h2>
-                Костенко
-            </h2>
-
-            <p>
-                Сергей Костенко — один из самых важных
-                персонажей всей истории. В 1986 году он
-                служил в КГБ и оказался непосредственно
-                связан с событиями вокруг Чернобыльской АЭС.
-            </p>
-
-            <p>
-                После катастрофы его жизнь оказывается
-                связана с желанием изменить прошлое.
-                Для него Зона становится не просто
-                территорией — она становится шансом
-                исправить собственную историю.
-            </p>
-
-            <p>
-                Именно Костенко становится человеком,
-                который двигает события первого сезона
-                и продолжает влиять на историю во втором.
-            </p>
-
-            <div class="kostenko-facts">
-
-                <div class="fact">
-                    <small>Имя</small>
-                    <strong>Сергей Костенко</strong>
-                </div>
-
-                <div class="fact">
-                    <small>Период</small>
-                    <strong>1986 / 2013</strong>
-                </div>
-
-                <div class="fact">
-                    <small>Служба</small>
-                    <strong>КГБ СССР</strong>
-                </div>
-
-                <div class="fact">
-                    <small>Роль</small>
-                    <strong>Антагонист</strong>
-                </div>
-
-            </div>
-
-        </div>
-
-    </div>
-
-</section>
-
-
-<!-- ================= CHARACTERS ================= -->
-
-<section class="characters" id="characters">
-
-    <div class="section-title">
-
-        <div class="section-label">
-            Люди Зоны
-        </div>
-
-        <h2>Главные персонажи</h2>
-
-        <p>
-            Герои, через которых раскрывается история
-            Чернобыля, времени и Зоны.
-        </p>
-
-    </div>
-
-
-    <div class="characters-grid">
-
-        <div class="character">
-
-            <div class="character-role">
-                Главный герой
-            </div>
-
-            <h3>Паша Вершинин</h3>
-
-            <p>
-                Парень, с которого начинается путешествие.
-                Постепенно Паша становится одним из ключевых
-                людей во всей истории Зоны.
-            </p>
-
-        </div>
-
-
-        <div class="character">
-
-            <div class="character-role">
-                Друг Паши
-            </div>
-
-            <h3>Лёша</h3>
-
-            <p>
-                Друг Паши, который вместе с ним оказывается
-                втянут в опасную погоню.
-            </p>
-
-        </div>
-
-
-        <div class="character">
-
-            <div class="character-role">
-                Герой
-            </div>
-
-            <h3>Настя</h3>
-
-            <p>
-                Одна из друзей Паши. Вместе с остальными
-                проходит через события Зоны.
-            </p>
-
-        </div>
-
-
-        <div class="character">
-
-            <div class="character-role">
-                Герой
-            </div>
-
-            <h3>Аня Антонова</h3>
-
-            <p>
-                Аня становится важной частью команды
-                и связана с событиями вокруг Чернобыля.
-            </p>
-
-        </div>
-
-
-        <div class="character">
-
-            <div class="character-role">
-                Технарь
-            </div>
-
-            <h3>Гоша</h3>
-
-            <p>
-                Компьютерный специалист группы.
-                Помогает друзьям разбираться с технологиями
-                и необычными ситуациями.
-            </p>
-
-        </div>
-
-
-        <div class="character">
-
-            <div class="character-role">
-                Антагонист
-            </div>
-
-            <h3>Сергей Костенко</h3>
-
-            <p>
-                Человек, чья история тесно связана
-                с катастрофой 1986 года и машиной времени.
-            </p>
-
-        </div>
-
-
-        <div class="character">
-
-            <div class="character-role">
-                Антагонист
-            </div>
-
-            <h3>Игорь Матвеев</h3>
-
-            <p>
-                Таинственный вор, с которого начинается
-                цепочка событий первого сезона.
-            </p>
-
-        </div>
-
-
-        <div class="character">
-
-            <div class="character-role">
-                Загадка Зоны
-            </div>
-
-            <h3>Виталий Сорокин</h3>
-
-            <p>
-                Инженер четвёртого энергоблока,
-                чья история оказывается связана
-                с самой природой Зоны.
-            </p>
-
-        </div>
-
-
-        <div class="character">
-
-            <div class="character-role">
-                Паша / другая версия
-            </div>
-
-            <h3>Никита</h3>
-
-            <p>
-                Загадочная версия Паши из другой реальности,
-                связанная с попытками предотвратить
-                новую катастрофу.
-            </p>
-
-        </div>
-
-    </div>
-
-</section>
-
-
-<!-- ================= TIMELINE ================= -->
-
-<section class="timeline">
-
-    <div class="section-title">
-
-        <div class="section-label">
-            Временная линия
-        </div>
-
-        <h2>От 1986 до будущего</h2>
-
-        <p>
-            Основные точки истории в хронологическом порядке.
-        </p>
-
-    </div>
-
-
-    <div class="timeline-list">
-
-        <div class="time-item">
-
-            <div class="time-dot"></div>
-
-            <h3>1986 — Чернобыль</h3>
-
-            <p>
-                Катастрофа на четвёртом энергоблоке
-                становится отправной точкой всей истории.
-            </p>
-
-        </div>
-
-
-        <div class="time-item">
-
-            <div class="time-dot"></div>
-
-            <h3>2013 — Погоня</h3>
-
-            <p>
-                Паша и его друзья отправляются вслед
-                за вором в сторону Припяти.
-            </p>
-
-        </div>
-
-
-        <div class="time-item">
-
-            <div class="time-dot"></div>
-
-            <h3>Путешествие во времени</h3>
-
-            <p>
-                Герои получают возможность вмешиваться
-                в прошлое и сталкиваются с последствиями
-                изменения истории.
-            </p>
-
-        </div>
-
-
-        <div class="time-item">
-
-            <div class="time-dot"></div>
-
-            <h3>Альтернативная реальность</h3>
-
-            <p>
-                После изменения событий 1986 года
-                возникает новая версия мира.
-            </p>
-
-        </div>
-
-
-        <div class="time-item">
-
-            <div class="time-dot"></div>
-
-            <h3>Припять 2.0</h3>
-
-            <p>
-                История возвращается к Припяти,
-                где сходятся линии Паши, Костенко
-                и Зоны.
-            </p>
-
-        </div>
-
-
-        <div class="time-item">
-
-            <div class="time-dot"></div>
-
-            <h3>Финал</h3>
-
-            <p>
-                Спустя годы друзья снова возвращаются
-                в Зону, чтобы спасти Пашу и остановить
-                новую угрозу.
-            </p>
-
-        </div>
-
-    </div>
-
-</section>
-
-
-<!-- ================= ZONE ================= -->
-
-<section class="zone">
-
-    <div class="zone-content">
-
-        <div class="zone-symbol">
-            ☢
-        </div>
-
-        <h2>
-            Зона помнит всё
-        </h2>
-
-        <p>
-            Здесь прошлое не исчезает.
-            Здесь каждый выбор оставляет след.
-            И иногда, чтобы изменить будущее,
-            приходится вернуться туда,
-            где всё началось.
-        </p>
-
-    </div>
-
-</section>
-
-
-<!-- ================= FOOTER ================= -->
-
-<footer>
-
-    <strong>
-        ЧЕРНОБЫЛЬ — ЗОНА ОТЧУЖДЕНИЯ
-    </strong>
-
-    <span>
-        Архив истории • Паша • Зона • Костенко
-    </span>
-
-</footer>
-
-
-<!-- ================= MODAL ================= -->
-
-<div class="modal" id="episodeModal">
-
-    <div class="modal-box">
-
-        <div class="modal-top">
-
-            <div>
-
-                <div class="modal-number" id="modalNumber">
-                    ЭПИЗОД
-                </div>
-
-                <h2 id="modalTitle">
-                    Название серии
-                </h2>
-
-            </div>
-
-            <button class="close" id="closeModal">
-                ✕
-            </button>
-
-        </div>
-
-        <p id="modalText"></p>
-
-    </div>
-
+<!-- GAME -->
+<section class="screen" id="game">
+
+<div class="game-head">
+<div>
+<div class="chapter" id="chapter">ГЛАВА 1</div>
+<div class="location" id="location">Москва</div>
+</div>
+<div class="location" id="sceneNo">01</div>
 </div>
 
+<div class="progress"><i id="progress"></i></div>
+
+<div class="stats">
+<div class="stat"><small>Зона</small><b id="danger">0</b></div>
+<div class="stat"><small>Доверие</small><b id="trust">0</b></div>
+<div class="stat"><small>Деньги</small><b id="money">0 ₽</b></div>
+<div class="stat"><small>Состояние</small><b id="health">100%</b></div>
+</div>
+
+<div class="scene">
+<div class="scene-title" id="title"></div>
+<div class="scene-text" id="text"></div>
+<div class="dialog" id="dialog" style="display:none"></div>
+<div class="choices" id="choices"></div>
+</div>
+
+<div class="bottom">
+<div class="panel">
+<h3>Инвентарь</h3>
+<div class="items" id="inventory"></div>
+</div>
+<div class="panel">
+<h3>Люди</h3>
+<div class="items" id="people"></div>
+</div>
+</div>
+
+</section>
+
+<!-- END -->
+<section class="screen" id="end">
+<div class="ending">
+<div class="radio">☢</div>
+<h2 id="endTitle"></h2>
+<p id="endText"></p>
+<button class="btn" onclick="resetGame()">Начать заново</button>
+</div>
+</section>
+
+</main>
+
+<div class="toast" id="toast"></div>
+
+<div class="modal" id="info">
+<div class="modalbox">
+<h2>Игра</h2>
+<p>
+Это интерактивный квест. Выборы изменяют состояние героя,
+отношения с персонажами, опасность и доступные события.
+<br><br>
+Прогресс автоматически сохраняется в браузере.
+<br><br>
+Для музыки положи файл <b>music.mp3</b> рядом с этим
+<b>index.html</b>.
+</p>
+<button class="btn" onclick="closeInfo()">Закрыть</button>
+</div>
+</div>
 
 <script>
+/* ================= СОСТОЯНИЕ ================= */
+
+const defaultState={
+scene:"start",
+danger:0,
+trust:0,
+money:8000000,
+health:100,
+inventory:[],
+people:["Паша","Лёша","Аня","Настя","Гоша"],
+flags:{}
+};
+
+let state=JSON.parse(localStorage.getItem("chernobylQuest"))||structuredClone(defaultState);
+
+const $=id=>document.getElementById(id);
+
+function save(){
+localStorage.setItem("chernobylQuest",JSON.stringify(state));
+}
+
+function has(item){return state.inventory.includes(item)}
+function add(item){
+if(!has(item)){
+state.inventory.push(item);
+toast("Получено: "+item);
+}
+}
+function flag(x){state.flags[x]=true}
+function getFlag(x){return !!state.flags[x]}
+
+function toast(t){
+$("toast").textContent=t;
+$("toast").classList.add("show");
+setTimeout(()=>$("toast").classList.remove("show"),1800);
+}
+
+/* ================= СЦЕНЫ ================= */
+
+const scenes={
+
+start:{
+chapter:"ГЛАВА 1",
+location:"Москва / квартира Паши",
+title:"Всё начинается здесь",
+text:`Вечеринка закончилась.
+
+Утро встречает Пашу тишиной. На кухне валяются
+пустые бутылки, телефон разрывается от сообщений,
+а в квартире слишком тихо.
+
+Паша открывает комнату родителей.
+
+Сейф открыт.
+
+Денег нет.
+
+Восемь миллионов исчезли.`,
+dialog:["Паша","Да быть не может..."],
+choices:[
+{
+text:"Позвонить Лёше",
+hint:"Не оставаться одному.",
+next:"lesha"
+},
+{
+text:"Самому осмотреть квартиру",
+hint:"Сначала найти след.",
+next:"search"
+},
+{
+text:"Позвонить в полицию",
+hint:"Пойти официальным путём.",
+next:"police"
+}]
+},
+
+lesha:{
+chapter:"ГЛАВА 1",
+location:"Квартира Паши",
+title:"Лёша приезжает",
+text:`Через двадцать минут в дверь стучат.
+
+Лёша быстро осматривает квартиру и подходит
+к открытому сейфу.
+
+Он замечает след грязи возле окна.`,
+dialog:["Лёша","Паша, это не обычная кража. Посмотри сюда."],
+choices:[
+{
+text:"Изучить след",
+next:"footprint"
+},
+{
+text:"Спросить Лёшу, что он думает",
+next:"theory"
+},
+{
+text:"Проверить камеры",
+next:"camera"
+}]
+},
+
+search:{
+chapter:"ГЛАВА 1",
+location:"Квартира Паши",
+title:"След",
+text:`Паша начинает осматривать комнату.
+
+Под столом находится небольшой металлический
+предмет. На нём странная маркировка.
+
+Рядом — грязный след обуви.`,
+choices:[
+{
+text:"Забрать предмет",
+next:"object"
+},
+{
+text:"Сфотографировать и оставить",
+next:"photo"
+},
+{
+text:"Пойти по следу",
+next:"window"
+}]
+},
+
+police:{
+chapter:"ГЛАВА 1",
+location:"Участок",
+title:"Официальный путь",
+text:`Паша рассказывает о пропаже денег.
+
+Следователь задаёт вопросы о вечеринке,
+гостях и родителях.
+
+Через несколько минут приходит сообщение:
+подозреваемый замечен возле вокзала.`,
+dialog:["Следователь","Если хотите вернуть деньги — ищите быстрее."],
+choices:[
+{
+text:"Позвонить Лёше",
+next:"lesha"
+},
+{
+text:"Самому ехать на вокзал",
+next:"station"
+}]
+},
+
+footprint:{
+chapter:"ГЛАВА 1",
+location:"Квартира",
+title:"Грязь",
+text:`След ведёт к окну.
+
+На подоконнике лежит маленький кусок бумаги.
+На нём написано только одно слово:
+
+ПРИПЯТЬ.`,
+choices:[
+{text:"Показать Лёше",next:"theory"},
+{text:"Спрятать бумагу",next:"hidepaper"},
+{text:"Позвонить Ане",next:"anna"}
+]
+},
+
+theory:{
+chapter:"ГЛАВА 1",
+location:"Квартира",
+title:"Первая теория",
+text:`Лёша долго смотрит на слово «ПРИПЯТЬ».
+
+Он достаёт телефон и открывает карту.`,
+dialog:["Лёша","Если вор действительно туда направился, нам придётся ехать следом."],
+choices:[
+{text:"Ехать вместе с Лёшей",next:"road"},
+{text:"Позвонить Ане и Насте",next:"team"},
+{text:"Остановиться и ждать полицию",next:"wait"}
+]
+},
+
+camera:{
+chapter:"ГЛАВА 1",
+location:"Квартира",
+title:"Запись",
+text:`Камера сохранила несколько секунд записи.
+
+На экране появляется человек в капюшоне.
+
+Он выходит из подъезда.
+
+Перед тем как скрыться, он смотрит прямо
+в камеру.`,
+choices:[
+{text:"Увеличить запись",next:"face"},
+{text:"Сохранить видео",next:"savevideo"},
+{text:"Позвонить Лёше",next:"lesha"}
+]
+},
+
+object:{
+chapter:"ГЛАВА 1",
+location:"Квартира",
+title:"Странный предмет",
+text:`Предмет похож на старую металлическую деталь.
+На обратной стороне выгравирована дата:
+
+26.04.1986.`,
+choices:[
+{text:"Сохранить предмет",next:"road",effect:()=>add("металлический жетон")},
+{text:"Выбросить",next:"window"}
+]
+},
+
+photo:{
+chapter:"ГЛАВА 1",
+location:"Квартира",
+title:"Фотография",
+text:`Паша фотографирует находку.
+
+В телефоне внезапно появляется помеха.
+
+Экран гаснет.
+
+Через секунду снова включается.`,
+choices:[
+{text:"Проверить телефон",next:"glitch",effect:()=>state.danger+=1},
+{text:"Не обращать внимания",next:"window"}
+]
+},
+
+window:{
+chapter:"ГЛАВА 1",
+location:"Квартира",
+title:"Окно",
+text:`След заканчивается возле окна.
+
+На улице уже никого нет.
+
+Но далеко внизу Паша замечает автомобиль,
+который медленно трогается с места.`,
+choices:[
+{text:"Бежать вниз",next:"chase"},
+{text:"Запомнить номер",next:"number"},
+{text:"Позвонить Лёше",next:"lesha"}
+]
+},
+
+anna:{
+chapter:"ГЛАВА 1",
+location:"Телефон",
+title:"Аня",
+text:`Аня сначала не верит Паше.
+
+Но услышав про Припять, становится серьёзной.`,
+dialog:["Аня","Паша... ты уверен, что хочешь туда ехать?"],
+choices:[
+{text:"Да. Деньги нужно вернуть.",next:"team",effect:()=>state.trust+=1},
+{text:"Я сам разберусь.",next:"road"}
+]
+},
+
+hidepaper:{
+chapter:"ГЛАВА 1",
+location:"Квартира",
+title:"Тайна",
+text:`Паша прячет бумагу в карман.
+
+Он ещё не знает, что это решение
+окажется важным.`,
+choices:[
+{text:"Продолжить поиски",next:"window"},
+{text:"Позвонить Лёше",next:"lesha"}
+]
+},
+
+station:{
+chapter:"ГЛАВА 1",
+location:"Вокзал",
+title:"Последний поезд",
+text:`На вокзале Паша узнаёт, что мужчина,
+похожий на подозреваемого, купил билет
+в сторону Чернобыля.`,
+choices:[
+{text:"Купить билет",next:"road"},
+{text:"Искать его на вокзале",next:"chase"},
+{text:"Позвонить Лёше",next:"team"}
+]
+},
+
+face:{
+chapter:"ГЛАВА 1",
+location:"Камера",
+title:"Лицо",
+text:`Паша увеличивает изображение.
+
+Лицо почти невозможно разглядеть.
+
+Но на секунду камера ловит отражение
+в витрине.
+
+Паша узнаёт человека.`,
+dialog:["Паша","Костенко?.."],
+choices:[
+{text:"Сохранить запись",next:"kost",effect:()=>add("запись с камеры")},
+{text:"Удалить запись",next:"road"}
+]
+},
+
+savevideo:{
+chapter:"ГЛАВА 1",
+location:"Телефон",
+title:"Доказательство",
+text:`Видео сохранено.
+
+Теперь у Паши есть доказательство,
+которое можно показать другим.`,
+choices:[
+{text:"Отправить Лёше",next:"lesha"},
+{text:"Оставить у себя",next:"road",effect:()=>state.trust-=1}
+]
+},
+
+glitch:{
+chapter:"ГЛАВА 1",
+location:"Квартира",
+title:"Помеха",
+text:`На экране телефона появляется дата:
+
+26.04.1986
+
+Затем изображение исчезает.
+
+Паша понимает: это уже не обычная кража.`,
+choices:[
+{text:"Позвонить Ане",next:"anna"},
+{text:"Поехать искать вора",next:"road"}
+]
+},
+
+chase:{
+chapter:"ГЛАВА 1",
+location:"Улица",
+title:"Погоня",
+text:`Паша выбегает на улицу.
+
+Автомобиль уже набирает скорость.
+
+Он успевает увидеть только номер.`,
+choices:[
+{text:"Запомнить номер",next:"number"},
+{text:"Остановить первую машину",next:"badchase",effect:()=>state.health-=15}
+]
+},
+
+number:{
+chapter:"ГЛАВА 1",
+location:"Улица",
+title:"Номер",
+text:`Паша записывает номер автомобиля.
+
+Через несколько секунд приходит сообщение
+от Лёши:
+
+«Я нашёл кое-что. Нам нужно поговорить».`,
+choices:[
+{text:"Ехать к Лёше",next:"team"},
+{text:"Отправить номер полиции",next:"police2"}
+]
+},
+
+team:{
+chapter:"ГЛАВА 1",
+location:"Квартира Лёши",
+title:"Команда",
+text:`Лёша, Аня, Настя и Гоша собираются вместе.
+
+Перед ними карта.
+
+Маршрут ведёт на север.
+
+В сторону Зоны.`,
+dialog:["Гоша","Если эта история действительно связана с Припятью, обратно всё может быть не так просто."],
+choices:[
+{text:"Едем",next:"road",effect:()=>{state.trust+=2;add("карта Зоны")}},
+{text:"Сначала изучить Костенко",next:"kost"},
+{text:"Позвонить родителям",next:"parents"}
+]
+},
+
+wait:{
+chapter:"ГЛАВА 1",
+location:"Квартира",
+title:"Ожидание",
+text:`Проходит час.
+
+Телефон молчит.
+
+Потом приходит одно сообщение:
+
+«Не ищите деньги. Иначе найдёте Зону».`,
+choices:[
+{text:"Ехать",next:"road"},
+{text:"Показать сообщение Лёше",next:"team"}
+]
+},
+
+kost:{
+chapter:"ГЛАВА 1",
+location:"Квартира",
+title:"Костенко",
+text:`Имя Сергей Костенко всё чаще появляется
+в найденных следах.
+
+Паша ещё не понимает, кто этот человек
+и почему он связан с 1986 годом.
+
+Но одно становится ясно:
+
+Костенко знает о Зоне гораздо больше,
+чем должен.`,
+dialog:["Лёша","Если он действительно замешан — мы найдём его там."],
+choices:[
+{text:"Ехать в Зону",next:"road"},
+{text:"Продолжить искать информацию",next:"research"}
+]
+},
+
+research:{
+chapter:"ГЛАВА 1",
+location:"Интернет",
+title:"Старые документы",
+text:`Гоша находит упоминание фамилии Костенко
+в старом архивном документе.
+
+Дата — 1986 год.
+
+Подпись стоит рядом с отметкой КГБ СССР.`,
+choices:[
+{text:"Сохранить документ",next:"road",effect:()=>add("архив КГБ")},
+{text:"Позвонить Костенко",next:"callkost"}
+]
+},
+
+callkost:{
+chapter:"ГЛАВА 1",
+location:"Телефон",
+title:"Неизвестный номер",
+text:`После нескольких гудков отвечает мужчина.
+
+Голос спокойный.
+
+Слишком спокойный.`,
+dialog:["Костенко","Паша. Ты не представляешь, куда собираешься."],
+choices:[
+{text:"Кто вы?",next:"kostvoice"},
+{text:"Что вам нужно?",next:"kostvoice"},
+{text:"Сбросить звонок",next:"road"}
+]
+},
+
+kostvoice:{
+chapter:"ГЛАВА 1",
+location:"Телефон",
+title:"Голос из прошлого",
+text:`На другом конце несколько секунд тишины.
+
+Затем Костенко произносит:
+
+«Если хочешь узнать правду — приезжай в Припять».`,
+choices:[
+{text:"Ехать",next:"road",effect:()=>state.danger+=2},
+{text:"Отказаться",next:"refuse"}
+]
+},
+
+parents:{
+chapter:"ГЛАВА 1",
+location:"Телефон",
+title:"Родители",
+text:`Паша звонит родителям.
+
+Но разговор быстро заканчивается.
+
+Они не знают, где деньги.
+
+И не знают, почему Паша так интересуется Чернобылем.`,
+choices:[
+{text:"Ничего не рассказывать",next:"road"},
+{text:"Рассказать всё",next:"road",effect:()=>state.trust+=1}
+]
+},
+
+police2:{
+chapter:"ГЛАВА 1",
+location:"Телефон",
+title:"Номер передан",
+text:`Полиция получает номер автомобиля.
+
+Но через несколько минут выясняется,
+что машина зарегистрирована на человека,
+которого невозможно найти.`,
+choices:[
+{text:"Ехать самому",next:"road"},
+{text:"Ждать",next:"wait"}
+]
+},
+
+badchase:{
+chapter:"ГЛАВА 1",
+location:"Улица",
+title:"Слишком поздно",
+text:`Паша теряет время.
+
+Автомобиль исчезает.
+
+На руке появляется ссадина.`,
+choices:[
+{text:"Позвонить Лёше",next:"team"},
+{text:"Идти дальше одному",next:"road"}
+]
+},
+
+refuse:{
+chapter:"ГЛАВА 1",
+location:"Москва",
+title:"Отказ",
+text:`Паша решает не ехать.
+
+Но вечером на его телефон приходит
+фотография Припяти.
+
+На обороте фотографии написано:
+
+«Ты всё равно придёшь».`,
+choices:[
+{text:"Ехать",next:"road"},
+{text:"Удалить фотографию",next:"end_bad"}
+]
+},
+
+road:{
+chapter:"ГЛАВА 2",
+location:"Дорога к Зоне",
+title:"На север",
+text:`Машина уходит всё дальше от Москвы.
+
+Город остаётся позади.
+
+Впереди — неизвестность.
+
+Паша смотрит в окно.
+
+Где-то там находится человек,
+который украл восемь миллионов.
+
+И Костенко.`,
+choices:[
+{text:"Продолжить путь",next:"zone"},
+{text:"Остановиться и всё обсудить",next:"talk"},
+{text:"Проверить инвентарь",next:"inventory"}
+]
+},
+
+talk:{
+chapter:"ГЛАВА 2",
+location:"Дорога",
+title:"Перед Зоной",
+text:`Команда останавливается.
+
+У каждого своё мнение.
+
+Аня хочет вызвать помощь.
+Лёша считает, что нужно продолжать.
+Гоша уверен, что здесь замешано что-то с временем.`,
+choices:[
+{text:"Продолжаем",next:"zone",effect:()=>state.trust+=1},
+{text:"Вернуться",next:"return"}
+]
+},
+
+inventory:{
+chapter:"ГЛАВА 2",
+location:"Дорога",
+title:"Снаряжение",
+text:`Паша проверяет найденные вещи.
+
+Всё, что удалось собрать, может пригодиться.`,
+choices:[
+{text:"Продолжить",next:"zone"},
+{text:"Вернуться к разговору",next:"talk"}
+]
+},
+
+return:{
+chapter:"ГЛАВА 2",
+location:"Дорога",
+title:"Назад?",
+text:`Машина разворачивается.
+
+Но двигатель глохнет.
+
+Вдали появляется силуэт человека.`,
+choices:[
+{text:"Выйти из машины",next:"mystery"},
+{text:"Запереть двери",next:"mystery"}
+]
+},
+
+mystery:{
+chapter:"ГЛАВА 2",
+location:"Дорога",
+title:"Незнакомец",
+text:`Человек подходит к машине.
+
+Он молчит.
+
+Затем говорит:
+
+«Паша, тебе нельзя возвращаться».`,
+choices:[
+{text:"Кто вы?",next:"mystery2"},
+{text:"Потребовать уйти",next:"mystery2"}
+]
+},
+
+mystery2:{
+chapter:"ГЛАВА 2",
+location:"Граница Зоны",
+title:"Последнее предупреждение",
+text:`Незнакомец исчезает в темноте.
+
+Через несколько секунд двигатель снова
+заводится.
+
+Перед вами — дорога в сторону Зоны.`,
+choices:[
+{text:"Ехать дальше",next:"zone"},
+{text:"Развернуться",next:"end_bad"}
+]
+},
+
+zone:{
+chapter:"ГЛАВА 2",
+location:"Граница Зоны",
+title:"Добро пожаловать в Зону",
+text:`Шлагбаум остаётся позади.
+
+Радиометр начинает щёлкать.
+
+Гоша смотрит на прибор.
+
+Стрелка поднимается.
+
+Паша понимает:
+
+назад дороги уже нет.`,
+choices:[
+{text:"Идти вперёд",next:"pripyat"},
+{text:"Проверить радиометр",next:"anomaly"},
+{text:"Искать Костенко",next:"kostzone"}
+]
+},
+
+anomaly:{
+chapter:"ГЛАВА 2",
+location:"Зона",
+title:"Аномалия",
+text:`Перед группой воздух начинает дрожать.
+
+На несколько секунд дорога выглядит
+совершенно иначе.
+
+Паша видит старую Припять.
+
+1986 год.
+
+Затем всё возвращается.`,
+choices:[
+{text:"Подойти ближе",next:"time",effect:()=>state.danger+=3},
+{text:"Отойти",next:"pripyat"}
+]
+},
+
+kostzone:{
+chapter:"ГЛАВА 2",
+location:"Зона",
+title:"След Костенко",
+text:`На дереве выцарапана дата:
+
+1986.
+
+Ниже — буква К.
+
+Костенко был здесь.`,
+choices:[
+{text:"Следовать дальше",next:"pripyat"},
+{text:"Сфотографировать",next:"pripyat",effect:()=>add("фотография знака")}
+]
+},
+
+time:{
+chapter:"ГЛАВА 2",
+location:"Аномалия",
+title:"Первый контакт",
+text:`Мир вокруг Паши меняется.
+
+На секунду он слышит голос,
+которого не может быть здесь.
+
+«Не дай Костенко изменить всё».`,
+dialog:["Неизвестный голос","Паша..."],
+choices:[
+{text:"Ответить",next:"voice"},
+{text:"Бежать назад",next:"pripyat"}
+]
+},
+
+voice:{
+chapter:"ГЛАВА 2",
+location:"Аномалия",
+title:"Голос",
+text:`Паша спрашивает:
+
+«Кто ты?»
+
+Ответа нет.
+
+Только дата на экране телефона:
+
+26.04.1986.`,
+choices:[
+{text:"Сохранить дату",next:"pripyat",effect:()=>add("запись 26.04.1986")},
+{text:"Разбить телефон",next:"pripyat",effect:()=>state.health-=10}
+]
+},
+
+pripyat:{
+chapter:"ГЛАВА 2",
+location:"Припять",
+title:"Город-призрак",
+text:`Здания появляются из тумана.
+
+Припять.
+
+Пустые улицы.
+Разбитые окна.
+Тишина.
+
+Где-то впереди находится человек,
+с которого началась эта история.`,
+choices:[
+{text:"Идти к центру",next:"center"},
+{text:"Искать безопасное место",next:"safe"},
+{text:"Позвонить Костенко",next:"callkost"}
+]
+},
+
+center:{
+chapter:"ГЛАВА 2",
+location:"Припять / центр",
+title:"След",
+text:`На площади лежит старая папка.
+
+На первой странице:
+
+«Костенко Сергей.
+Объект: Чернобыль.
+Дата: 1986».`,
+choices:[
+{text:"Открыть папку",next:"file"},
+{text:"Забрать папку",next:"file",effect:()=>add("папка Костенко")},
+{text:"Оставить",next:"kostmeet"}
+]
+},
+
+safe:{
+chapter:"ГЛАВА 2",
+location:"Припять",
+title:"Укрытие",
+text:`Группа находит пустое здание.
+
+На стене кто-то оставил надпись:
+
+«ОН УЖЕ ЗНАЕТ, ЧТО ВЫ ЗДЕСЬ».`,
+choices:[
+{text:"Остаться",next:"kostmeet"},
+{text:"Идти дальше",next:"center"}
+]
+},
+
+file:{
+chapter:"ГЛАВА 2",
+location:"Припять",
+title:"Досье",
+text:`Внутри фотографии, документы и записи.
+
+Последняя страница вырвана.
+
+Но на столе лежит фотография мужчины.
+
+Сергей Костенко.`,
+choices:[
+{text:"Забрать фотографию",next:"kostmeet",effect:()=>add("фото Костенко")},
+{text:"Искать последнюю страницу",next:"page"}
+]
+},
+
+page:{
+chapter:"ГЛАВА 2",
+location:"Припять",
+title:"Последняя страница",
+text:`Под шкафом находится вырванный лист.
+
+На нём написано:
+
+«Если Паша появится — цепочка началась снова».`,
+choices:[
+{text:"Идти искать Костенко",next:"kostmeet"},
+{text:"Показать группе",next:"kostmeet",effect:()=>state.trust+=2}
+]
+},
+
+kostmeet:{
+chapter:"ГЛАВА 3",
+location:"Припять / неизвестное здание",
+title:"Костенко",
+text:`Дверь открывается.
+
+В комнате стоит мужчина.
+
+Сергей Костенко.
+
+Он смотрит на Пашу так,
+будто ждал его много лет.`,
+dialog:["Костенко","Наконец-то ты пришёл."],
+choices:[
+{text:"Ты украл деньги?",next:"final1"},
+{text:"Что произошло в 1986?",next:"final2"},
+{text:"Что тебе нужно от меня?",next:"final3"}
+]
+},
+
+final1:{
+chapter:"ГЛАВА 3",
+location:"Припять",
+title:"Восемь миллионов",
+text:`Костенко усмехается.
+
+«Деньги были нужны только для того,
+чтобы заставить тебя приехать».
+
+Паша понимает:
+
+кража была ловушкой.`,
+choices:[
+{text:"Потребовать вернуть деньги",next:"endingA"},
+{text:"Спросить о Зоне",next:"final2"}
+]
+},
+
+final2:{
+chapter:"ГЛАВА 3",
+location:"Припять",
+title:"1986",
+text:`Костенко рассказывает о событиях,
+которые связывают его с Чернобылем.
+
+Он говорит, что история могла пойти
+по-другому.
+
+И теперь Паша должен решить,
+изменять ли прошлое.`,
+choices:[
+{text:"Изменить прошлое",next:"endingB"},
+{text:"Оставить историю как есть",next:"endingC"}
+]
+},
+
+final3:{
+chapter:"ГЛАВА 3",
+location:"Припять",
+title:"Главный вопрос",
+text:`Костенко смотрит прямо на Пашу.
+
+«Мне нужен человек, который сможет
+закончить то, что я начал».`,
+choices:[
+{text:"Согласиться",next:"endingD"},
+{text:"Отказаться",next:"endingC"},
+{text:"Выстрелить первым",next:"endingE"}
+]
+},
+
+endingA:{
+end:true,title:"КОНЕЦ: ДЕНЬГИ",
+text:"Паша забирает деньги. Но Костенко исчезает. Зона остаётся без ответа. Это только начало."
+},
+
+endingB:{
+end:true,title:"КОНЕЦ: НОВАЯ ИСТОРИЯ",
+text:"Паша решает изменить прошлое. Мир начинает меняться. Он ещё не знает, какой ценой."
+},
+
+endingC:{
+end:true,title:"КОНЕЦ: НЕ ТРОГАТЬ ПРОШЛОЕ",
+text:"Паша отказывается менять историю. Костенко остаётся в Зоне. Но тайна не исчезает."
+},
+
+endingD:{
+end:true,title:"КОНЕЦ: НАСЛЕДНИК",
+text:"Паша принимает предложение Костенко. Теперь ему предстоит узнать всю правду о 1986 годе."
+},
+
+endingE:{
+end:true,title:"КОНЕЦ: ПОСЛЕДНИЙ ВЫБОР",
+text:"Выстрел разрывает тишину. Но Зона отвечает на этот выбор по-своему."
+},
+
+end_bad:{
+end:true,title:"КОНЕЦ: ОБРАТНОЙ ДОРОГИ НЕТ",
+text:"Паша уезжает. Однако события уже запущены. Иногда решение ничего не делать тоже является выбором."
+}
+
+};
+
+/* ================= РЕНДЕР ================= */
+
+let current="start";
+let sceneCount=0;
+
+function startGame(){
+state=structuredClone(defaultState);
+current="start";
+sceneCount=0;
+save();
+show("game");
+render();
+}
+
+function render(){
+
+const s=scenes[current];
+if(!s)return;
+
+if(s.end){
+showEnding(s);
+return;
+}
+
+sceneCount++;
+
+$("chapter").textContent=s.chapter;
+$("location").textContent=s.location;
+$("sceneNo").textContent=String(sceneCount).padStart(2,"0");
+$("title").textContent=s.title;
+$("text").textContent=s.text;
+
+if(s.dialog){
+$("dialog").style.display="block";
+$("dialog").innerHTML="<b>"+s.dialog[0]+"</b>"+s.dialog[1];
+}else{
+$("dialog").style.display="none";
+}
+
+$("danger").textContent=state.danger;
+$("trust").textContent=state.trust;
+$("money").textContent=state.money.toLocaleString("ru-RU")+" ₽";
+$("health").textContent=Math.max(0,state.health)+"%";
+
+$("progress").style.width=Math.min(100,sceneCount*4)+"%";
+
+$("inventory").innerHTML=
+state.inventory.length?
+state.inventory.map(x=>`<span class="item">${x}</span>`).join(""):"<span class=item>Пусто</span>";
+
+$("people").innerHTML=
+state.people.map(x=>`<span class="item">${x}</span>`).join("");
+
+$("choices").innerHTML="";
+
+s.choices.forEach(c=>{
+
+const b=document.createElement("button");
+b.className="choice";
+b.innerHTML=c.text+(c.hint?`<small>${c.hint}</small>`:"");
+
+b.onclick=()=>{
+if(c.effect)c.effect();
+current=c.next;
+save();
+render();
+window.scrollTo({top:0,behavior:"smooth"});
+};
+
+$("choices").appendChild(b);
+
+});
+
+save();
+}
+
+function showEnding(s){
+show("end");
+$("endTitle").textContent=s.title;
+$("endText").textContent=s.text;
+}
+
+function show(id){
+document.querySelectorAll(".screen").forEach(x=>x.classList.remove("active"));
+$(id).classList.add("active");
+}
+
+function resetGame(){
+localStorage.removeItem("chernobylQuest");
+state=structuredClone(defaultState);
+current="start";
+sceneCount=0;
+show("start");
+}
+
+/* ================= INFO ================= */
+
+function openInfo(){$("info").classList.add("open")}
+function closeInfo(){$("info").classList.remove("open")}
+
+$("info").onclick=e=>{
+if(e.target===$("info"))closeInfo();
+};
 
 /* ================= MUSIC ================= */
 
-const music = document.getElementById("music");
-const musicButton = document.getElementById("musicButton");
+const music=$("music");
+const musicBtn=$("musicBtn");
 
-let musicEnabled =
-    localStorage.getItem("chernobylMusic") === "true";
+musicBtn.onclick=async()=>{
 
-function updateMusicButton(){
+if(music.paused){
+try{
+await music.play();
+musicBtn.textContent="♫";
+localStorage.setItem("chernobylMusic","1");
+}catch(e){}
+}else{
+music.pause();
+musicBtn.textContent="♪";
+localStorage.setItem("chernobylMusic","0");
+}
+};
 
-    if(musicEnabled){
-
-        musicButton.classList.add("active");
-        musicButton.textContent = "♫ Музыка: ВКЛ";
-
-    }else{
-
-        musicButton.classList.remove("active");
-        musicButton.textContent = "♪ Музыка";
-
-    }
+if(localStorage.getItem("chernobylMusic")==="1"){
+musicBtn.textContent="♫";
 }
 
-musicButton.addEventListener("click", async ()=>{
+/* ================= ВОССТАНОВЛЕНИЕ ================= */
 
-    if(music.paused){
-
-        try{
-
-            await music.play();
-
-            musicEnabled = true;
-
-            localStorage.setItem(
-                "chernobylMusic",
-                "true"
-            );
-
-        }catch(e){
-
-            musicEnabled = false;
-
-        }
-
-    }else{
-
-        music.pause();
-
-        musicEnabled = false;
-
-        localStorage.setItem(
-            "chernobylMusic",
-            "false"
-        );
-    }
-
-    updateMusicButton();
-
-});
-
-updateMusicButton();
-
-
-/* ================= SEASONS ================= */
-
-const seasonTabs =
-    document.querySelectorAll(".season-tab");
-
-const seasons =
-    document.querySelectorAll(".season");
-
-seasonTabs.forEach(tab=>{
-
-    tab.addEventListener("click",()=>{
-
-        seasonTabs.forEach(t=>
-            t.classList.remove("active")
-        );
-
-        seasons.forEach(s=>
-            s.classList.remove("active")
-        );
-
-        tab.classList.add("active");
-
-        const target =
-            document.getElementById(
-                tab.dataset.season
-            );
-
-        if(target){
-            target.classList.add("active");
-        }
-
-    });
-
-});
-
-
-/* ================= EPISODE MODAL ================= */
-
-const modal =
-    document.getElementById("episodeModal");
-
-const modalTitle =
-    document.getElementById("modalTitle");
-
-const modalText =
-    document.getElementById("modalText");
-
-const modalNumber =
-    document.getElementById("modalNumber");
-
-const closeModal =
-    document.getElementById("closeModal");
-
-
-document.querySelectorAll(".episode")
-.forEach((episode,index)=>{
-
-    episode.addEventListener("click",()=>{
-
-        modalTitle.textContent =
-            episode.dataset.title;
-
-        modalText.textContent =
-            episode.dataset.text;
-
-        modalNumber.textContent =
-            episode.querySelector(
-                ".episode-number"
-            ).textContent;
-
-        modal.classList.add("open");
-
-    });
-
-});
-
-
-function closeEpisodeModal(){
-
-    modal.classList.remove("open");
-
+if(state.scene!=="start" && localStorage.getItem("chernobylQuest")){
+show("game");
+render();
 }
-
-closeModal.addEventListener(
-    "click",
-    closeEpisodeModal
-);
-
-modal.addEventListener("click",(e)=>{
-
-    if(e.target === modal){
-        closeEpisodeModal();
-    }
-
-});
-
-document.addEventListener("keydown",(e)=>{
-
-    if(e.key === "Escape"){
-        closeEpisodeModal();
-    }
-
-});
-
-
-/* ================= MUSIC AUTOPLAY ================= */
-
-/*
-   Браузеры запрещают автоматический звук
-   без действия пользователя.
-
-   Поэтому после первого нажатия/касания
-   страницы музыка сможет запуститься.
-*/
-
-document.addEventListener("click",()=>{
-
-    if(
-        musicEnabled &&
-        music.paused
-    ){
-
-        music.play().catch(()=>{});
-
-    }
-
-},{once:true});
-
-
 </script>
 
 </body>
