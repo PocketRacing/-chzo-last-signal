@@ -2,1290 +2,454 @@
 <html lang="ru">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
-<title>ЧЕРНОБЫЛЬ — ЗОНА ОТЧУЖДЕНИЯ</title>
-
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>ЧЕРНОБЫЛЬ — ЗОНА: КВЕСТ</title>
 <style>
-*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
-:root{--g:#8cae68;--g2:#607d46;--bg:#050705;--p:#0c110c;--p2:#111811;--l:#263026;--r:#8b211b}
-body{
-font-family:Arial,sans-serif;background:var(--bg);color:#eee;min-height:100vh;
-background:
-radial-gradient(circle at 50% 0,rgba(120,150,80,.13),transparent 35%),#050705
-}
+*{box-sizing:border-box;margin:0}
+body{background:#050705;color:#ddd;font-family:Arial,sans-serif}
 button{font:inherit}
-header{
-height:58px;position:fixed;top:0;left:0;right:0;z-index:10;
-display:flex;align-items:center;justify-content:space-between;padding:0 16px;
-background:rgba(4,6,4,.92);backdrop-filter:blur(10px);border-bottom:1px solid #1b241b
-}
-.logo{font-weight:900;font-size:13px;letter-spacing:1.5px}
-.logo b{color:var(--g)}
-.tools{display:flex;gap:7px}
-.tools button{
-border:1px solid var(--l);background:#0a0e0a;color:#9ba69a;
-border-radius:6px;padding:7px 9px;font-size:11px;cursor:pointer
-}
-#app{max-width:900px;margin:auto;padding:85px 15px 35px}
-.screen{display:none}
-.screen.active{display:block}
-.start{
-min-height:calc(100vh - 120px);display:flex;align-items:center;justify-content:center;text-align:center
-}
-.startbox{max-width:650px}
-.radio{font-size:58px;margin-bottom:15px;filter:grayscale(1)}
-h1{font-size:clamp(38px,8vw,72px);line-height:.9;letter-spacing:-3px}
-h1 span{display:block;color:var(--g);font-size:.27em;letter-spacing:4px;margin-top:14px}
-.subtitle{color:#818a80;line-height:1.7;font-size:14px;margin:22px auto;max-width:580px}
-.btn{
-border:1px solid var(--g2);background:rgba(96,125,70,.16);color:#dce5d7;
-padding:12px 18px;border-radius:6px;cursor:pointer;font-size:11px;
-font-weight:bold;text-transform:uppercase;letter-spacing:1px
-}
-.btn.red{border-color:#71332e;background:rgba(139,33,27,.12)}
-.game-head{
-display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:13px
-}
-.chapter{color:var(--g);font-size:9px;font-weight:bold;letter-spacing:2px;text-transform:uppercase}
-.location{color:#555e54;font-size:10px;text-transform:uppercase}
-.progress{height:3px;background:#151c15;margin-bottom:18px;border-radius:5px;overflow:hidden}
-.progress i{display:block;height:100%;width:0;background:var(--g);transition:.3s}
-.scene{
-background:var(--p);border:1px solid var(--l);border-radius:10px;padding:20px;
-box-shadow:0 15px 50px rgba(0,0,0,.25)
-}
-.scene-title{font-size:24px;text-transform:uppercase;margin-bottom:14px}
-.scene-text{color:#a0a89e;font-size:14px;line-height:1.8;white-space:pre-line}
-.dialog{
-margin:18px 0;padding:13px 15px;border-left:3px solid var(--g);
-background:#101610;color:#c6cec3;font-size:13px;line-height:1.6
-}
-.dialog b{display:block;color:var(--g);font-size:10px;letter-spacing:1px;margin-bottom:5px}
-.choices{display:grid;gap:8px;margin-top:20px}
-.choice{
-width:100%;text-align:left;padding:13px 14px;border:1px solid #263026;
-background:#0a0f0a;color:#b9c1b6;border-radius:7px;cursor:pointer;
-transition:.15s
-}
-.choice:hover{border-color:var(--g2);background:#101610}
-.choice small{display:block;color:#596258;font-size:10px;margin-top:5px}
-.stats{
-display:grid;grid-template-columns:repeat(4,1fr);gap:7px;margin-bottom:12px
-}
-.stat{background:#0a0e0a;border:1px solid #1d251d;border-radius:6px;padding:9px}
-.stat small{display:block;color:#596158;font-size:8px;text-transform:uppercase}
-.stat b{font-size:12px;color:#b9c5b4}
-.bottom{
-display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:10px
-}
-.panel{
-background:#0a0e0a;border:1px solid #1c251c;border-radius:8px;padding:13px
-}
-.panel h3{font-size:10px;color:var(--g);letter-spacing:1px;text-transform:uppercase;margin-bottom:9px}
-.items{display:flex;flex-wrap:wrap;gap:5px}
-.item{
-padding:6px 8px;background:#111711;border:1px solid #242d24;
-border-radius:5px;color:#899487;font-size:10px
-}
-.toast{
-position:fixed;left:50%;bottom:20px;transform:translateX(-50%) translateY(20px);
-background:#101610;border:1px solid var(--g2);color:#dce5d7;
-padding:10px 14px;border-radius:6px;font-size:11px;opacity:0;
-pointer-events:none;transition:.25s;z-index:30
-}
-.toast.show{opacity:1;transform:translateX(-50%)}
-.modal{
-position:fixed;inset:0;background:rgba(0,0,0,.82);z-index:20;
-display:none;align-items:center;justify-content:center;padding:15px
-}
-.modal.open{display:flex}
-.modalbox{
-width:100%;max-width:500px;background:#0c110c;border:1px solid #303a2f;
-border-radius:9px;padding:20px
-}
-.modalbox h2{font-size:18px;text-transform:uppercase;margin-bottom:15px}
-.modalbox p{color:#879086;font-size:13px;line-height:1.7}
-.modalbox .btn{margin-top:15px}
-.ending{text-align:center;padding:50px 15px}
-.ending h2{font-size:34px;text-transform:uppercase;margin-bottom:15px}
-.ending p{color:#838c80;line-height:1.7;font-size:14px;margin-bottom:22px}
-
-@media(max-width:600px){
-#app{padding-left:10px;padding-right:10px}
-.stats{grid-template-columns:repeat(2,1fr)}
-.bottom{grid-template-columns:1fr}
-.scene{padding:16px}
-.scene-title{font-size:20px}
-.scene-text{font-size:13px}
-}
+#app{max-width:850px;margin:auto;min-height:100vh;padding:16px}
+header{display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid #293329;padding:10px 0 15px;margin-bottom:18px}
+.logo{color:#9bb875;font-weight:bold;letter-spacing:2px}
+.music{background:#101510;border:1px solid #394535;color:#9bb875;padding:8px 12px;border-radius:6px;cursor:pointer}
+.status{display:grid;grid-template-columns:repeat(4,1fr);gap:7px;margin-bottom:15px}
+.stat{background:#0d120d;border:1px solid #222b22;border-radius:6px;padding:8px;text-align:center;font-size:11px;color:#7d8778}
+.stat b{display:block;color:#d4dccf;font-size:14px;margin-top:3px}
+.story{background:#0b100b;border:1px solid #293329;border-radius:10px;padding:20px}
+.chapter{color:#9caf7b;font-size:10px;letter-spacing:2px;font-weight:bold;margin-bottom:9px}
+h1{font-size:28px;text-transform:uppercase;margin-bottom:12px}
+.text{color:#9aa398;font-size:14px;line-height:1.75;white-space:pre-line}
+.actions{display:grid;gap:9px;margin-top:20px}
+.action{background:#111811;border:1px solid #354333;color:#d9e1d5;padding:13px;text-align:left;border-radius:7px;cursor:pointer}
+.action:hover{background:#182018;border-color:#8cae68}
+.action small{display:block;color:#697466;margin-top:4px}
+.log{margin-top:15px;border-top:1px solid #222b22;padding-top:12px;color:#667064;font-size:11px}
+.inventory{margin-top:15px;display:flex;gap:6px;flex-wrap:wrap}
+.item{background:#131913;border:1px solid #293329;padding:6px 9px;border-radius:5px;color:#aab5a5;font-size:11px}
+.hidden{display:none}
+.start{text-align:center;padding:55px 15px}
+.start h1{font-size:42px;color:#dce4d8}
+.start span{color:#92ad6e}
+.start p{max-width:580px;margin:15px auto;color:#7e877c;line-height:1.7}
+.start button{background:#7c965e;border:0;color:#081007;padding:14px 25px;border-radius:7px;font-weight:bold;cursor:pointer}
+.end{margin-top:20px;padding:16px;border:1px solid #394535;background:#111711;border-radius:7px;color:#b7c2b2}
+@media(max-width:500px){.status{grid-template-columns:repeat(2,1fr)}.start h1{font-size:32px}h1{font-size:23px}}
 </style>
 </head>
 
 <body>
+<div id="app">
 
 <header>
-<div class="logo">☢ <b>ЧЕРНОБЫЛЬ</b> / ЗОНА</div>
-<div class="tools">
-<button id="musicBtn">♪</button>
-<button onclick="openInfo()">☷</button>
-</div>
+<div class="logo">☢ ЧЕРНОБЫЛЬ / ЗОНА</div>
+<button class="music" id="musicBtn">♪ МУЗЫКА</button>
 </header>
 
-<audio id="music" loop>
-<source src="music.mp3" type="audio/mpeg">
+<audio id="music" loop preload="auto">
+<source src="./music.mp3" type="audio/mpeg">
 </audio>
 
-<main id="app">
-
-<!-- START -->
-<section class="screen active" id="start">
-<div class="start">
-<div class="startbox">
-<div class="radio">☢</div>
-<h1>ЧЕРНОБЫЛЬ<span>ЗОНА ОТЧУЖДЕНИЯ</span></h1>
-<p class="subtitle">
-Квестовая история. Ты играешь за Пашу.
-Твои решения меняют отношения, события и путь к финалу.
-</p>
-<button class="btn" onclick="startGame()">Начать игру</button>
-</div>
-</div>
-</section>
-
-<!-- GAME -->
-<section class="screen" id="game">
-
-<div class="game-head">
-<div>
-<div class="chapter" id="chapter">ГЛАВА 1</div>
-<div class="location" id="location">Москва</div>
-</div>
-<div class="location" id="sceneNo">01</div>
-</div>
-
-<div class="progress"><i id="progress"></i></div>
-
-<div class="stats">
-<div class="stat"><small>Зона</small><b id="danger">0</b></div>
-<div class="stat"><small>Доверие</small><b id="trust">0</b></div>
-<div class="stat"><small>Деньги</small><b id="money">0 ₽</b></div>
-<div class="stat"><small>Состояние</small><b id="health">100%</b></div>
-</div>
-
-<div class="scene">
-<div class="scene-title" id="title"></div>
-<div class="scene-text" id="text"></div>
-<div class="dialog" id="dialog" style="display:none"></div>
-<div class="choices" id="choices"></div>
-</div>
-
-<div class="bottom">
-<div class="panel">
-<h3>Инвентарь</h3>
-<div class="items" id="inventory"></div>
-</div>
-<div class="panel">
-<h3>Люди</h3>
-<div class="items" id="people"></div>
-</div>
-</div>
-
-</section>
-
-<!-- END -->
-<section class="screen" id="end">
-<div class="ending">
-<div class="radio">☢</div>
-<h2 id="endTitle"></h2>
-<p id="endText"></p>
-<button class="btn" onclick="resetGame()">Начать заново</button>
-</div>
-</section>
-
-</main>
-
-<div class="toast" id="toast"></div>
-
-<div class="modal" id="info">
-<div class="modalbox">
-<h2>Игра</h2>
+<div id="start" class="start">
+<h1>ЧЕРНОБЫЛЬ<br><span>ЗОНА ОТЧУЖДЕНИЯ</span></h1>
 <p>
-Это интерактивный квест. Выборы изменяют состояние героя,
-отношения с персонажами, опасность и доступные события.
-<br><br>
-Прогресс автоматически сохраняется в браузере.
-<br><br>
-Для музыки положи файл <b>music.mp3</b> рядом с этим
-<b>index.html</b>.
+Интерактивная квестовая история.
+Ты принимаешь решения за Пашу.
+Каждый выбор может изменить отношения,
+события и финал.
 </p>
-<button class="btn" onclick="closeInfo()">Закрыть</button>
+<button onclick="startGame()">НАЧАТЬ ИСТОРИЮ</button>
+</div>
+
+<div id="game" class="hidden">
+
+<div class="status">
+<div class="stat">ЗДОРОВЬЕ<b id="hp">100</b></div>
+<div class="stat">РАДИАЦИЯ<b id="rad">0</b></div>
+<div class="stat">ДЕНЬГИ<b id="money">8000000</b></div>
+<div class="stat">ОТНОШЕНИЯ<b id="trust">50</b></div>
+</div>
+
+<div class="story">
+<div class="chapter" id="chapter"></div>
+<h1 id="title"></h1>
+<div class="text" id="text"></div>
+
+<div class="actions" id="actions"></div>
+
+<div class="inventory" id="inventory"></div>
+<div class="log" id="log"></div>
+</div>
+
+<div id="ending" class="end hidden"></div>
+
 </div>
 </div>
 
 <script>
-/* ================= СОСТОЯНИЕ ================= */
+const music=document.getElementById("music");
+const musicBtn=document.getElementById("musicBtn");
 
-const defaultState={
-scene:"start",
-danger:0,
-trust:0,
-money:8000000,
-health:100,
-inventory:[],
-people:["Паша","Лёша","Аня","Настя","Гоша"],
-flags:{}
+musicBtn.onclick=async()=>{
+ try{
+  if(music.paused){
+   await music.play();
+   musicBtn.textContent="♫ МУЗЫКА: ВКЛ";
+  }else{
+   music.pause();
+   musicBtn.textContent="♪ МУЗЫКА";
+  }
+ }catch(e){
+  musicBtn.textContent="⚠ MUSIC.MP3";
+ }
 };
 
-let state=JSON.parse(localStorage.getItem("chernobylQuest"))||structuredClone(defaultState);
+let state={
+ hp:100,
+ rad:0,
+ money:8000000,
+ trust:50,
+ items:[],
+ flags:{},
+ step:0
+};
 
-const $=id=>document.getElementById(id);
-
-function save(){
-localStorage.setItem("chernobylQuest",JSON.stringify(state));
+function startGame(){
+ document.getElementById("start").classList.add("hidden");
+ document.getElementById("game").classList.remove("hidden");
+ scene("s1");
+ try{music.play().then(()=>musicBtn.textContent="♫ МУЗЫКА: ВКЛ").catch(()=>{})}catch(e){}
 }
 
-function has(item){return state.inventory.includes(item)}
-function add(item){
-if(!has(item)){
-state.inventory.push(item);
-toast("Получено: "+item);
-}
-}
+function has(x){return state.items.includes(x)}
+function item(x){if(!has(x))state.items.push(x)}
 function flag(x){state.flags[x]=true}
-function getFlag(x){return !!state.flags[x]}
 
-function toast(t){
-$("toast").textContent=t;
-$("toast").classList.add("show");
-setTimeout(()=>$("toast").classList.remove("show"),1800);
+function change(hp=0,rad=0,money=0,trust=0){
+ state.hp=Math.max(0,state.hp+hp);
+ state.rad=Math.max(0,state.rad+rad);
+ state.money=Math.max(0,state.money+money);
+ state.trust=Math.max(0,Math.min(100,state.trust+trust));
 }
-
-/* ================= СЦЕНЫ ================= */
 
 const scenes={
 
-start:{
-chapter:"ГЛАВА 1",
-location:"Москва / квартира Паши",
-title:"Всё начинается здесь",
-text:`Вечеринка закончилась.
+s1:{
+ c:"ГЛАВА 01 • МОСКВА",
+ t:"Восемь миллионов",
+ x:`Паша просыпается после шумной вечеринки.
+В квартире беспорядок.
 
-Утро встречает Пашу тишиной. На кухне валяются
-пустые бутылки, телефон разрывается от сообщений,
-а в квартире слишком тихо.
+Он открывает сейф.
 
-Паша открывает комнату родителей.
+Пусто.
 
-Сейф открыт.
+Восемь миллионов рублей исчезли.
 
-Денег нет.
+Лёха утверждает, что видел ночью незнакомого человека.
+Настя пытается восстановить события вечера.
 
-Восемь миллионов исчезли.`,
-dialog:["Паша","Да быть не может..."],
-choices:[
-{
-text:"Позвонить Лёше",
-hint:"Не оставаться одному.",
-next:"lesha"
-},
-{
-text:"Самому осмотреть квартиру",
-hint:"Сначала найти след.",
-next:"search"
-},
-{
-text:"Позвонить в полицию",
-hint:"Пойти официальным путём.",
-next:"police"
-}]
-},
+Телефон Паши вибрирует.
 
-lesha:{
-chapter:"ГЛАВА 1",
-location:"Квартира Паши",
-title:"Лёша приезжает",
-text:`Через двадцать минут в дверь стучат.
+Неизвестный номер.
 
-Лёша быстро осматривает квартиру и подходит
-к открытому сейфу.
+«Если хотите вернуть деньги — ищите его в Чернобыле».`,
+ a:[
+  ["Позвонить на неизвестный номер","Паша пытается выяснить, кто оставил сообщение.",()=>scene("s2")],
+  ["Позвонить Лёхе","Сначала собрать команду.",()=>{change(0,0,0,5);scene("s3")}],
+  ["Никому не говорить","Начать собственное расследование.",()=>{flag("alone");scene("s4")}]
+ ]},
 
-Он замечает след грязи возле окна.`,
-dialog:["Лёша","Паша, это не обычная кража. Посмотри сюда."],
-choices:[
-{
-text:"Изучить след",
-next:"footprint"
-},
-{
-text:"Спросить Лёшу, что он думает",
-next:"theory"
-},
-{
-text:"Проверить камеры",
-next:"camera"
-}]
-},
+s2:{
+ c:"ГЛАВА 01",
+ t:"Неизвестный",
+ x:`На звонок отвечает мужчина.
 
-search:{
-chapter:"ГЛАВА 1",
-location:"Квартира Паши",
-title:"След",
-text:`Паша начинает осматривать комнату.
+— Костенко?
 
-Под столом находится небольшой металлический
-предмет. На нём странная маркировка.
+Несколько секунд тишины.
 
-Рядом — грязный след обуви.`,
-choices:[
-{
-text:"Забрать предмет",
-next:"object"
-},
-{
-text:"Сфотографировать и оставить",
-next:"photo"
-},
-{
-text:"Пойти по следу",
-next:"window"
-}]
-},
+— Если ты знаешь это имя, ты уже слишком близко.
 
-police:{
-chapter:"ГЛАВА 1",
-location:"Участок",
-title:"Официальный путь",
-text:`Паша рассказывает о пропаже денег.
+Связь обрывается.
 
-Следователь задаёт вопросы о вечеринке,
-гостях и родителях.
+На экране появляется сообщение:
+«Припять. Старый автовокзал. Завтра. 23:00».`,
+ a:[
+  ["Показать сообщение друзьям",()=>{change(0,0,0,5);scene("s3")}],
+  ["Удалить сообщение",()=>{flag("secret");scene("s4")}]
+ ]},
 
-Через несколько минут приходит сообщение:
-подозреваемый замечен возле вокзала.`,
-dialog:["Следователь","Если хотите вернуть деньги — ищите быстрее."],
-choices:[
-{
-text:"Позвонить Лёше",
-next:"lesha"
-},
-{
-text:"Самому ехать на вокзал",
-next:"station"
-}]
-},
+s3:{
+ c:"ГЛАВА 02 • ДОРОГА",
+ t:"Пятеро",
+ x:`Паша, Лёха, Настя, Аня и Гоша собираются вместе.
 
-footprint:{
-chapter:"ГЛАВА 1",
-location:"Квартира",
-title:"Грязь",
-text:`След ведёт к окну.
+Никто до конца не понимает, зачем им ехать в Чернобыль.
 
-На подоконнике лежит маленький кусок бумаги.
-На нём написано только одно слово:
+Но деньги — настоящие.
 
-ПРИПЯТЬ.`,
-choices:[
-{text:"Показать Лёше",next:"theory"},
-{text:"Спрятать бумагу",next:"hidepaper"},
-{text:"Позвонить Ане",next:"anna"}
-]
-},
+И человек, который их украл, явно хочет, чтобы они последовали за ним.
 
-theory:{
-chapter:"ГЛАВА 1",
-location:"Квартира",
-title:"Первая теория",
-text:`Лёша долго смотрит на слово «ПРИПЯТЬ».
+Перед поездкой нужно решить, что взять.`,
+ a:[
+  ["Взять аптечку",()=>{item("Аптечка");scene("s5")}],
+  ["Взять старый фотоаппарат",()=>{item("Фотоаппарат");change(0,0,0,3);scene("s5")}],
+  ["Ничего не брать",()=>{scene("s5")}]
+ ]},
 
-Он достаёт телефон и открывает карту.`,
-dialog:["Лёша","Если вор действительно туда направился, нам придётся ехать следом."],
-choices:[
-{text:"Ехать вместе с Лёшей",next:"road"},
-{text:"Позвонить Ане и Насте",next:"team"},
-{text:"Остановиться и ждать полицию",next:"wait"}
-]
-},
+s4:{
+ c:"ГЛАВА 02 • РАССЛЕДОВАНИЕ",
+ t:"След",
+ x:`Паша изучает последние звонки.
 
-camera:{
-chapter:"ГЛАВА 1",
-location:"Квартира",
-title:"Запись",
-text:`Камера сохранила несколько секунд записи.
+Один номер повторяется несколько раз.
 
-На экране появляется человек в капюшоне.
+Костенко.
 
-Он выходит из подъезда.
+Имя кажется знакомым, хотя Паша не может понять почему.
 
-Перед тем как скрыться, он смотрит прямо
-в камеру.`,
-choices:[
-{text:"Увеличить запись",next:"face"},
-{text:"Сохранить видео",next:"savevideo"},
-{text:"Позвонить Лёше",next:"lesha"}
-]
-},
+В архиве он находит старую фотографию:
+человек в форме КГБ стоит возле четвёртого блока.
 
-object:{
-chapter:"ГЛАВА 1",
-location:"Квартира",
-title:"Странный предмет",
-text:`Предмет похож на старую металлическую деталь.
-На обратной стороне выгравирована дата:
+На обороте дата:
 
 26.04.1986.`,
-choices:[
-{text:"Сохранить предмет",next:"road",effect:()=>add("металлический жетон")},
-{text:"Выбросить",next:"window"}
-]
-},
-
-photo:{
-chapter:"ГЛАВА 1",
-location:"Квартира",
-title:"Фотография",
-text:`Паша фотографирует находку.
-
-В телефоне внезапно появляется помеха.
-
-Экран гаснет.
-
-Через секунду снова включается.`,
-choices:[
-{text:"Проверить телефон",next:"glitch",effect:()=>state.danger+=1},
-{text:"Не обращать внимания",next:"window"}
-]
-},
-
-window:{
-chapter:"ГЛАВА 1",
-location:"Квартира",
-title:"Окно",
-text:`След заканчивается возле окна.
-
-На улице уже никого нет.
-
-Но далеко внизу Паша замечает автомобиль,
-который медленно трогается с места.`,
-choices:[
-{text:"Бежать вниз",next:"chase"},
-{text:"Запомнить номер",next:"number"},
-{text:"Позвонить Лёше",next:"lesha"}
-]
-},
-
-anna:{
-chapter:"ГЛАВА 1",
-location:"Телефон",
-title:"Аня",
-text:`Аня сначала не верит Паше.
-
-Но услышав про Припять, становится серьёзной.`,
-dialog:["Аня","Паша... ты уверен, что хочешь туда ехать?"],
-choices:[
-{text:"Да. Деньги нужно вернуть.",next:"team",effect:()=>state.trust+=1},
-{text:"Я сам разберусь.",next:"road"}
-]
-},
-
-hidepaper:{
-chapter:"ГЛАВА 1",
-location:"Квартира",
-title:"Тайна",
-text:`Паша прячет бумагу в карман.
-
-Он ещё не знает, что это решение
-окажется важным.`,
-choices:[
-{text:"Продолжить поиски",next:"window"},
-{text:"Позвонить Лёше",next:"lesha"}
-]
-},
-
-station:{
-chapter:"ГЛАВА 1",
-location:"Вокзал",
-title:"Последний поезд",
-text:`На вокзале Паша узнаёт, что мужчина,
-похожий на подозреваемого, купил билет
-в сторону Чернобыля.`,
-choices:[
-{text:"Купить билет",next:"road"},
-{text:"Искать его на вокзале",next:"chase"},
-{text:"Позвонить Лёше",next:"team"}
-]
-},
-
-face:{
-chapter:"ГЛАВА 1",
-location:"Камера",
-title:"Лицо",
-text:`Паша увеличивает изображение.
-
-Лицо почти невозможно разглядеть.
-
-Но на секунду камера ловит отражение
-в витрине.
-
-Паша узнаёт человека.`,
-dialog:["Паша","Костенко?.."],
-choices:[
-{text:"Сохранить запись",next:"kost",effect:()=>add("запись с камеры")},
-{text:"Удалить запись",next:"road"}
-]
-},
-
-savevideo:{
-chapter:"ГЛАВА 1",
-location:"Телефон",
-title:"Доказательство",
-text:`Видео сохранено.
-
-Теперь у Паши есть доказательство,
-которое можно показать другим.`,
-choices:[
-{text:"Отправить Лёше",next:"lesha"},
-{text:"Оставить у себя",next:"road",effect:()=>state.trust-=1}
-]
-},
-
-glitch:{
-chapter:"ГЛАВА 1",
-location:"Квартира",
-title:"Помеха",
-text:`На экране телефона появляется дата:
-
-26.04.1986
-
-Затем изображение исчезает.
-
-Паша понимает: это уже не обычная кража.`,
-choices:[
-{text:"Позвонить Ане",next:"anna"},
-{text:"Поехать искать вора",next:"road"}
-]
-},
-
-chase:{
-chapter:"ГЛАВА 1",
-location:"Улица",
-title:"Погоня",
-text:`Паша выбегает на улицу.
-
-Автомобиль уже набирает скорость.
-
-Он успевает увидеть только номер.`,
-choices:[
-{text:"Запомнить номер",next:"number"},
-{text:"Остановить первую машину",next:"badchase",effect:()=>state.health-=15}
-]
-},
-
-number:{
-chapter:"ГЛАВА 1",
-location:"Улица",
-title:"Номер",
-text:`Паша записывает номер автомобиля.
-
-Через несколько секунд приходит сообщение
-от Лёши:
-
-«Я нашёл кое-что. Нам нужно поговорить».`,
-choices:[
-{text:"Ехать к Лёше",next:"team"},
-{text:"Отправить номер полиции",next:"police2"}
-]
-},
-
-team:{
-chapter:"ГЛАВА 1",
-location:"Квартира Лёши",
-title:"Команда",
-text:`Лёша, Аня, Настя и Гоша собираются вместе.
-
-Перед ними карта.
-
-Маршрут ведёт на север.
-
-В сторону Зоны.`,
-dialog:["Гоша","Если эта история действительно связана с Припятью, обратно всё может быть не так просто."],
-choices:[
-{text:"Едем",next:"road",effect:()=>{state.trust+=2;add("карта Зоны")}},
-{text:"Сначала изучить Костенко",next:"kost"},
-{text:"Позвонить родителям",next:"parents"}
-]
-},
-
-wait:{
-chapter:"ГЛАВА 1",
-location:"Квартира",
-title:"Ожидание",
-text:`Проходит час.
-
-Телефон молчит.
-
-Потом приходит одно сообщение:
-
-«Не ищите деньги. Иначе найдёте Зону».`,
-choices:[
-{text:"Ехать",next:"road"},
-{text:"Показать сообщение Лёше",next:"team"}
-]
-},
-
-kost:{
-chapter:"ГЛАВА 1",
-location:"Квартира",
-title:"Костенко",
-text:`Имя Сергей Костенко всё чаще появляется
-в найденных следах.
-
-Паша ещё не понимает, кто этот человек
-и почему он связан с 1986 годом.
-
-Но одно становится ясно:
-
-Костенко знает о Зоне гораздо больше,
-чем должен.`,
-dialog:["Лёша","Если он действительно замешан — мы найдём его там."],
-choices:[
-{text:"Ехать в Зону",next:"road"},
-{text:"Продолжить искать информацию",next:"research"}
-]
-},
-
-research:{
-chapter:"ГЛАВА 1",
-location:"Интернет",
-title:"Старые документы",
-text:`Гоша находит упоминание фамилии Костенко
-в старом архивном документе.
-
-Дата — 1986 год.
-
-Подпись стоит рядом с отметкой КГБ СССР.`,
-choices:[
-{text:"Сохранить документ",next:"road",effect:()=>add("архив КГБ")},
-{text:"Позвонить Костенко",next:"callkost"}
-]
-},
-
-callkost:{
-chapter:"ГЛАВА 1",
-location:"Телефон",
-title:"Неизвестный номер",
-text:`После нескольких гудков отвечает мужчина.
-
-Голос спокойный.
-
-Слишком спокойный.`,
-dialog:["Костенко","Паша. Ты не представляешь, куда собираешься."],
-choices:[
-{text:"Кто вы?",next:"kostvoice"},
-{text:"Что вам нужно?",next:"kostvoice"},
-{text:"Сбросить звонок",next:"road"}
-]
-},
-
-kostvoice:{
-chapter:"ГЛАВА 1",
-location:"Телефон",
-title:"Голос из прошлого",
-text:`На другом конце несколько секунд тишины.
-
-Затем Костенко произносит:
-
-«Если хочешь узнать правду — приезжай в Припять».`,
-choices:[
-{text:"Ехать",next:"road",effect:()=>state.danger+=2},
-{text:"Отказаться",next:"refuse"}
-]
-},
-
-parents:{
-chapter:"ГЛАВА 1",
-location:"Телефон",
-title:"Родители",
-text:`Паша звонит родителям.
-
-Но разговор быстро заканчивается.
-
-Они не знают, где деньги.
-
-И не знают, почему Паша так интересуется Чернобылем.`,
-choices:[
-{text:"Ничего не рассказывать",next:"road"},
-{text:"Рассказать всё",next:"road",effect:()=>state.trust+=1}
-]
-},
-
-police2:{
-chapter:"ГЛАВА 1",
-location:"Телефон",
-title:"Номер передан",
-text:`Полиция получает номер автомобиля.
-
-Но через несколько минут выясняется,
-что машина зарегистрирована на человека,
-которого невозможно найти.`,
-choices:[
-{text:"Ехать самому",next:"road"},
-{text:"Ждать",next:"wait"}
-]
-},
-
-badchase:{
-chapter:"ГЛАВА 1",
-location:"Улица",
-title:"Слишком поздно",
-text:`Паша теряет время.
-
-Автомобиль исчезает.
-
-На руке появляется ссадина.`,
-choices:[
-{text:"Позвонить Лёше",next:"team"},
-{text:"Идти дальше одному",next:"road"}
-]
-},
-
-refuse:{
-chapter:"ГЛАВА 1",
-location:"Москва",
-title:"Отказ",
-text:`Паша решает не ехать.
-
-Но вечером на его телефон приходит
-фотография Припяти.
-
-На обороте фотографии написано:
-
-«Ты всё равно придёшь».`,
-choices:[
-{text:"Ехать",next:"road"},
-{text:"Удалить фотографию",next:"end_bad"}
-]
-},
-
-road:{
-chapter:"ГЛАВА 2",
-location:"Дорога к Зоне",
-title:"На север",
-text:`Машина уходит всё дальше от Москвы.
-
-Город остаётся позади.
-
-Впереди — неизвестность.
-
-Паша смотрит в окно.
-
-Где-то там находится человек,
-который украл восемь миллионов.
-
-И Костенко.`,
-choices:[
-{text:"Продолжить путь",next:"zone"},
-{text:"Остановиться и всё обсудить",next:"talk"},
-{text:"Проверить инвентарь",next:"inventory"}
-]
-},
-
-talk:{
-chapter:"ГЛАВА 2",
-location:"Дорога",
-title:"Перед Зоной",
-text:`Команда останавливается.
-
-У каждого своё мнение.
-
-Аня хочет вызвать помощь.
-Лёша считает, что нужно продолжать.
-Гоша уверен, что здесь замешано что-то с временем.`,
-choices:[
-{text:"Продолжаем",next:"zone",effect:()=>state.trust+=1},
-{text:"Вернуться",next:"return"}
-]
-},
-
-inventory:{
-chapter:"ГЛАВА 2",
-location:"Дорога",
-title:"Снаряжение",
-text:`Паша проверяет найденные вещи.
-
-Всё, что удалось собрать, может пригодиться.`,
-choices:[
-{text:"Продолжить",next:"zone"},
-{text:"Вернуться к разговору",next:"talk"}
-]
-},
-
-return:{
-chapter:"ГЛАВА 2",
-location:"Дорога",
-title:"Назад?",
-text:`Машина разворачивается.
-
-Но двигатель глохнет.
-
-Вдали появляется силуэт человека.`,
-choices:[
-{text:"Выйти из машины",next:"mystery"},
-{text:"Запереть двери",next:"mystery"}
-]
-},
-
-mystery:{
-chapter:"ГЛАВА 2",
-location:"Дорога",
-title:"Незнакомец",
-text:`Человек подходит к машине.
-
-Он молчит.
-
-Затем говорит:
-
-«Паша, тебе нельзя возвращаться».`,
-choices:[
-{text:"Кто вы?",next:"mystery2"},
-{text:"Потребовать уйти",next:"mystery2"}
-]
-},
-
-mystery2:{
-chapter:"ГЛАВА 2",
-location:"Граница Зоны",
-title:"Последнее предупреждение",
-text:`Незнакомец исчезает в темноте.
-
-Через несколько секунд двигатель снова
-заводится.
-
-Перед вами — дорога в сторону Зоны.`,
-choices:[
-{text:"Ехать дальше",next:"zone"},
-{text:"Развернуться",next:"end_bad"}
-]
-},
-
-zone:{
-chapter:"ГЛАВА 2",
-location:"Граница Зоны",
-title:"Добро пожаловать в Зону",
-text:`Шлагбаум остаётся позади.
-
-Радиометр начинает щёлкать.
-
-Гоша смотрит на прибор.
-
-Стрелка поднимается.
-
-Паша понимает:
-
-назад дороги уже нет.`,
-choices:[
-{text:"Идти вперёд",next:"pripyat"},
-{text:"Проверить радиометр",next:"anomaly"},
-{text:"Искать Костенко",next:"kostzone"}
-]
-},
-
-anomaly:{
-chapter:"ГЛАВА 2",
-location:"Зона",
-title:"Аномалия",
-text:`Перед группой воздух начинает дрожать.
-
-На несколько секунд дорога выглядит
-совершенно иначе.
-
-Паша видит старую Припять.
-
-1986 год.
-
-Затем всё возвращается.`,
-choices:[
-{text:"Подойти ближе",next:"time",effect:()=>state.danger+=3},
-{text:"Отойти",next:"pripyat"}
-]
-},
-
-kostzone:{
-chapter:"ГЛАВА 2",
-location:"Зона",
-title:"След Костенко",
-text:`На дереве выцарапана дата:
-
-1986.
-
-Ниже — буква К.
-
-Костенко был здесь.`,
-choices:[
-{text:"Следовать дальше",next:"pripyat"},
-{text:"Сфотографировать",next:"pripyat",effect:()=>add("фотография знака")}
-]
-},
-
-time:{
-chapter:"ГЛАВА 2",
-location:"Аномалия",
-title:"Первый контакт",
-text:`Мир вокруг Паши меняется.
-
-На секунду он слышит голос,
-которого не может быть здесь.
-
-«Не дай Костенко изменить всё».`,
-dialog:["Неизвестный голос","Паша..."],
-choices:[
-{text:"Ответить",next:"voice"},
-{text:"Бежать назад",next:"pripyat"}
-]
-},
-
-voice:{
-chapter:"ГЛАВА 2",
-location:"Аномалия",
-title:"Голос",
-text:`Паша спрашивает:
-
-«Кто ты?»
-
-Ответа нет.
-
-Только дата на экране телефона:
-
-26.04.1986.`,
-choices:[
-{text:"Сохранить дату",next:"pripyat",effect:()=>add("запись 26.04.1986")},
-{text:"Разбить телефон",next:"pripyat",effect:()=>state.health-=10}
-]
-},
-
-pripyat:{
-chapter:"ГЛАВА 2",
-location:"Припять",
-title:"Город-призрак",
-text:`Здания появляются из тумана.
+ a:[
+  ["Сфотографировать снимок",()=>{item("Фото КГБ");scene("s3")}],
+  ["Забрать оригинал",()=>{item("Архив КГБ");change(0,0,0,-3);scene("s3")}]
+ ]},
+
+s5:{
+ c:"ГЛАВА 03 • ЗОНА",
+ t:"Припять",
+ x:`Ночь.
+
+Припять встречает их пустыми улицами.
+
+Гоша замечает следы автомобиля.
+
+След ведёт к старому зданию.
+
+Вдруг раздаётся металлический звук.
+
+Кто-то находится внутри.`,
+ a:[
+  ["Войти через дверь",()=>{change(-5,5,0,2);scene("s6")}],
+  ["Обойти здание",()=>{change(0,2,0,4);scene("s7")}],
+  ["Позвать человека",()=>{scene("s8")}]
+ ]},
+
+s6:{
+ c:"ГЛАВА 03",
+ t:"Бункер",
+ x:`Внутри темно.
+
+На стене — старые документы.
+
+Гоша включает фонарь.
+
+Паша замечает надпись:
+
+«НЕ ПЫТАЙТЕСЬ ИЗМЕНИТЬ 1986».
+
+На столе лежит странное устройство.
+
+Оно работает.`,
+ a:[
+  ["Взять устройство",()=>{item("Устройство");change(0,5,0,2);scene("s9")}],
+  ["Оставить его",()=>{scene("s9")}]
+ ]},
+
+s7:{
+ c:"ГЛАВА 03",
+ t:"Старый двор",
+ x:`Вы обходите здание.
+
+На земле лежит рация.
+
+Она неожиданно включается.
+
+— Паша?
+
+Это голос Костенко.
+
+— Если ты меня слышишь, не верь тому, что увидишь.`,
+ a:[
+  ["Ответить",()=>{change(0,0,0,5);scene("s9")}],
+  ["Выключить рацию",()=>{flag("silent");scene("s9")}]
+ ]},
+
+s8:{
+ c:"ГЛАВА 03",
+ t:"Незнакомец",
+ x:`Из здания выходит мужчина.
+
+Он смотрит на Пашу.
+
+— Вы слишком поздно.
+
+— Где деньги?
+
+Мужчина усмехается.
+
+— Деньги никогда не были главным.`,
+ a:[
+  ["Спросить про Костенко",()=>{scene("s9")}],
+  ["Потребовать деньги",()=>{change(-10,0,0,-5);scene("s9")}],
+  ["Уйти",()=>{change(0,0,0,3);scene("s9")}]
+ ]},
+
+s9:{
+ c:"ГЛАВА 04 • 1986",
+ t:"Машина времени",
+ x:`Устройство активируется.
+
+Комната исчезает.
+
+Паша падает на бетон.
+
+Снаружи слышны сирены.
+
+На календаре:
+
+26 апреля 1986 года.
+
+Перед ним стоит молодой Сергей Костенко.
+
+Он ещё не знает, что через несколько часов изменится всё.`,
+ a:[
+  ["Предупредить Костенко",()=>{flag("warned");change(0,0,0,8);scene("s10")}],
+  ["Ничего не говорить",()=>{scene("s10")}],
+  ["Попытаться остановить события",()=>{flag("changed");change(-15,10,0,-5);scene("s10")}]
+ ]},
+
+s10:{
+ c:"ГЛАВА 04",
+ t:"Костенко",
+ x:`Костенко смотрит прямо на Пашу.
+
+— Ты пришёл из будущего?
+
+Паша молчит.
+
+— Тогда ты должен понимать главное.
+
+Костенко показывает на четвёртый блок.
+
+— Некоторые вещи нельзя исправить.
+
+Но Паша уже понимает:
+Костенко сам собирается изменить историю.`,
+ a:[
+  ["Помочь Костенко",()=>{flag("kost_help");change(0,5,0,15);scene("s11")}],
+  ["Остановить Костенко",()=>{flag("kost_stop");change(-10,5,0,-5);scene("s11")}],
+  ["Вернуться в своё время",()=>{scene("s12")}]
+ ]},
+
+s11:{
+ c:"ГЛАВА 05 • РАЗВИЛКА",
+ t:"Цена прошлого",
+ x:`Временная линия начинает разрушаться.
+
+Паша видит несколько вариантов будущего.
+
+В одном из них Зоны вообще нет.
+
+В другом Припять превращена в огромный закрытый город.
+
+В третьем Костенко победил.
+
+Но каждый вариант требует жертвы.`,
+ a:[
+  ["Спасти друзей",()=>{flag("friends");change(-10,5,0,20);scene("s12")}],
+  ["Спасти Костенко",()=>{flag("saved_k");change(0,5,0,10);scene("s12")}],
+  ["Спасти будущее",()=>{flag("future");change(-25,15,0,0);scene("s12")}]
+ ]},
+
+s12:{
+ c:"ФИНАЛ",
+ t:"Последняя точка",
+ x:`Паша снова открывает глаза.
 
 Припять.
 
-Пустые улицы.
-Разбитые окна.
-Тишина.
+Но что-то изменилось.
 
-Где-то впереди находится человек,
-с которого началась эта история.`,
-choices:[
-{text:"Идти к центру",next:"center"},
-{text:"Искать безопасное место",next:"safe"},
-{text:"Позвонить Костенко",next:"callkost"}
-]
-},
+Он смотрит на друзей.
 
-center:{
-chapter:"ГЛАВА 2",
-location:"Припять / центр",
-title:"След",
-text:`На площади лежит старая папка.
+Они живы.
 
-На первой странице:
+Вдалеке стоит человек.
 
-«Костенко Сергей.
-Объект: Чернобыль.
-Дата: 1986».`,
-choices:[
-{text:"Открыть папку",next:"file"},
-{text:"Забрать папку",next:"file",effect:()=>add("папка Костенко")},
-{text:"Оставить",next:"kostmeet"}
-]
-},
+Костенко.
 
-safe:{
-chapter:"ГЛАВА 2",
-location:"Припять",
-title:"Укрытие",
-text:`Группа находит пустое здание.
+И впервые за всю историю он не пытается убежать.
 
-На стене кто-то оставил надпись:
+Он просто смотрит на Пашу.
 
-«ОН УЖЕ ЗНАЕТ, ЧТО ВЫ ЗДЕСЬ».`,
-choices:[
-{text:"Остаться",next:"kostmeet"},
-{text:"Идти дальше",next:"center"}
-]
-},
-
-file:{
-chapter:"ГЛАВА 2",
-location:"Припять",
-title:"Досье",
-text:`Внутри фотографии, документы и записи.
-
-Последняя страница вырвана.
-
-Но на столе лежит фотография мужчины.
-
-Сергей Костенко.`,
-choices:[
-{text:"Забрать фотографию",next:"kostmeet",effect:()=>add("фото Костенко")},
-{text:"Искать последнюю страницу",next:"page"}
-]
-},
-
-page:{
-chapter:"ГЛАВА 2",
-location:"Припять",
-title:"Последняя страница",
-text:`Под шкафом находится вырванный лист.
-
-На нём написано:
-
-«Если Паша появится — цепочка началась снова».`,
-choices:[
-{text:"Идти искать Костенко",next:"kostmeet"},
-{text:"Показать группе",next:"kostmeet",effect:()=>state.trust+=2}
-]
-},
-
-kostmeet:{
-chapter:"ГЛАВА 3",
-location:"Припять / неизвестное здание",
-title:"Костенко",
-text:`Дверь открывается.
-
-В комнате стоит мужчина.
-
-Сергей Костенко.
-
-Он смотрит на Пашу так,
-будто ждал его много лет.`,
-dialog:["Костенко","Наконец-то ты пришёл."],
-choices:[
-{text:"Ты украл деньги?",next:"final1"},
-{text:"Что произошло в 1986?",next:"final2"},
-{text:"Что тебе нужно от меня?",next:"final3"}
-]
-},
-
-final1:{
-chapter:"ГЛАВА 3",
-location:"Припять",
-title:"Восемь миллионов",
-text:`Костенко усмехается.
-
-«Деньги были нужны только для того,
-чтобы заставить тебя приехать».
-
-Паша понимает:
-
-кража была ловушкой.`,
-choices:[
-{text:"Потребовать вернуть деньги",next:"endingA"},
-{text:"Спросить о Зоне",next:"final2"}
-]
-},
-
-final2:{
-chapter:"ГЛАВА 3",
-location:"Припять",
-title:"1986",
-text:`Костенко рассказывает о событиях,
-которые связывают его с Чернобылем.
-
-Он говорит, что история могла пойти
-по-другому.
-
-И теперь Паша должен решить,
-изменять ли прошлое.`,
-choices:[
-{text:"Изменить прошлое",next:"endingB"},
-{text:"Оставить историю как есть",next:"endingC"}
-]
-},
-
-final3:{
-chapter:"ГЛАВА 3",
-location:"Припять",
-title:"Главный вопрос",
-text:`Костенко смотрит прямо на Пашу.
-
-«Мне нужен человек, который сможет
-закончить то, что я начал».`,
-choices:[
-{text:"Согласиться",next:"endingD"},
-{text:"Отказаться",next:"endingC"},
-{text:"Выстрелить первым",next:"endingE"}
-]
-},
-
-endingA:{
-end:true,title:"КОНЕЦ: ДЕНЬГИ",
-text:"Паша забирает деньги. Но Костенко исчезает. Зона остаётся без ответа. Это только начало."
-},
-
-endingB:{
-end:true,title:"КОНЕЦ: НОВАЯ ИСТОРИЯ",
-text:"Паша решает изменить прошлое. Мир начинает меняться. Он ещё не знает, какой ценой."
-},
-
-endingC:{
-end:true,title:"КОНЕЦ: НЕ ТРОГАТЬ ПРОШЛОЕ",
-text:"Паша отказывается менять историю. Костенко остаётся в Зоне. Но тайна не исчезает."
-},
-
-endingD:{
-end:true,title:"КОНЕЦ: НАСЛЕДНИК",
-text:"Паша принимает предложение Костенко. Теперь ему предстоит узнать всю правду о 1986 годе."
-},
-
-endingE:{
-end:true,title:"КОНЕЦ: ПОСЛЕДНИЙ ВЫБОР",
-text:"Выстрел разрывает тишину. Но Зона отвечает на этот выбор по-своему."
-},
-
-end_bad:{
-end:true,title:"КОНЕЦ: ОБРАТНОЙ ДОРОГИ НЕТ",
-text:"Паша уезжает. Однако события уже запущены. Иногда решение ничего не делать тоже является выбором."
-}
-
+Теперь осталось решить последнее.`,
+ a:[
+  ["Остаться в Зоне",()=>ending("zone")],
+  ["Вернуться домой",()=>ending("home")],
+  ["Уничтожить устройство",()=>ending("destroy")]
+ ]}
 };
 
-/* ================= РЕНДЕР ================= */
-
-let current="start";
-let sceneCount=0;
-
-function startGame(){
-state=structuredClone(defaultState);
-current="start";
-sceneCount=0;
-save();
-show("game");
-render();
+function scene(id){
+ state.step++;
+ const s=scenes[id];
+ document.getElementById("chapter").textContent=s.c;
+ document.getElementById("title").textContent=s.t;
+ document.getElementById("text").textContent=s.x;
+ const box=document.getElementById("actions");
+ box.innerHTML="";
+ s.a.forEach((a,i)=>{
+  const b=document.createElement("button");
+  b.className="action";
+  b.innerHTML=(i+1)+". "+a[0];
+  b.onclick=a[a.length-1];
+  box.appendChild(b);
+ });
+ update();
+ window.scrollTo(0,0);
 }
 
-function render(){
-
-const s=scenes[current];
-if(!s)return;
-
-if(s.end){
-showEnding(s);
-return;
+function update(){
+ document.getElementById("hp").textContent=state.hp;
+ document.getElementById("rad").textContent=state.rad;
+ document.getElementById("money").textContent=state.money.toLocaleString("ru-RU");
+ document.getElementById("trust").textContent=state.trust;
+ document.getElementById("inventory").innerHTML=state.items.map(x=>`<span class="item">▣ ${x}</span>`).join("");
+ document.getElementById("log").textContent="Пройдено решений: "+state.step;
 }
 
-sceneCount++;
-
-$("chapter").textContent=s.chapter;
-$("location").textContent=s.location;
-$("sceneNo").textContent=String(sceneCount).padStart(2,"0");
-$("title").textContent=s.title;
-$("text").textContent=s.text;
-
-if(s.dialog){
-$("dialog").style.display="block";
-$("dialog").innerHTML="<b>"+s.dialog[0]+"</b>"+s.dialog[1];
-}else{
-$("dialog").style.display="none";
+function ending(type){
+ let title="",text="";
+ if(type==="zone"){
+  title="КОНЦОВКА: ЧЕЛОВЕК ЗОНЫ";
+  text=state.flags.kost_help?
+  "Паша остаётся в Зоне. Костенко исчезает, а устройство продолжает работать. История ещё не закончена.":
+  "Паша остаётся в Припяти. Он знает слишком много, чтобы просто вернуться домой.";
+ }
+ if(type==="home"){
+  title="КОНЦОВКА: ВОЗВРАЩЕНИЕ";
+  text=state.flags.friends?
+  "Паша возвращается вместе с друзьями. Деньги уже не имеют прежнего значения. Главное — никто не остался в прошлом.":
+  "Паша возвращается домой один. Он сохранил жизнь, но навсегда запомнил то, что произошло.";
+ }
+ if(type==="destroy"){
+  title="КОНЦОВКА: ПОСЛЕДНИЙ ВЫБОР";
+  text=state.flags.changed?
+  "Паша уничтожает устройство. Временная петля разрывается. Но он уже никогда не узнает, каким стало бы другое будущее.":
+  "Устройство уничтожено. Зона остаётся в прошлом. Теперь изменить историю уже невозможно.";
+ }
+ document.getElementById("ending").classList.remove("hidden");
+ document.getElementById("ending").innerHTML="<b>"+title+"</b><br><br>"+text+
+ "<br><br><button class='action' onclick='location.reload()'>НАЧАТЬ ЗАНОВО</button>";
+ document.getElementById("actions").innerHTML="";
+ update();
 }
 
-$("danger").textContent=state.danger;
-$("trust").textContent=state.trust;
-$("money").textContent=state.money.toLocaleString("ru-RU")+" ₽";
-$("health").textContent=Math.max(0,state.health)+"%";
-
-$("progress").style.width=Math.min(100,sceneCount*4)+"%";
-
-$("inventory").innerHTML=
-state.inventory.length?
-state.inventory.map(x=>`<span class="item">${x}</span>`).join(""):"<span class=item>Пусто</span>";
-
-$("people").innerHTML=
-state.people.map(x=>`<span class="item">${x}</span>`).join("");
-
-$("choices").innerHTML="";
-
-s.choices.forEach(c=>{
-
-const b=document.createElement("button");
-b.className="choice";
-b.innerHTML=c.text+(c.hint?`<small>${c.hint}</small>`:"");
-
-b.onclick=()=>{
-if(c.effect)c.effect();
-current=c.next;
-save();
-render();
-window.scrollTo({top:0,behavior:"smooth"});
-};
-
-$("choices").appendChild(b);
-
-});
-
-save();
-}
-
-function showEnding(s){
-show("end");
-$("endTitle").textContent=s.title;
-$("endText").textContent=s.text;
-}
-
-function show(id){
-document.querySelectorAll(".screen").forEach(x=>x.classList.remove("active"));
-$(id).classList.add("active");
-}
-
-function resetGame(){
-localStorage.removeItem("chernobylQuest");
-state=structuredClone(defaultState);
-current="start";
-sceneCount=0;
-show("start");
-}
-
-/* ================= INFO ================= */
-
-function openInfo(){$("info").classList.add("open")}
-function closeInfo(){$("info").classList.remove("open")}
-
-$("info").onclick=e=>{
-if(e.target===$("info"))closeInfo();
-};
-
-/* ================= MUSIC ================= */
-
-const music=$("music");
-const musicBtn=$("musicBtn");
-
-musicBtn.onclick=async()=>{
-
-if(music.paused){
-try{
-await music.play();
-musicBtn.textContent="♫";
-localStorage.setItem("chernobylMusic","1");
-}catch(e){}
-}else{
-music.pause();
-musicBtn.textContent="♪";
-localStorage.setItem("chernobylMusic","0");
-}
-};
-
-if(localStorage.getItem("chernobylMusic")==="1"){
-musicBtn.textContent="♫";
-}
-
-/* ================= ВОССТАНОВЛЕНИЕ ================= */
-
-if(state.scene!=="start" && localStorage.getItem("chernobylQuest")){
-show("game");
-render();
-}
 </script>
-
 </body>
 </html>
